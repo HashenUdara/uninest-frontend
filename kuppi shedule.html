@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Schedule Kuppi | UniNest</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6fc;
+  }
+  /* Navigation bar */
+  .navbar {
+    background-color: #6a0dad;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+  .navbar .links a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  .navbar .icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  /* Form container */
+  .container {
+    max-width: 500px;
+    background: #fff;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+  }
+  input[type="text"], input[type="datetime-local"], input[type="url"], input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #6a0dad;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #5800b0;
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="navbar">
+  <div class="links">
+    <a href="#">Home</a>
+    <a href="#">Explore</a>
+    <a href="#">My Kuppis</a>
+  </div>
+  <div class="icons">
+    <span>🔔</span>
+    <span>👤</span>
+  </div>
+</div>
+
+<!-- Form -->
+<div class="container">
+  <h2>Schedule Kuppi</h2>
+  <form id="kuppiForm">
+    <label for="topic">Topic Title</label>
+    <input type="text" id="topic" name="topic" placeholder="Enter topic title" required>
+
+    <label for="subject">Subject / Module</label>
+    <input type="text" id="subject" name="subject" placeholder="Enter subject or module" required>
+
+    <label for="datetime">Date & Time</label>
+    <input type="datetime-local" id="datetime" name="datetime" required>
+
+    <label for="link">Meeting Link</label>
+    <input type="url" id="link" name="link" placeholder="Enter meeting URL" required>
+
+    <label for="resource">Resource Upload (Optional)</label>
+    <input type="file" id="resource" name="resource">
+
+    <button type="submit">Schedule Kuppi</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('kuppiForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert("Kuppi session scheduled successfully!");
+    this.reset();
+  });
+</script>
+
+</body>
+</html>
