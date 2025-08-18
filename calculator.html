@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GPA Calculator | StudyCentral</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6fc;
+    margin: 0;
+    padding: 0;
+  }
+  .navbar {
+    background: #4A90E2;
+    color: white;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .container {
+    max-width: 700px;
+    background: white;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: 500;
+    margin-top: 12px;
+    display: block;
+  }
+  select, input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  .subject-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .add-btn, .save-btn {
+    display: inline-block;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 14px;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .add-btn {
+    background: linear-gradient(135deg, #42e695, #3bb2b8);
+  }
+  .add-btn:hover {
+    background: #36c6a4;
+    transform: translateY(-2px);
+  }
+  .save-btn {
+    background: #6c3ef6;
+    width: 100%;
+    font-size: 16px;
+  }
+  .save-btn:hover {
+    background: #5a2ce0;
+    transform: translateY(-2px);
+  }
+  .remove-btn {
+    background: #ff5f6d;
+    border: none;
+    padding: 6px 10px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .remove-btn:hover {
+    background: #e14c57;
+  }
+  .gpa-summary {
+    background: #f4f6fc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  .gpa-summary p {
+    margin: 8px 0;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<div class="navbar">StudyCentral</div>
+
+<div class="container">
+  <h2>GPA Calculator</h2>
+  
+  <label for="semester">Select Semester / Year</label>
+  <select id="semester">
+    <option value="Fall 2024">Fall 2024</option>
+    <option value="Spring 2025">Spring 2025</option>
+    <option value="Fall 2025">Fall 2025</option>
+  </select>
+  
+  <div id="subjects"></div>
+  
+  <button type="button" class="add-btn" onclick="addSubject()">+ Add Subject</button>
+  
+  <div class="gpa-summary">
+    <p>Semester GPA: <span id="semesterGpa">0.00</span></p>
+    <p>Cumulative GPA: <span id="cumulativeGpa">0.00</span></p>
+  </div>
+  
+  <button class="save-btn" onclick="saveRecord()">Save GPA Record</button>
+</div>
+
+<script>
+  const subjectsDiv = document.getElementById('subjects');
+  const semesterGpaEl = document.getElementById('semesterGpa');
+  const cumulativeGpaEl = document.getElementById('cumulativeGpa');
+  
+  const gradePoints = {
+    'A': 4.0,
+    'A-': 3.7,
+    'B+': 3.3,
+    'B': 3.0,
+    'B-': 2.7,
+    'C+': 2.3,
+    'C': 2.0,
+    'C-': 1.7,
+    'D': 1.0,
+    'F': 0.0
+  };
+  
+  function addSubject(name='', grade='', credits='') {
+    const row = document.createElement('div');
+    row.className = 'subject-row';
+    row.innerHTML = `
+      <input type="text" placeholder="Subject Name" value="${name}" />
+      <select>
+        <option value="">Grade</option>
+        ${Object.keys(gradePoints).map(g => 
+          `<option value="${g}" ${g===grade?'selected':''}>${g}</option>`).join('')}
+      </select>
+      <input type="number" placeholder="Credits" min="0" step="1" value="${credits}" />
+      <button type="button" class="remove-btn" onclick="this.parentElement.remove(); calculateGPA()">✖</button>
+    `;
+    subjectsDiv.appendChild(row);
+  }
+  
+  function calculateGPA() {
+    let totalPoints = 0, totalCredits = 0;
+    document.querySelectorAll('.subject-row').forEach(row => {
+      const grade = row.querySelector('select').value;
+      const credits = parseFloat(row.querySelector('input[type="number"]').value) || 0;
+      if(grade && credits) {
+        totalPoints += gradePoints[grade] * credits;
+        totalCredits += credits;
+      }
+    });
+    const semesterGpa = totalCredits ? (totalPoints / totalCredits) : 0;
+    semesterGpaEl.textContent = semesterGpa.toFixed(2);
+    // For demo, cumulative GPA equals semester GPA
+    cumulativeGpaEl.textContent = semesterGpa.toFixed(2);
+  }
+  
+  function saveRecord() {
+    alert('GPA record saved successfully!');
+  }
+  
+  subjectsDiv.addEventListener('input', calculateGPA);
+  subjectsDiv.addEventListener('change', calculateGPA);
+  
+  // Add initial demo subjects
+  addSubject('Calculus I', 'A', 3);
+  addSubject('Introduction to Programming', 'B+', 4);
+  addSubject('English Composition', 'A-', 3);
+  calculateGPA();
+</script>
+
+</body>
+</html>
