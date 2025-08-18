@@ -1,118 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Schedule Kuppi | UniNest</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Schedule Kuppi</title>
 <style>
   body {
-    margin: 0;
     font-family: "Inter", Arial, sans-serif;
-    background-color: #f4f6fc;
+    margin: 0;
+    background: #f8f9fb;
+    color: #333;
   }
-  /* Navigation bar */
+  /* Navbar */
   .navbar {
-    background-color: #6c3ef6;
-    padding: 12px 20px;
+    background: #6c3ef6;
     display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: white;
     justify-content: space-between;
-    align-items: center;
-    color: #fff;
   }
-  .navbar .links a {
-    color: #fff;
-    margin: 0 10px;
+  .nav-left a {
+    color: white;
+    margin-right: 20px;
     text-decoration: none;
+    font-weight: 500;
   }
-  .navbar .icons {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  .nav-right {
+    font-size: 20px;
+    cursor: pointer;
   }
-  /* Form container */
+  /* Container */
   .container {
     max-width: 500px;
-    background: #fff;
+    background: white;
+    padding: 30px;
     margin: 40px auto;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
   h2 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 25px;
   }
   label {
     display: block;
-    margin-top: 12px;
-    font-weight: bold;
+    margin-top: 15px;
+    font-weight: 500;
   }
-  input[type="text"], input[type="datetime-local"], input[type="url"], input[type="file"] {
+  input[type="text"], input[type="datetime-local"], input[type="url"] {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
+    padding: 10px;
+    margin-top: 6px;
     border: 1px solid #ccc;
     border-radius: 6px;
+    font-size: 14px;
   }
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #6c3ef6;
-    color: #fff;
-    font-size: 16px;
+  /* File upload styling */
+  .file-input {
+    display: none;
+  }
+  .upload-btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #42e695, #3bb2b8);
     border: none;
     border-radius: 6px;
-    margin-top: 20px;
+    color: white;
+    font-size: 14px;
     cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  button:hover {
-    background-color: #6c3ef6;
+  .upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  /* Remove file button */
+  .remove-btn {
+    display: none;
+    margin-left: 10px;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #ff5f6d, #ffc371);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .remove-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  /* Submit */
+  .submit-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #6c3ef6;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .submit-btn:hover {
+    background: #357ABD;
   }
 </style>
 </head>
 <body>
 
-<!-- Navigation -->
-<div class="navbar">
-  <div class="links">
-    <a href="#">Home</a>
-    <a href="#">Explore</a>
-    <a href="#">My Kuppis</a>
+  <!-- Navigation -->
+  <div class="navbar">
+    <div class="nav-left">
+      <a href="#">Home</a>
+      <a href="#">Explore</a>
+      <a href="#">My Kuppis</a>
+    </div>
+    <div class="nav-right">🔔</div>
   </div>
-  <div class="icons">
-    <span>🔔</span>
-    <span>👤</span>
+
+  <!-- Form -->
+  <div class="container">
+    <h2>Schedule Kuppi</h2>
+    <form>
+      <label for="topic">Topic Title</label>
+      <input type="text" id="topic" name="topic" placeholder="Enter topic title" required>
+
+      <label for="subject">Subject / Module</label>
+      <input type="text" id="subject" name="subject" placeholder="Enter subject/module" required>
+
+      <label for="datetime">Date & Time</label>
+      <input type="datetime-local" id="datetime" name="datetime" required>
+
+      <label for="link">Meeting Link (Zoom/Google Meet)</label>
+      <input type="url" id="link" name="link" placeholder="Enter meeting link" required>
+
+      <label>Resource Upload (Optional)</label>
+      <input type="file" id="resource" class="file-input">
+      <button type="button" class="upload-btn" onclick="document.getElementById('resource').click()">📂 Upload Resource</button>
+      <button type="button" class="remove-btn" id="removeFileBtn">✖ Remove File</button>
+
+      <button type="submit" class="submit-btn">Schedule Kuppi</button>
+    </form>
   </div>
-</div>
-
-<!-- Form -->
-<div class="container">
-  <h2>Schedule Kuppi</h2>
-  <form id="kuppiForm">
-    <label for="topic">Topic Title</label>
-    <input type="text" id="topic" name="topic" placeholder="Enter topic title" required>
-
-    <label for="subject">Subject / Module</label>
-    <input type="text" id="subject" name="subject" placeholder="Enter subject or module" required>
-
-    <label for="datetime">Date & Time</label>
-    <input type="datetime-local" id="datetime" name="datetime" required>
-
-    <label for="link">Meeting Link</label>
-    <input type="url" id="link" name="link" placeholder="Enter meeting URL" required>
-
-    <label for="resource">Resource Upload (Optional)</label>
-    <input type="file" id="resource" name="resource">
-
-    <button type="submit">Schedule Kuppi</button>
-  </form>
-</div>
 
 <script>
-  document.getElementById('kuppiForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert("Kuppi session scheduled successfully!");
-    this.reset();
+  const resourceInput = document.getElementById('resource');
+  const removeBtn = document.getElementById('removeFileBtn');
+
+  resourceInput.addEventListener('change', () => {
+    removeBtn.style.display = resourceInput.files.length ? 'inline-block' : 'none';
+  });
+
+  removeBtn.addEventListener('click', () => {
+    resourceInput.value = '';
+    removeBtn.style.display = 'none';
+    alert('File selection cleared.');
   });
 </script>
 
