@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Request a Kuppi</title>
+<style>
+  body {
+    font-family: Arial,"Inter", sans-serif;
+    margin: 0;
+    background: #f8f9fb;
+    color: #333;
+  }
+  /* Navbar */
+  .navbar {
+    background: #6c3ef6;
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    color: white;
+    justify-content: space-between;
+  }
+  .nav-left a {
+    color: white;
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .nav-left a:hover {
+    text-decoration: underline;
+  }
+  .nav-right {
+    font-size: 20px;
+    cursor: pointer;
+  }
+  /* Container */
+  .container {
+    max-width: 500px;
+    background: white;
+    padding: 30px;
+    margin: 40px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 500;
+  }
+  select, input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  /* Submit button */
+  .submit-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #6c3ef6; /* Your requested color */
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .submit-btn:hover {
+    background: #5a2ce0;
+    transform: translateY(-2px);
+  }
+  /* Success message */
+  .success-message {
+    display: none;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #e1fbe1;
+    color: #2d7a2d;
+    text-align: center;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <div class="navbar">
+    <div class="nav-left">
+      <a href="#">Home</a>
+      <a href="#">Explore</a>
+      <a href="#">My Kuppis</a>
+    </div>
+    <div class="nav-right">👤</div>
+  </div>
+
+  <!-- Form -->
+  <div class="container">
+    <h2>Request a Kuppi</h2>
+    <form id="kuppiForm">
+      <label for="subject">Select Subject / Module</label>
+      <select id="subject" name="subject" required>
+        <option value="">-- Select --</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="Physics">Physics</option>
+        <option value="Computer Science">Computer Science</option>
+      </select>
+
+      <label for="topic">Topic Title</label>
+      <input type="text" id="topic" name="topic" placeholder="Enter topic title" required>
+
+      <label for="details">Additional Details</label>
+      <textarea id="details" name="details" placeholder="Provide additional context..."></textarea>
+
+      <button type="submit" class="submit-btn">Submit Request</button>
+    </form>
+
+    <div class="success-message" id="successMessage">
+      ✅ Success! Your request has been submitted.<br>
+    </div>
+  </div>
+
+<script>
+  const form = document.getElementById('kuppiForm');
+  const successMsg = document.getElementById('successMessage');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // prevent actual form submission
+    successMsg.style.display = 'block';
+    form.reset();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
