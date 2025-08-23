@@ -96,7 +96,7 @@
   }
   .gpa-summary p {
     margin: 8px 0;
-    font-weight: 500;
+    font-weight: 700;
   }
 </style>
 </head>
@@ -106,6 +106,12 @@
 
 <div class="container">
   <h2>GPA Calculator</h2>
+  
+  <div class="gpa-summary">
+    <p>📊 Semester GPA: <span id="semesterGpa">0.00</span></p>
+    <p>🎯 Cumulative GPA: <span id="cumulativeGpa">0.00</span></p>
+    <p>🏆 Academic Standing: <span id="currentClass">N/A</span></p>
+  </div>
   
   <label for="semester">Select Semester & Year</label>
   <select id="semester">
@@ -120,13 +126,6 @@
   <div id="subjects"></div>
   
   <button type="button" class="add-btn" onclick="addSubject()">+ Add Subject</button>
-  
-  <div class="gpa-summary">
-    <p>Semester GPA: <span id="semesterGpa">0.00</span></p>
-    <p>Cumulative GPA: <span id="cumulativeGpa">0.00</span></p>
-    <p>Current Class: <span id="currentClass">N/A</span></p>
-
-  </div>
   
   <button class="save-btn" onclick="saveRecord()">Save GPA Record</button>
 </div>
