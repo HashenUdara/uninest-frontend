@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudySphere | My Conducted Kuppis</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: #ffffff;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+      background: #374151;
+      color: white;
+      padding: 16px 24px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* Navbar */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .nav-left {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .nav a {
+      color: #374151;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+    .nav a:hover {
+      background: #f3f4f6;
+    }
+    .nav a.active {
+      background: #6c3ef6;
+      color: white;
+      font-weight: 600;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .search-bar {
+      position: relative;
+    }
+    .search-input {
+      padding: 8px 12px 8px 35px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      width: 200px;
+      font-size: 14px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      color: #6b7280;
+      font-size: 18px;
+    }
+    .icon-btn:hover {
+      background: #f3f4f6;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #6c3ef6;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+         /* Main Layout */
+     .main-container {
+       max-width: 800px;
+       margin: 0 auto;
+       padding: 24px;
+     }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 32px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+    .page-subtitle {
+      font-size: 16px;
+      color: #6b7280;
+    }
+
+    /* Section Headers */
+    .section-header {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+
+    /* Kuppi Cards */
+    .kuppi-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+    .kuppi-card:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .kuppi-info {
+      flex: 1;
+    }
+    .kuppi-status {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .kuppi-status.upcoming {
+      color: #059669;
+    }
+    .kuppi-status.completed {
+      color: #3b82f6;
+    }
+    .kuppi-title {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      color: #111827;
+    }
+    .kuppi-module {
+      font-size: 14px;
+      color: #6b7280;
+    }
+    .view-btn {
+      background: #f3f4f6;
+      color: #374151;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .view-btn:hover {
+      background: #e5e7eb;
+    }
+
+    
+
+         /* Responsive Design */
+     @media (max-width: 768px) {
+       .main-container {
+         padding: 16px;
+       }
+       .nav-left {
+         gap: 12px;
+       }
+       .nav a {
+         padding: 6px 8px;
+         font-size: 14px;
+       }
+       .search-input {
+         width: 150px;
+       }
+     }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    My Conducted Kuppis
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="#">Kuppis</a>
+      <a href="#">Home</a>
+      <a href="#">Explore</a>
+      <a href="my-conducted-kuppis.html" class="active">My Kuppis</a>
+      <a href="#">Messages</a>
+    </div>
+    <div class="nav-right">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" placeholder="Search">
+      </div>
+      <button class="icon-btn">🔔</button>
+      <div class="avatar">U</div>
+    </div>
+  </nav>
+
+     <!-- Main Content -->
+   <div class="main-container">
+     <div class="page-header">
+       <h1 class="page-title">My Kuppis</h1>
+       <p class="page-subtitle">Manage your Kuppis sessions</p>
+     </div>
+
+     <!-- Upcoming Kuppis -->
+     <div class="section-header">Upcoming Kuppis</div>
+     <div class="kuppi-card">
+       <div class="kuppi-info">
+         <div class="kuppi-status upcoming">Upcoming</div>
+         <div class="kuppi-title">Study Session: Calculus II</div>
+         <div class="kuppi-module">Module: MATH202</div>
+       </div>
+       <button class="view-btn" onclick="viewKuppi('Calculus II')">View</button>
+     </div>
+
+     <!-- Past Kuppis -->
+     <div class="section-header">Past Kuppis</div>
+     <div class="kuppi-card">
+       <div class="kuppi-info">
+         <div class="kuppi-status completed">Completed</div>
+         <div class="kuppi-title">Study Session: Organic Chemistry</div>
+         <div class="kuppi-module">Module: CHEM301</div>
+       </div>
+       <button class="view-btn" onclick="viewKuppi('Organic Chemistry')">View</button>
+     </div>
+
+     <div class="kuppi-card">
+       <div class="kuppi-info">
+         <div class="kuppi-status completed">Completed</div>
+         <div class="kuppi-title">Study Session: Linear Algebra</div>
+         <div class="kuppi-module">Module: MATH201</div>
+       </div>
+       <button class="view-btn" onclick="viewKuppi('Linear Algebra')">View</button>
+     </div>
+
+     <div class="kuppi-card">
+       <div class="kuppi-info">
+         <div class="kuppi-status completed">Completed</div>
+         <div class="kuppi-title">Study Session: Physics I</div>
+         <div class="kuppi-module">Module: PHYS101</div>
+       </div>
+       <button class="view-btn" onclick="viewKuppi('Physics I')">View</button>
+     </div>
+   </div>
+
+  <script>
+    // Function to handle view button clicks
+    function viewKuppi(sessionName) {
+      // Redirect to kuppi details page
+      window.location.href = 'kuppi-details.html';
+    }
+
+    // Search functionality
+    document.querySelector('.search-input').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.kuppi-card');
+      
+      cards.forEach(card => {
+        const title = card.querySelector('.kuppi-title').textContent.toLowerCase();
+        const module = card.querySelector('.kuppi-module').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || module.includes(searchTerm)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // Notification functionality
+    document.querySelector('.icon-btn').addEventListener('click', function() {
+      alert('Notifications: No new notifications');
+    });
+  </script>
+
+</body>
+</html>
