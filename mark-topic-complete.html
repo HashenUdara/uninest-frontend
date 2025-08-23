@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudySphere | Mark Topic as Complete</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: linear-gradient(135deg, #f0f4ff 0%, #e6f3ff 100%);
+      color: #111827;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-container {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+    
+    .modal-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+    
+    .modal-message {
+      font-size: 16px;
+      color: #374151;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    
+    .comment-section {
+      margin-bottom: 32px;
+    }
+    
+    .comment-box {
+      width: 100%;
+      min-height: 120px;
+      padding: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      resize: vertical;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    
+    .comment-box:focus {
+      outline: none;
+      border-color: #6c3ef6;
+      box-shadow: 0 0 0 3px rgba(108, 62, 246, 0.1);
+    }
+    
+    .checklist-section {
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+    
+    .checklist-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #6c3ef6;
+      border-radius: 4px;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .checkbox.checked {
+      background: #6c3ef6;
+    }
+    
+    .checkbox.checked::after {
+      content: '✓';
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    
+    .checkbox-label {
+      font-size: 16px;
+      color: #374151;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .primary-btn {
+      background: #6c3ef6;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      width: 100%;
+    }
+    
+    .primary-btn:hover {
+      background: #5b21b6;
+    }
+    
+    .secondary-btn {
+      background: none;
+      color: #3b82f6;
+      border: none;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.2s;
+      text-decoration: underline;
+    }
+    
+    .secondary-btn:hover {
+      color: #1d4ed8;
+    }
+    
+    @media (max-width: 600px) {
+      .modal-container {
+        padding: 24px;
+        margin: 20px;
+      }
+      
+      .modal-title {
+        font-size: 24px;
+      }
+      
+      .modal-message {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="modal-container">
+    <h1 class="modal-title">Mark Topic as Complete</h1>
+    
+    <p class="modal-message">
+      You've successfully completed the 'Introduction to Calculus' topic. Great job!
+    </p>
+    
+    <div class="comment-section">
+      <textarea 
+        class="comment-box" 
+        placeholder="Add any comments or notes about your completion (optional)"
+      ></textarea>
+    </div>
+    
+    <div class="checklist-section">
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox" id="checkbox1"></div>
+        <span class="checkbox-label">Reviewed key concepts</span>
+      </div>
+      
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox" id="checkbox2"></div>
+        <span class="checkbox-label">Completed practice problems</span>
+      </div>
+      
+      <div class="checklist-item" onclick="toggleCheckbox(this)">
+        <div class="checkbox" id="checkbox3"></div>
+        <span class="checkbox-label">Understood fundamental theorems</span>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <button class="primary-btn" onclick="markAsComplete()">Mark as Complete</button>
+      <button class="secondary-btn" onclick="undoAction()">Undo</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleCheckbox(item) {
+      const checkbox = item.querySelector('.checkbox');
+      checkbox.classList.toggle('checked');
+    }
+    
+    function markAsComplete() {
+      const comment = document.querySelector('.comment-box').value;
+      const checkboxes = document.querySelectorAll('.checkbox.checked');
+      
+      // Collect completion data
+      const completionData = {
+        topic: 'Introduction to Calculus',
+        comment: comment,
+        checklistCompleted: checkboxes.length,
+        timestamp: new Date().toISOString()
+      };
+      
+      console.log('Topic marked as complete:', completionData);
+      
+      // Show success message
+      alert('Topic marked as complete! Great work!');
+      
+      // In a real app, you would save this data and update the progress
+      // For now, we'll just redirect back to the subject progress page
+      setTimeout(() => {
+        window.location.href = 'subject-progress.html?subject=Calculus%20II';
+      }, 1000);
+    }
+    
+    function undoAction() {
+      // Reset form
+      document.querySelector('.comment-box').value = '';
+      document.querySelectorAll('.checkbox').forEach(checkbox => {
+        checkbox.classList.remove('checked');
+      });
+      
+      // In a real app, you might want to go back to the previous page
+      // For now, we'll just show a message
+      alert('Action undone. You can continue working on the topic.');
+    }
+    
+    // Allow clicking on labels to toggle checkboxes
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkboxes = document.querySelectorAll('.checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', function(e) {
+          e.stopPropagation();
+          this.classList.toggle('checked');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
