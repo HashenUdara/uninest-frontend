@@ -165,10 +165,30 @@
       margin-bottom: 4px;
       color: #111827;
     }
-    .kuppi-module {
-      font-size: 14px;
-      color: #6b7280;
-    }
+         .kuppi-module {
+       font-size: 14px;
+       color: #6b7280;
+       margin-bottom: 4px;
+     }
+     .kuppi-rating {
+       display: flex;
+       align-items: center;
+       gap: 4px;
+       font-size: 14px;
+       color: #6b7280;
+     }
+     .rating-stars {
+       display: flex;
+       gap: 1px;
+     }
+     .rating-star {
+       color: #fbbf24;
+       font-size: 14px;
+     }
+     .rating-text {
+       font-weight: 500;
+       color: #374151;
+     }
     .view-btn {
       background: #f3f4f6;
       color: #374151;
@@ -239,74 +259,169 @@
 
      <!-- Upcoming Kuppis -->
      <div class="section-header">Upcoming Kuppis</div>
-     <div class="kuppi-card">
-       <div class="kuppi-info">
-         <div class="kuppi-status upcoming">Upcoming</div>
-         <div class="kuppi-title">Study Session: Calculus II</div>
-         <div class="kuppi-module">Module: MATH202</div>
-       </div>
-       <button class="view-btn" onclick="viewKuppi('Calculus II')">View</button>
-     </div>
+           <div class="kuppi-card">
+        <div class="kuppi-info">
+          <div class="kuppi-status upcoming">Upcoming</div>
+          <div class="kuppi-title">Study Session: Calculus II</div>
+          <div class="kuppi-module">Module: MATH202</div>
+          <div class="kuppi-rating">
+            <div class="rating-stars">
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+            </div>
+            <span class="rating-text">4.8 (12 ratings)</span>
+          </div>
+        </div>
+        <button class="view-btn" onclick="viewKuppi('Calculus II')">View</button>
+      </div>
 
      <!-- Past Kuppis -->
      <div class="section-header">Past Kuppis</div>
-     <div class="kuppi-card">
-       <div class="kuppi-info">
-         <div class="kuppi-status completed">Completed</div>
-         <div class="kuppi-title">Study Session: Organic Chemistry</div>
-         <div class="kuppi-module">Module: CHEM301</div>
-       </div>
-       <button class="view-btn" onclick="viewKuppi('Organic Chemistry')">View</button>
-     </div>
+           <div class="kuppi-card">
+        <div class="kuppi-info">
+          <div class="kuppi-status completed">Completed</div>
+          <div class="kuppi-title">Study Session: Organic Chemistry</div>
+          <div class="kuppi-module">Module: CHEM301</div>
+          <div class="kuppi-rating">
+            <div class="rating-stars">
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star" style="color: #d1d5db;">★</span>
+            </div>
+            <span class="rating-text">4.2 (8 ratings)</span>
+          </div>
+        </div>
+        <button class="view-btn" onclick="viewKuppi('Organic Chemistry')">View</button>
+      </div>
 
-     <div class="kuppi-card">
-       <div class="kuppi-info">
-         <div class="kuppi-status completed">Completed</div>
-         <div class="kuppi-title">Study Session: Linear Algebra</div>
-         <div class="kuppi-module">Module: MATH201</div>
-       </div>
-       <button class="view-btn" onclick="viewKuppi('Linear Algebra')">View</button>
-     </div>
+           <div class="kuppi-card">
+        <div class="kuppi-info">
+          <div class="kuppi-status completed">Completed</div>
+          <div class="kuppi-title">Study Session: Linear Algebra</div>
+          <div class="kuppi-module">Module: MATH201</div>
+          <div class="kuppi-rating">
+            <div class="rating-stars">
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+            </div>
+            <span class="rating-text">4.9 (15 ratings)</span>
+          </div>
+        </div>
+        <button class="view-btn" onclick="viewKuppi('Linear Algebra')">View</button>
+      </div>
 
-     <div class="kuppi-card">
-       <div class="kuppi-info">
-         <div class="kuppi-status completed">Completed</div>
-         <div class="kuppi-title">Study Session: Physics I</div>
-         <div class="kuppi-module">Module: PHYS101</div>
-       </div>
-       <button class="view-btn" onclick="viewKuppi('Physics I')">View</button>
-     </div>
+           <div class="kuppi-card">
+        <div class="kuppi-info">
+          <div class="kuppi-status completed">Completed</div>
+          <div class="kuppi-title">Study Session: Physics I</div>
+          <div class="kuppi-module">Module: PHYS101</div>
+          <div class="kuppi-rating">
+            <div class="rating-stars">
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star">★</span>
+              <span class="rating-star" style="color: #d1d5db;">★</span>
+              <span class="rating-star" style="color: #d1d5db;">★</span>
+            </div>
+            <span class="rating-text">3.8 (6 ratings)</span>
+          </div>
+        </div>
+        <button class="view-btn" onclick="viewKuppi('Physics I')">View</button>
+      </div>
    </div>
 
-  <script>
-    // Function to handle view button clicks
-    function viewKuppi(sessionName) {
-      // Redirect to kuppi details page
-      window.location.href = 'kuppi-details.html';
-    }
+     <script>
+     // Sample rating data (in a real app, this would come from a database)
+     const kuppiRatings = {
+       'Calculus II': { average: 4.8, count: 12 },
+       'Organic Chemistry': { average: 4.2, count: 8 },
+       'Linear Algebra': { average: 4.9, count: 15 },
+       'Physics I': { average: 3.8, count: 6 }
+     };
 
-    // Search functionality
-    document.querySelector('.search-input').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const cards = document.querySelectorAll('.kuppi-card');
-      
-      cards.forEach(card => {
-        const title = card.querySelector('.kuppi-title').textContent.toLowerCase();
-        const module = card.querySelector('.kuppi-module').textContent.toLowerCase();
-        
-        if (title.includes(searchTerm) || module.includes(searchTerm)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
+     // Function to render star rating
+     function renderStars(rating) {
+       const fullStars = Math.floor(rating);
+       const hasHalfStar = rating % 1 >= 0.5;
+       let starsHTML = '';
+       
+       for (let i = 1; i <= 5; i++) {
+         if (i <= fullStars) {
+           starsHTML += '<span class="rating-star">★</span>';
+         } else if (i === fullStars + 1 && hasHalfStar) {
+           starsHTML += '<span class="rating-star">★</span>';
+         } else {
+           starsHTML += '<span class="rating-star" style="color: #d1d5db;">★</span>';
+         }
+       }
+       return starsHTML;
+     }
 
-    // Notification functionality
-    document.querySelector('.icon-btn').addEventListener('click', function() {
-      alert('Notifications: No new notifications');
-    });
-  </script>
+     // Function to update rating display
+     function updateRatingDisplay() {
+       const cards = document.querySelectorAll('.kuppi-card');
+       
+       cards.forEach(card => {
+         const titleElement = card.querySelector('.kuppi-title');
+         const title = titleElement.textContent.replace('Study Session: ', '');
+         
+         if (kuppiRatings[title]) {
+           const rating = kuppiRatings[title];
+           const ratingContainer = card.querySelector('.kuppi-rating');
+           
+           if (ratingContainer) {
+             ratingContainer.innerHTML = `
+               <div class="rating-stars">
+                 ${renderStars(rating.average)}
+               </div>
+               <span class="rating-text">${rating.average} (${rating.count} ratings)</span>
+             `;
+           }
+         }
+       });
+     }
+
+     // Function to handle view button clicks
+     function viewKuppi(sessionName) {
+       // Redirect to kuppi details page
+       window.location.href = 'kuppi-details.html';
+     }
+
+     // Search functionality
+     document.querySelector('.search-input').addEventListener('input', function(e) {
+       const searchTerm = e.target.value.toLowerCase();
+       const cards = document.querySelectorAll('.kuppi-card');
+       
+       cards.forEach(card => {
+         const title = card.querySelector('.kuppi-title').textContent.toLowerCase();
+         const module = card.querySelector('.kuppi-module').textContent.toLowerCase();
+         
+         if (title.includes(searchTerm) || module.includes(searchTerm)) {
+           card.style.display = 'flex';
+         } else {
+           card.style.display = 'none';
+         }
+       });
+     });
+
+     // Notification functionality
+     document.querySelector('.icon-btn').addEventListener('click', function() {
+       alert('Notifications: No new notifications');
+     });
+
+     // Initialize ratings when page loads
+     document.addEventListener('DOMContentLoaded', function() {
+       updateRatingDisplay();
+     });
+   </script>
 
 </body>
 </html>

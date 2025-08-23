@@ -9,7 +9,7 @@ Leads the most critical module - Kuppi scheduling, voting, and tracking academic
 	•	Kuppi Detail Page (done) kuppi deatils.html
 	•	Join Live Kuppi (done) join kuppi.html
 	•	Kuppi Feedback Modal (done) feedback.html
-	•	My Conducted Kuppis 
+	•	My Conducted Kuppis (done)
 	•	Kuppi History (done) my-attended-kuppis.html
 	•	Progress Dashboard
 	•	Subject Progress Tracker
