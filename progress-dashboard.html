@@ -306,7 +306,7 @@
        const progress = calculateProgress(subject.completedTopics, subject.totalTopics);
        
        return `
-         <div class="subject-card" data-semester="${subject.semester}">
+         <div class="subject-card" data-semester="${subject.semester}" onclick="goToSubjectProgress('${subject.title}')" style="cursor: pointer;">
            <div class="subject-icon">${subject.icon}</div>
            <div class="subject-title">${subject.title}</div>
            <div class="subject-progress">Progress: ${progress}%</div>
@@ -400,10 +400,15 @@
         document.getElementById('gpaValue').textContent = gpaValue.toFixed(1);
       }
 
-      // GPA Card click event
-      document.getElementById('gpaCard').addEventListener('click', function() {
-        window.location.href = 'calculator.html';
-      });
+           // Function to navigate to subject progress page
+     function goToSubjectProgress(subjectTitle) {
+       window.location.href = `subject-progress.html?subject=${encodeURIComponent(subjectTitle)}`;
+     }
+
+     // GPA Card click event
+     document.getElementById('gpaCard').addEventListener('click', function() {
+       window.location.href = 'calculator.html';
+     });
 
       document.getElementById('semesterFilter').addEventListener('change', filterSubjects);
       document.addEventListener('DOMContentLoaded', function() {
