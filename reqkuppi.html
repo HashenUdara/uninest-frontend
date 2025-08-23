@@ -63,6 +63,24 @@
     resize: vertical;
     min-height: 100px;
   }
+  /* Checkbox styling */
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  .checkbox-container input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+  }
+  .checkbox-container label {
+    margin: 0;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+  }
   /* Submit button */
   .submit-btn {
     margin-top: 20px;
@@ -123,6 +141,11 @@
       <label for="details">Additional Details</label>
       <textarea id="details" name="details" placeholder="Provide additional context..."></textarea>
 
+      <div class="checkbox-container">
+        <input type="checkbox" id="anonymous" name="anonymous">
+        <label for="anonymous">Request anonymously</label>
+      </div>
+
       <button type="submit" class="submit-btn">Submit Request</button>
     </form>
 
@@ -143,6 +166,7 @@
     const subject = SecurityUtils.validateFormInput(document.getElementById('subject').value, 'text');
     const topic = SecurityUtils.validateFormInput(document.getElementById('topic').value, 'text');
     const details = SecurityUtils.validateFormInput(document.getElementById('details').value, 'text');
+    const isAnonymous = document.getElementById('anonymous').checked;
     
     // Check if required fields are filled
     if (!subject || !topic) {
@@ -155,6 +179,7 @@
       subject: subject,
       topic: topic,
       details: details,
+      anonymous: isAnonymous,
       timestamp: new Date().toISOString()
     };
     
@@ -163,6 +188,11 @@
     successMsg.style.display = 'block';
     form.reset();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Redirect to voting page after 2 seconds
+    setTimeout(() => {
+      window.location.href = 'votekuppi.html';
+    }, 2000);
   });
 </script>
 

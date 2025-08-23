@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uninest | Coordinator Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: #ffffff;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    /* Navbar */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .logo {
+      width: 32px;
+      height: 32px;
+      background: #6c3ef6;
+      color: white;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .nav-center {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-center a {
+      color: #374151;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+    .nav-center a:hover {
+      background: #f3f4f6;
+    }
+    .nav-center a.active {
+      background: #6c3ef6;
+      color: white;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .profile-pic {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    /* Main content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .coordinator-info {
+      background: #f0f9ff;
+      border: 1px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .coordinator-info h3 {
+      margin: 0 0 8px 0;
+      color: #0c4a6e;
+      font-size: 18px;
+    }
+    .coordinator-info p {
+      margin: 0;
+      color: #0369a1;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .tab {
+      padding: 12px 20px;
+      border-radius: 6px;
+      background: #f3f4f6;
+      cursor: pointer;
+      font-weight: 600;
+      border: 1px solid #d1d5db;
+      transition: all 0.2s;
+    }
+    .tab.active {
+      background: #6c3ef6;
+      color: white;
+      border-color: #6c3ef6;
+    }
+
+    /* Requests list */
+    .requests-section {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .section-header {
+      padding: 16px 20px;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 600;
+      color: #374151;
+    }
+    .request-item {
+      padding: 20px;
+      border-bottom: 1px solid #f3f4f6;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .request-item:last-child {
+      border-bottom: none;
+    }
+    .request-content {
+      flex: 1;
+    }
+    .request-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+    .request-details {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .request-description {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .request-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .vote-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .vote-count .count {
+      font-weight: 600;
+      color: #374151;
+    }
+    .module-badge {
+      padding: 4px 8px;
+      background: #f3f4f6;
+      color: #374151;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .anonymous-badge {
+      padding: 4px 8px;
+      background: #fef3c7;
+      color: #92400e;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+    }
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 14px;
+    }
+    .btn.approve {
+      background: #10b981;
+      color: white;
+    }
+    .btn.approve:hover {
+      background: #059669;
+    }
+    .btn.reject {
+      background: #ef4444;
+      color: white;
+    }
+    .btn.reject:hover {
+      background: #dc2626;
+    }
+    .btn.view {
+      background: #3b82f6;
+      color: white;
+    }
+    .btn.view:hover {
+      background: #2563eb;
+    }
+
+    /* Status badges */
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .status-approved {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .status-rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+    .empty-state h3 {
+      margin-bottom: 8px;
+      color: #374151;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-center {
+        display: none;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .request-item {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .action-buttons {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="nav">
+    <div class="brand">
+      <div class="logo">U</div>
+      <div>Uninest</div>
+    </div>
+    <div class="nav-center">
+      <a href="#">Home</a>
+      <a href="votekuppi.html">Kuppis</a>
+      <a href="#" class="active">Coordinator</a>
+      <a href="#">Resources</a>
+    </div>
+    <div class="nav-right">
+      <div class="profile-pic">👤</div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Coordinator Dashboard</h1>
+    </div>
+
+    <!-- Coordinator info -->
+    <div class="coordinator-info">
+      <h3>👨‍🏫 Subject Coordinator</h3>
+      <p>You are the coordinator for: <strong>Mathematics, Physics, Chemistry, Biology</strong></p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="setTab('pending')">Pending Requests</button>
+      <button class="tab" onclick="setTab('approved')">Approved</button>
+      <button class="tab" onclick="setTab('rejected')">Rejected</button>
+    </div>
+
+    <!-- Pending Requests -->
+    <div class="requests-section" id="pending-section">
+      <div class="section-header">Pending Kuppi Requests</div>
+      
+      <div class="request-item" data-status="pending" data-module="Math 101">
+        <div class="request-content">
+          <div class="request-title">Calculus Review</div>
+          <div class="request-details">Module: Math 101 • Requested: 2 days ago</div>
+          <div class="request-description">Comprehensive review session covering limits, derivatives, and applications. Focus on problem-solving techniques and common exam questions.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">12</span> votes
+            </div>
+            <div class="module-badge">Math 101</div>
+            <div class="anonymous-badge">Anonymous Request</div>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="btn view" onclick="viewRequest('Calculus Review')">View Details</button>
+          <button class="btn approve" onclick="approveRequest('Calculus Review')">Approve</button>
+          <button class="btn reject" onclick="rejectRequest('Calculus Review')">Reject</button>
+        </div>
+      </div>
+
+      <div class="request-item" data-status="pending" data-module="Physics 202">
+        <div class="request-content">
+          <div class="request-title">Electromagnetism</div>
+          <div class="request-details">Module: Physics 202 • Requested: 1 day ago</div>
+          <div class="request-description">Deep dive into electromagnetic theory, Maxwell's equations, and their applications. Practical demonstrations and problem-solving workshop.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">8</span> votes
+            </div>
+            <div class="module-badge">Physics 202</div>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="btn view" onclick="viewRequest('Electromagnetism')">View Details</button>
+          <button class="btn approve" onclick="approveRequest('Electromagnetism')">Approve</button>
+          <button class="btn reject" onclick="rejectRequest('Electromagnetism')">Reject</button>
+        </div>
+      </div>
+
+      <div class="request-item" data-status="pending" data-module="Chemistry 101">
+        <div class="request-content">
+          <div class="request-title">Organic Chemistry Basics</div>
+          <div class="request-details">Module: Chemistry 101 • Requested: 3 days ago</div>
+          <div class="request-description">Introduction to organic chemistry fundamentals, molecular structures, and reaction mechanisms. Interactive molecular modeling session.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">15</span> votes
+            </div>
+            <div class="module-badge">Chemistry 101</div>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="btn view" onclick="viewRequest('Organic Chemistry Basics')">View Details</button>
+          <button class="btn approve" onclick="approveRequest('Organic Chemistry Basics')">Approve</button>
+          <button class="btn reject" onclick="rejectRequest('Organic Chemistry Basics')">Reject</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Approved Requests -->
+    <div class="requests-section" id="approved-section" style="display: none;">
+      <div class="section-header">Approved Kuppi Requests</div>
+      
+      <div class="request-item" data-status="approved" data-module="Biology 101">
+        <div class="request-content">
+          <div class="request-title">Cell Biology</div>
+          <div class="request-details">Module: Biology 101 • Approved: 1 day ago</div>
+          <div class="request-description">Exploration of cell structure, function, and processes. Microscopy session and cellular pathway analysis.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">6</span> votes
+            </div>
+            <div class="module-badge">Biology 101</div>
+            <div class="status-badge status-approved">Approved</div>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="btn view" onclick="viewRequest('Cell Biology')">View Details</button>
+          <button class="btn view" onclick="goToConductorVoting('Cell Biology')">Vote Conductor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rejected Requests -->
+    <div class="requests-section" id="rejected-section" style="display: none;">
+      <div class="section-header">Rejected Kuppi Requests</div>
+      
+      <div class="request-item" data-status="rejected" data-module="Math 101">
+        <div class="request-content">
+          <div class="request-title">Advanced Calculus</div>
+          <div class="request-details">Module: Math 101 • Rejected: 2 days ago</div>
+          <div class="request-description">Advanced calculus topics including multivariable calculus and vector analysis.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">3</span> votes
+            </div>
+            <div class="module-badge">Math 101</div>
+            <div class="status-badge status-rejected">Rejected</div>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="btn view" onclick="viewRequest('Advanced Calculus')">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="security-utils.js"></script>
+  <script>
+    let currentTab = 'pending';
+
+    // Tab functionality
+    function setTab(tabName) {
+      currentTab = tabName;
+      
+      // Update tab buttons
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Show/hide sections
+      document.getElementById('pending-section').style.display = tabName === 'pending' ? 'block' : 'none';
+      document.getElementById('approved-section').style.display = tabName === 'approved' ? 'block' : 'none';
+      document.getElementById('rejected-section').style.display = tabName === 'rejected' ? 'block' : 'none';
+    }
+
+    // Action functions
+    function viewRequest(title) {
+      alert(`Viewing details for: ${SecurityUtils.escapeHTML(title)}`);
+    }
+
+    function approveRequest(title) {
+      if (confirm(`Are you sure you want to approve "${SecurityUtils.escapeHTML(title)}"?`)) {
+        // In a real app, this would send to server
+        console.log(`Approved request: ${title}`);
+        alert(`✅ "${SecurityUtils.escapeHTML(title)}" has been approved!`);
+        
+        // Move to approved section
+        const requestItem = event.target.closest('.request-item');
+        requestItem.setAttribute('data-status', 'approved');
+        requestItem.querySelector('.action-buttons').innerHTML = `
+          <button class="btn view" onclick="viewRequest('${SecurityUtils.escapeHTML(title)}')">View Details</button>
+          <button class="btn view" onclick="goToConductorVoting('${SecurityUtils.escapeHTML(title)}')">Vote Conductor</button>
+        `;
+        
+        // Add approved badge
+        const meta = requestItem.querySelector('.request-meta');
+        const badge = document.createElement('div');
+        badge.className = 'status-badge status-approved';
+        badge.textContent = 'Approved';
+        meta.appendChild(badge);
+      }
+    }
+
+    function rejectRequest(title) {
+      if (confirm(`Are you sure you want to reject "${SecurityUtils.escapeHTML(title)}"?`)) {
+        // In a real app, this would send to server
+        console.log(`Rejected request: ${title}`);
+        alert(`❌ "${SecurityUtils.escapeHTML(title)}" has been rejected.`);
+        
+        // Move to rejected section
+        const requestItem = event.target.closest('.request-item');
+        requestItem.setAttribute('data-status', 'rejected');
+        requestItem.querySelector('.action-buttons').innerHTML = `
+          <button class="btn view" onclick="viewRequest('${SecurityUtils.escapeHTML(title)}')">View Details</button>
+        `;
+        
+        // Add rejected badge
+        const meta = requestItem.querySelector('.request-meta');
+        const badge = document.createElement('div');
+        badge.className = 'status-badge status-rejected';
+        badge.textContent = 'Rejected';
+        meta.appendChild(badge);
+      }
+    }
+
+    function goToConductorVoting(title) {
+      window.location.href = `conductor-voting.html?kuppi=${encodeURIComponent(title)}`;
+    }
+  </script>
+
+</body>
+</html>

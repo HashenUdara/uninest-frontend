@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Schedule Kuppi</title>
+  <title>Uninest | Schedule Kuppi</title>
 <style>
   body {
     font-family: "Inter", Arial, sans-serif;
@@ -117,8 +117,9 @@
   <div class="navbar">
     <div class="nav-left">
       <a href="#">Home</a>
-      <a href="#">Explore</a>
-      <a href="#">My Kuppis</a>
+      <a href="votekuppi.html">Kuppis</a>
+      <a href="coordinator-dashboard.html">Coordinator</a>
+      <a href="#" class="active">Schedule</a>
     </div>
     <div class="nav-right">🔔</div>
   </div>
@@ -126,7 +127,14 @@
   <!-- Form -->
   <div class="container">
     <h2>Schedule Kuppi</h2>
-    <form>
+    
+    <!-- Kuppi and Conductor Info -->
+    <div class="info-section" id="infoSection" style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 16px; margin-bottom: 20px; display: none;">
+      <div style="color: #0c4a6e; font-weight: 600; margin-bottom: 8px;" id="kuppiInfo">Loading...</div>
+      <div style="color: #0369a1; font-size: 14px;" id="conductorInfo">Loading...</div>
+    </div>
+    
+    <form id="scheduleForm">
       <label for="topic">Topic Title</label>
       <input type="text" id="topic" name="topic" placeholder="Enter topic title" required>
 
@@ -146,11 +154,81 @@
 
       <button type="submit" class="submit-btn">Schedule Kuppi</button>
     </form>
+
+    <div class="success-message" id="successMessage" style="display: none; margin-top: 20px; padding: 12px; border-radius: 6px; background: #e1fbe1; color: #2d7a2d; text-align: center; font-weight: 500;">
+      ✅ Kuppi scheduled successfully! Redirecting to overview...
+    </div>
   </div>
 
+<script src="security-utils.js"></script>
 <script>
   const resourceInput = document.getElementById('resource');
   const removeBtn = document.getElementById('removeFileBtn');
+  const form = document.getElementById('scheduleForm');
+  const successMsg = document.getElementById('successMessage');
+  const infoSection = document.getElementById('infoSection');
+
+  // Get URL parameters
+  function getURLParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return {
+      kuppi: urlParams.get('kuppi'),
+      conductor: urlParams.get('conductor')
+    };
+  }
+
+  // Update form with URL parameters
+  function updateFormFromURL() {
+    const params = getURLParams();
+    if (params.kuppi) {
+      document.getElementById('topic').value = SecurityUtils.escapeHTML(params.kuppi);
+      document.getElementById('topic').readOnly = true;
+      
+      // Show info section
+      infoSection.style.display = 'block';
+      document.getElementById('kuppiInfo').textContent = `Kuppi: ${SecurityUtils.escapeHTML(params.kuppi)}`;
+      
+      if (params.conductor) {
+        document.getElementById('conductorInfo').textContent = `Selected Conductor: ${SecurityUtils.escapeHTML(params.conductor)}`;
+      }
+    }
+  }
+
+  // Form submission
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validate and sanitize form inputs
+    const topic = SecurityUtils.validateFormInput(document.getElementById('topic').value, 'text');
+    const subject = SecurityUtils.validateFormInput(document.getElementById('subject').value, 'text');
+    const datetime = document.getElementById('datetime').value;
+    const link = SecurityUtils.validateFormInput(document.getElementById('link').value, 'url');
+    
+    if (!topic || !subject || !datetime || !link) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    
+    // Prepare form data
+    const formData = {
+      topic: topic,
+      subject: subject,
+      datetime: datetime,
+      link: link,
+      conductor: getURLParams().conductor,
+      timestamp: new Date().toISOString()
+    };
+    
+    console.log('Scheduling kuppi:', formData);
+    
+    // Show success message
+    successMsg.style.display = 'block';
+    
+    // Redirect to overview after 2 seconds
+    setTimeout(() => {
+      window.location.href = 'kuppi overview.html';
+    }, 2000);
+  });
 
   resourceInput.addEventListener('change', () => {
     removeBtn.style.display = resourceInput.files.length ? 'inline-block' : 'none';
@@ -160,6 +238,11 @@
     resourceInput.value = '';
     removeBtn.style.display = 'none';
     alert('File selection cleared.');
+  });
+
+  // Initialize page
+  document.addEventListener('DOMContentLoaded', function() {
+    updateFormFromURL();
   });
 </script>
 

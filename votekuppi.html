@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uninest | Vote on Kuppis</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: #ffffff;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    /* Navbar */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .logo {
+      width: 32px;
+      height: 32px;
+      background: #6c3ef6;
+      color: white;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .nav-center {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-center a {
+      color: #374151;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+    .nav-center a:hover {
+      background: #f3f4f6;
+    }
+    .nav-center a.active {
+      background: #6c3ef6;
+      color: white;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #f9fafb;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 8px 12px;
+      gap: 8px;
+    }
+    .search-bar input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+      min-width: 200px;
+    }
+    .search-bar input::placeholder {
+      color: #9ca3af;
+    }
+    .notification-icon {
+      font-size: 20px;
+      cursor: pointer;
+      color: #6b7280;
+    }
+    .profile-pic {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    /* Main content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .module-filter {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: white;
+      font-size: 14px;
+      outline: none;
+    }
+    .request-btn {
+      padding: 10px 16px;
+      background: #6c3ef6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    .request-btn:hover {
+      background: #5a2ce0;
+    }
+
+    /* Kuppi requests list */
+    .requests-section {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .section-header {
+      padding: 16px 20px;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: 600;
+      color: #374151;
+    }
+    .request-item {
+      padding: 20px;
+      border-bottom: 1px solid #f3f4f6;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .request-item:last-child {
+      border-bottom: none;
+    }
+    .request-content {
+      flex: 1;
+    }
+    .request-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+    .request-details {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .request-description {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .request-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 12px;
+    }
+    .vote-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .vote-count .count {
+      font-weight: 600;
+      color: #374151;
+    }
+    .module-badge {
+      padding: 4px 8px;
+      background: #f3f4f6;
+      color: #374151;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Star rating */
+    .star-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .star {
+      font-size: 20px;
+      cursor: pointer;
+      color: #d1d5db;
+      transition: color 0.2s;
+    }
+    .star:hover,
+    .star.active {
+      color: #fbbf24;
+    }
+    .star:hover ~ .star {
+      color: #d1d5db;
+    }
+    .rating-tooltip {
+      position: absolute;
+      background: #374151;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .star:hover .rating-tooltip {
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-center {
+        display: none;
+      }
+      .search-bar {
+        display: none;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .header-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .request-item {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .star-rating {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="nav">
+    <div class="brand">
+      <div class="logo">U</div>
+      <div>Uninest</div>
+    </div>
+    <div class="nav-center">
+      <a href="#">Home</a>
+      <a href="#" class="active">Kuppis</a>
+      <a href="coordinator-dashboard.html">Coordinator</a>
+      <a href="#">Resources</a>
+    </div>
+    <div class="nav-right">
+      <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" placeholder="Search">
+      </div>
+      <div class="notification-icon">🔔</div>
+      <div class="profile-pic">👤</div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Vote on Kuppis</h1>
+      <div class="header-right">
+        <select class="module-filter" id="moduleFilter">
+          <option value="">All Modules</option>
+          <option value="Math 101">Math 101</option>
+          <option value="Physics 202">Physics 202</option>
+          <option value="Chemistry 101">Chemistry 101</option>
+          <option value="Biology 101">Biology 101</option>
+        </select>
+        <a href="reqkuppi.html" class="request-btn">Request New Kuppi</a>
+      </div>
+    </div>
+
+    <!-- Kuppi requests -->
+    <div class="requests-section">
+      <div class="section-header">Open Requests</div>
+      
+      <div class="request-item" data-module="Math 101">
+        <div class="request-content">
+          <div class="request-title">Calculus Review</div>
+          <div class="request-details">Module: Math 101</div>
+          <div class="request-description">Comprehensive review session covering limits, derivatives, and applications. Focus on problem-solving techniques and common exam questions.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">12</span> votes
+            </div>
+            <div class="module-badge">Math 101</div>
+          </div>
+        </div>
+        <div class="star-rating" data-request-id="1">
+          <div class="star" data-rating="1" title="Better to have a kuppi">⭐</div>
+          <div class="star" data-rating="2" title="Agree">⭐</div>
+          <div class="star" data-rating="3" title="Strongly agree">⭐</div>
+        </div>
+      </div>
+
+      <div class="request-item" data-module="Physics 202">
+        <div class="request-content">
+          <div class="request-title">Electromagnetism</div>
+          <div class="request-details">Module: Physics 202</div>
+          <div class="request-description">Deep dive into electromagnetic theory, Maxwell's equations, and their applications. Practical demonstrations and problem-solving workshop.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">8</span> votes
+            </div>
+            <div class="module-badge">Physics 202</div>
+          </div>
+        </div>
+        <div class="star-rating" data-request-id="2">
+          <div class="star" data-rating="1" title="Better to have a kuppi">⭐</div>
+          <div class="star" data-rating="2" title="Agree">⭐</div>
+          <div class="star" data-rating="3" title="Strongly agree">⭐</div>
+        </div>
+      </div>
+
+      <div class="request-item" data-module="Chemistry 101">
+        <div class="request-content">
+          <div class="request-title">Organic Chemistry Basics</div>
+          <div class="request-details">Module: Chemistry 101</div>
+          <div class="request-description">Introduction to organic chemistry fundamentals, molecular structures, and reaction mechanisms. Interactive molecular modeling session.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">15</span> votes
+            </div>
+            <div class="module-badge">Chemistry 101</div>
+          </div>
+        </div>
+        <div class="star-rating" data-request-id="3">
+          <div class="star" data-rating="1" title="Better to have a kuppi">⭐</div>
+          <div class="star" data-rating="2" title="Agree">⭐</div>
+          <div class="star" data-rating="3" title="Strongly agree">⭐</div>
+        </div>
+      </div>
+
+      <div class="request-item" data-module="Biology 101">
+        <div class="request-content">
+          <div class="request-title">Cell Biology</div>
+          <div class="request-details">Module: Biology 101</div>
+          <div class="request-description">Exploration of cell structure, function, and processes. Microscopy session and cellular pathway analysis.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">6</span> votes
+            </div>
+            <div class="module-badge">Biology 101</div>
+          </div>
+        </div>
+        <div class="star-rating" data-request-id="4">
+          <div class="star" data-rating="1" title="Better to have a kuppi">⭐</div>
+          <div class="star" data-rating="2" title="Agree">⭐</div>
+          <div class="star" data-rating="3" title="Strongly agree">⭐</div>
+        </div>
+      </div>
+
+      <div class="request-item" data-module="Math 101">
+        <div class="request-content">
+          <div class="request-title">Linear Algebra</div>
+          <div class="request-details">Module: Math 101</div>
+          <div class="request-description">Matrix operations, vector spaces, and linear transformations. Computational methods and real-world applications.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">10</span> votes
+            </div>
+            <div class="module-badge">Math 101</div>
+          </div>
+        </div>
+        <div class="star-rating" data-request-id="5">
+          <div class="star" data-rating="1" title="Better to have a kuppi">⭐</div>
+          <div class="star" data-rating="2" title="Agree">⭐</div>
+          <div class="star" data-rating="3" title="Strongly agree">⭐</div>
+        </div>
+      </div>
+
+      <div class="request-item" data-module="Physics 202">
+        <div class="request-content">
+          <div class="request-title">Thermodynamics</div>
+          <div class="request-details">Module: Physics 202</div>
+          <div class="request-description">Laws of thermodynamics, entropy, and energy transfer. Laboratory experiments and thermodynamic cycles analysis.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">7</span> votes
+            </div>
+            <div class="module-badge">Physics 202</div>
+          </div>
+        </div>
+        <div class="star-rating" data-request-id="6">
+          <div class="star" data-rating="1" title="Better to have a kuppi">⭐</div>
+          <div class="star" data-rating="2" title="Agree">⭐</div>
+          <div class="star" data-rating="3" title="Strongly agree">⭐</div>
+        </div>
+      </div>
+
+      <div class="request-item" data-module="Chemistry 101">
+        <div class="request-content">
+          <div class="request-title">Inorganic Chemistry</div>
+          <div class="request-details">Module: Chemistry 101</div>
+          <div class="request-description">Study of inorganic compounds, coordination chemistry, and transition metals. Spectroscopy and analytical techniques.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">9</span> votes
+            </div>
+            <div class="module-badge">Chemistry 101</div>
+          </div>
+        </div>
+        <div class="star-rating" data-request-id="7">
+          <div class="star" data-rating="1" title="Better to have a kuppi">⭐</div>
+          <div class="star" data-rating="2" title="Agree">⭐</div>
+          <div class="star" data-rating="3" title="Strongly agree">⭐</div>
+        </div>
+      </div>
+
+      <div class="request-item" data-module="Biology 101">
+        <div class="request-content">
+          <div class="request-title">Genetics</div>
+          <div class="request-details">Module: Biology 101</div>
+          <div class="request-description">Mendelian genetics, DNA structure, and genetic engineering. Case studies and ethical discussions.</div>
+          <div class="request-meta">
+            <div class="vote-count">
+              <span>👥</span>
+              <span class="count">11</span> votes
+            </div>
+            <div class="module-badge">Biology 101</div>
+          </div>
+        </div>
+        <div class="star-rating" data-request-id="8">
+          <div class="star" data-rating="1" title="Better to have a kuppi">⭐</div>
+          <div class="star" data-rating="2" title="Agree">⭐</div>
+          <div class="star" data-rating="3" title="Strongly agree">⭐</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="security-utils.js"></script>
+  <script>
+    // Module filter functionality
+    document.getElementById('moduleFilter').addEventListener('change', function() {
+      const selectedModule = this.value;
+      const requestItems = document.querySelectorAll('.request-item');
+      
+      requestItems.forEach(item => {
+        const itemModule = item.getAttribute('data-module');
+        if (!selectedModule || itemModule === selectedModule) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+
+    // Search functionality
+    document.querySelector('.search-bar input').addEventListener('input', function() {
+      const searchTerm = SecurityUtils.validateSearchInput(this.value).toLowerCase();
+      const requestItems = document.querySelectorAll('.request-item');
+      
+      requestItems.forEach(item => {
+        const title = item.querySelector('.request-title').textContent.toLowerCase();
+        const description = item.querySelector('.request-description').textContent.toLowerCase();
+        const module = item.querySelector('.request-details').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || description.includes(searchTerm) || module.includes(searchTerm)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+
+    // Star rating functionality
+    document.querySelectorAll('.star-rating').forEach(rating => {
+      const stars = rating.querySelectorAll('.star');
+      const requestId = rating.getAttribute('data-request-id');
+      
+      stars.forEach((star, index) => {
+        star.addEventListener('click', function() {
+          const ratingValue = index + 1;
+          
+          // Update visual state
+          stars.forEach((s, i) => {
+            if (i <= index) {
+              s.classList.add('active');
+            } else {
+              s.classList.remove('active');
+            }
+          });
+          
+          // Store rating (in a real app, this would be sent to server)
+          console.log(`Rated request ${requestId} with ${ratingValue} stars`);
+          
+          // Show feedback based on rating
+          const feedback = ratingValue === 1 ? 'Better to have a kuppi' : 
+                          ratingValue === 2 ? 'Agree' : 'Strongly agree';
+          alert(`You rated: ${feedback}`);
+        });
+        
+        // Hover effects
+        star.addEventListener('mouseenter', function() {
+          const starIndex = Array.from(stars).indexOf(this);
+          stars.forEach((s, i) => {
+            if (i <= starIndex) {
+              s.style.color = '#fbbf24';
+            }
+          });
+        });
+        
+        star.addEventListener('mouseleave', function() {
+          stars.forEach(s => {
+            if (!s.classList.contains('active')) {
+              s.style.color = '#d1d5db';
+            }
+          });
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
