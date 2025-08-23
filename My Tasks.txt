@@ -1,0 +1,17 @@
+Kuppi & Progress Tracking
+
+Leads the most critical module - Kuppi scheduling, voting, and tracking academic progress.
+	•	Kuppi Overview
+	•	Request a Kuppi (done need to link)
+	•	Vote on Requested Kuppis
+	•	Schedule a Kuppi (done need to link)
+	•	Kuppi Detail Page
+	•	Join Live Kuppi
+	•	Kuppi Feedback Modal
+	•	My Conducted Kuppis
+	•	Kuppi History
+	•	Progress Dashboard
+	•	Subject Progress Tracker
+	•	Mark Topic as Completed
+	•	GPA Calculator (done need to link)
+	•	Visual GPA Trends
