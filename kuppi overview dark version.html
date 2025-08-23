@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudySphere | My Kuppis</title>
+  <style>
+    :root{
+      --bg:#0f172a;          /* slate-900 */
+      --panel:#111827;       /* gray-900 */
+      --muted:#1f2937;       /* gray-800 */
+      --text:#e5e7eb;        /* gray-200 */
+      --sub:#9ca3af;         /* gray-400 */
+      --brand:#6366f1;       /* indigo-500 */
+      --brand-2:#22d3ee;     /* cyan-400 */
+      --ok:#10b981;          /* emerald */
+      --warn:#f59e0b;        /* amber */
+      --done:#60a5fa;        /* blue */
+      --danger:#ef4444;      /* red */
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji",sans-serif;
+      background: radial-gradient(1200px 800px at 20% -10%,#1e1b4b33,transparent),
+                  radial-gradient(1000px 700px at 110% 10%,#0e749033,transparent),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+
+    /* Navbar */
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 20px; position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, #0b1222cc, #0b122288);
+      border-bottom:1px solid #ffffff12;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.3px;
+    }
+    .logo{
+      width:28px; height:28px; display:grid; place-items:center; border-radius:8px;
+      background: conic-gradient(from 210deg at 50% 50%, var(--brand), var(--brand-2));
+      color:white; font-size:14px;
+      box-shadow:0 6px 20px #6366f155;
+    }
+    .nav a{
+      color:var(--sub); text-decoration:none; padding:8px 12px; border-radius:8px; font-weight:600;
+    }
+    .nav a.active{ color:#fff; background:#ffffff12; }
+    .nav-center{display:flex; gap:4px; align-items:center}
+    .nav-right{display:flex; gap:10px; align-items:center}
+    .btn{
+      appearance:none; border:0; padding:10px 14px; border-radius:10px; font-weight:700;
+      cursor:pointer; color:#0b1222; background:#fff;
+    }
+    .btn.primary{
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+      color:#fff; box-shadow:0 8px 24px #6366f14d;
+    }
+    .avatar{
+      width:34px; height:34px; border-radius:50%; background:#ffffff1a; display:grid; place-items:center;
+      color:#c7d2fe; font-weight:800; border:1px solid #ffffff1a;
+    }
+
+    /* Page header */
+    .wrap{max-width:1100px; margin:24px auto; padding:0 16px;}
+    .header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:8px; margin-bottom:12px;
+    }
+    .title{
+      font-size:28px; font-weight:800; letter-spacing:.2px;
+      background: linear-gradient(90deg, #fff, #c7d2fe 60%, #67e8f9);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .search{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .input{
+      background:#0b1222; border:1px solid #ffffff1a; color:#e5e7eb; padding:10px 12px; border-radius:10px;
+      min-width:260px; outline:none;
+    }
+
+    /* Tabs */
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 6px}
+    .tab{
+      padding:8px 12px; border-radius:10px; background:#ffffff12; color:#cbd5e1; font-weight:700; cursor:pointer; border:1px solid transparent;
+    }
+    .tab.active{ background:#191e31; color:#fff; border-color:#ffffff1c; }
+
+    /* Table card */
+    .card{
+      background:#0b1222; border:1px solid #ffffff14; border-radius:14px; overflow:hidden;
+      box-shadow: 0 10px 30px #00000035, inset 0 1px 0 #ffffff0c;
+    }
+    .table{
+      width:100%; border-collapse:separate; border-spacing:0;
+    }
+    .table th, .table td{
+      padding:14px 12px; text-align:left; border-bottom:1px solid #ffffff10;
+    }
+    .table th{
+      font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:#94a3b8; background:#0a1120;
+      position:sticky; top:0; z-index:1;
+    }
+    .table tr:hover td{ background:#ffffff05; }
+    .title-cell{font-weight:700; color:#e2e8f0;}
+    .subtle{ color:#94a3b8; font-weight:600; }
+
+    /* Status badges */
+    .badge{
+      display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:800; font-size:12px;
+      border:1px solid #ffffff18;
+    }
+    .dot{width:8px; height:8px; border-radius:50%;}
+    .scheduled{ background:#10b9811a; color:#a7f3d0; }
+    .scheduled .dot{ background:var(--ok); }
+    .requested{ background:#f59e0b1a; color:#fde68a; }
+    .requested .dot{ background:var(--warn); }
+    .completed{ background:#60a5fa1a; color:#bfdbfe; }
+    .completed .dot{ background:var(--done); }
+
+    /* Action buttons */
+    .actions{display:flex; gap:8px; flex-wrap:wrap}
+    .btn-pill{
+      padding:8px 12px; border-radius:999px; border:1px solid #ffffff1a; background:#111827; color:#e5e7eb; font-weight:700; cursor:pointer;
+    }
+    .btn-pill.join{ border-color:#10b98155; background:#065f4626; color:#a7f3d0; }
+    .btn-pill.vote{ border-color:#f59e0b55; background:#7c2d1220; color:#fde68a; }
+    .btn-pill.details{ border-color:#60a5fa55; background:#1e3a8a20; color:#bfdbfe; }
+
+    /* Empty / no results */
+    .empty{
+      text-align:center; padding:30px; color:#94a3b8; font-weight:600;
+    }
+
+    /* Responsive */
+    .table-wrap{overflow:auto}
+    @media (max-width: 820px){
+      .hide-sm{ display:none; }
+      .input{ min-width:180px; flex:1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav">
+    <div class="brand">
+      <div class="logo">SS</div>
+      <div>StudySphere</div>
+    </div>
+    <div class="nav-center">
+      <a href="#" class="active">My Kuppis</a>
+      <a href="#">Explore</a>
+      <a href="#">Home</a>
+    </div>
+    <div class="nav-right">
+      <button class="btn primary" onclick="alert('Demo: Request flow')">Request a Kuppi</button>
+      <div class="avatar">V</div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <div class="header">
+      <div class="title">My Kuppis</div>
+      <div class="search">
+        <input id="search" class="input" type="search" placeholder="Search by title or subject..." />
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs" role="tablist" aria-label="Kuppi filters">
+      <button class="tab active" data-tab="all" onclick="setTab('all')">All</button>
+      <button class="tab" data-tab="requested" onclick="setTab('requested')">Requested</button>
+      <button class="tab" data-tab="scheduled" onclick="setTab('scheduled')">Scheduled</button>
+      <button class="tab" data-tab="completed" onclick="setTab('completed')">Completed</button>
+    </div>
+
+    <!-- Table -->
+    <div class="card table-wrap">
+      <table class="table" id="kuppiTable">
+        <thead>
+          <tr>
+            <th style="min-width:240px">Title</th>
+            <th>Topic / Subject</th>
+            <th class="hide-sm">Scheduled date & time</th>
+            <th class="hide-sm">Conductor</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="kuppiBody">
+          <!-- Scheduled -->
+          <tr data-status="scheduled">
+            <td class="title-cell">Study Group for Calculus</td>
+            <td><span class="subtle">Calculus I</span></td>
+            <td class="hide-sm">2024-03-10 15:00</td>
+            <td class="hide-sm">Dr. Anya Sharma</td>
+            <td><span class="badge scheduled"><span class="dot"></span>Scheduled</span></td>
+            <td>
+              <div class="actions">
+                <button class="btn-pill join" onclick="action('Join','Study Group for Calculus')">Join</button>
+              </div>
+            </td>
+          </tr>
+
+          <tr data-status="scheduled">
+            <td class="title-cell">Review Session for Organic Chemistry</td>
+            <td><span class="subtle">Organic Chemistry II</span></td>
+            <td class="hide-sm">2024-03-15 18:00</td>
+            <td class="hide-sm">Dr. Priya Patel</td>
+            <td><span class="badge scheduled"><span class="dot"></span>Scheduled</span></td>
+            <td>
+              <div class="actions">
+                <button class="btn-pill join" onclick="action('Join','Review Session for Organic Chemistry')">Join</button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Requested -->
+          <tr data-status="requested">
+            <td class="title-cell">Help with Linear Algebra</td>
+            <td><span class="subtle">Linear Algebra</span></td>
+            <td class="hide-sm">2024-03-20 17:00</td>
+            <td class="hide-sm">Liam Harper</td>
+            <td><span class="badge requested"><span class="dot"></span>Requested</span></td>
+            <td>
+              <div class="actions">
+                <button class="btn-pill vote" onclick="action('Vote','Help with Linear Algebra')">Vote</button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Completed -->
+          <tr data-status="completed">
+            <td class="title-cell">Physics Problem Solving</td>
+            <td><span class="subtle">Physics I</span></td>
+            <td class="hide-sm">2024-02-25 11:00</td>
+            <td class="hide-sm">Dr. Chloe Bennett</td>
+            <td><span class="badge completed"><span class="dot"></span>Completed</span></td>
+            <td>
+              <div class="actions">
+                <button class="btn-pill details" onclick="action('Details','Physics Problem Solving')">Details</button>
+              </div>
+            </td>
+          </tr>
+
+          <tr data-status="completed">
+            <td class="title-cell">Group Study for Statistics</td>
+            <td><span class="subtle">Statistics</span></td>
+            <td class="hide-sm">2024-02-20 15:30</td>
+            <td class="hide-sm">Noah Thompson</td>
+            <td><span class="badge completed"><span class="dot"></span>Completed</span></td>
+            <td>
+              <div class="actions">
+                <button class="btn-pill details" onclick="action('Details','Group Study for Statistics')">Details</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody id="emptyState" style="display:none">
+          <tr><td colspan="6" class="empty">No kuppis match your filters.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    const state = { tab: 'all', q: '' };
+    const body = document.getElementById('kuppiBody');
+    const rows = Array.from(body.querySelectorAll('tr'));
+    const empty = document.getElementById('emptyState');
+    const search = document.getElementById('search');
+
+    function normalize(s){ return (s || '').toLowerCase().trim(); }
+
+    function applyFilters(){
+      let visible = 0;
+      const q = normalize(state.q);
+
+      rows.forEach(tr => {
+        const status = tr.getAttribute('data-status');
+        const title = tr.cells[0]?.innerText || '';
+        const subject = tr.cells[1]?.innerText || '';
+        const matchesTab = state.tab === 'all' || status === state.tab;
+        const matchesQ = !q || normalize(title).includes(q) || normalize(subject).includes(q);
+        const show = matchesTab && matchesQ;
+        tr.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      empty.style.display = visible ? 'none' : '';
+    }
+
+    function setTab(tab){
+      state.tab = tab;
+      document.querySelectorAll('.tab').forEach(b=>{
+        b.classList.toggle('active', b.dataset.tab === tab);
+      });
+      applyFilters();
+    }
+
+    search.addEventListener('input', (e)=>{
+      state.q = e.target.value;
+      applyFilters();
+    });
+
+    function action(type, title){
+      alert(`Demo: ${type} → ${title}`);
+    }
+
+    // Default to Scheduled tab if you want it selected initially:
+    // setTab('scheduled');
+    applyFilters();
+  </script>
+</body>
+</html>
+```
