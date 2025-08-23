@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>StudyCircle | Advanced Calculus Study Session</title>
   <style>
+
+    /*
+    user can see more details of the kuppi he selected here. 
+    */
+
     body {
       margin: 0;
       font-family: Arial, "Inter", sans-serif;
@@ -494,10 +500,7 @@
 
   <script>
     function joinSession() {
-      const meetingLink = 'meet.google.com/xyz-abc-def';
-      if (confirm('Join the meeting at ' + meetingLink + '?')) {
-        window.open('https://' + meetingLink, '_blank');
-      }
+      window.location.href = 'joinkuppi.html';
     }
 
     function sendComment() {

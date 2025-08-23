@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uninest | My Attended Kuppis</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: #ffffff;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    /* Navbar */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #6c3ef6;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav a {
+      color: #374151;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav a:hover {
+      color: #6c3ef6;
+    }
+    .nav a.active {
+      color: #6c3ef6;
+      font-weight: 600;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .search-bar {
+      position: relative;
+    }
+    .search-input {
+      padding: 8px 12px 8px 35px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      width: 200px;
+      font-size: 14px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      color: #6b7280;
+    }
+    .icon-btn:hover {
+      background: #f3f4f6;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #6c3ef6;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* Page container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 30px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+    .page-subtitle {
+      font-size: 16px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .filter-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .filter-btn {
+      padding: 10px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #374151;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 120px;
+    }
+    .filter-btn:hover {
+      background: #f9fafb;
+    }
+    .dropdown-arrow {
+      font-size: 12px;
+      transition: transform 0.2s;
+    }
+    .filter-btn.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    /* Table */
+    .table-container {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table th {
+      background: #f9fafb;
+      padding: 16px 12px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6b7280;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .table td {
+      padding: 16px 12px;
+      border-bottom: 1px solid #f3f4f6;
+      vertical-align: middle;
+    }
+    .table tr:hover {
+      background: #f9fafb;
+    }
+
+    /* Title column */
+    .title-link {
+      color: #6c3ef6;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .title-link:hover {
+      color: #5b21b6;
+      text-decoration: underline;
+    }
+
+    /* Module column */
+    .module-link {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .module-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Conductor column */
+    .conductor-link {
+      color: #6c3ef6;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .conductor-link:hover {
+      color: #5b21b6;
+      text-decoration: underline;
+    }
+
+    /* Resources column */
+    .resource-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .download-icon {
+      color: #10b981;
+      font-size: 16px;
+    }
+    .download-link {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .download-link:hover {
+      text-decoration: underline;
+    }
+    .downloaded {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    /* Rating column */
+    .rating-container {
+      position: relative;
+      cursor: pointer;
+    }
+    .rating-stars {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+    }
+    .star {
+      color: #fbbf24;
+      font-size: 16px;
+    }
+    .rating-text {
+      margin-left: 8px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+    .edit-tooltip {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #374151;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    .edit-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #374151;
+    }
+    .rating-container:hover .edit-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Rating modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: white;
+      padding: 32px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      margin: 20px;
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+    .modal-stars {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .modal-star {
+      font-size: 32px;
+      cursor: pointer;
+      transition: color 0.2s;
+      color: #d1d5db;
+    }
+    .modal-star.filled {
+      color: #fbbf24;
+    }
+    .modal-star:hover {
+      color: #fbbf24;
+    }
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .modal-btn.primary {
+      background: #6c3ef6;
+      color: white;
+    }
+    .modal-btn.primary:hover {
+      background: #5b21b6;
+    }
+    .modal-btn.secondary {
+      background: #f3f4f6;
+      color: #374151;
+    }
+    .modal-btn.secondary:hover {
+      background: #e5e7eb;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 16px;
+      }
+      .filters {
+        flex-direction: column;
+      }
+      .table {
+        font-size: 14px;
+      }
+      .table th,
+      .table td {
+        padding: 12px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="logo">Uninest</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#">Explore</a>
+        <a href="#">Create</a>
+        <a href="kuppi overview.html">My Kuppis</a>
+        <a href="my-attended-kuppis.html" class="active">My Attended Kuppis</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" placeholder="Search">
+      </div>
+      <button class="icon-btn">🔔</button>
+      <div class="avatar">U</div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <div class="header">
+      <h1 class="page-title">My Attended Kuppis</h1>
+      <p class="page-subtitle">A list of all the Kuppis you have attended</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-dropdown">
+        <button class="filter-btn" onclick="toggleFilter('subject')">
+          Subject
+          <span class="dropdown-arrow">▼</span>
+        </button>
+      </div>
+      <div class="filter-dropdown">
+        <button class="filter-btn" onclick="toggleFilter('semester')">
+          Semester
+          <span class="dropdown-arrow">▼</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Module</th>
+            <th>Date Attended</th>
+            <th>Conductor</th>
+            <th>Resources</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a href="kuppi-details.html" class="title-link">Study Session on Calculus</a>
+            </td>
+            <td>
+              <a href="#" class="module-link">Calculus I</a>
+            </td>
+            <td>2024-07-20</td>
+            <td>
+              <a href="#" class="conductor-link">Dr. Anya Sharma</a>
+            </td>
+            <td>
+              <div class="resource-status">
+                <span class="download-icon">✓</span>
+                <span class="downloaded">Downloaded</span>
+              </div>
+            </td>
+            <td>
+              <div class="rating-container" onclick="openRatingModal('Study Session on Calculus', 4)">
+                <div class="rating-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star" style="color: #d1d5db;">★</span>
+                </div>
+                <span class="rating-text">You rated this 4★</span>
+                <div class="edit-tooltip">Click to edit</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="kuppi-details.html" class="title-link">Group Study on Organic Chemistry</a>
+            </td>
+            <td>
+              <a href="#" class="module-link">Organic Chemistry II</a>
+            </td>
+            <td>2024-07-15</td>
+            <td>
+              <a href="#" class="conductor-link">Prof. Ben Carter</a>
+            </td>
+            <td>
+              <div class="resource-status">
+                <span class="download-icon">✓</span>
+                <span class="downloaded">Downloaded</span>
+              </div>
+            </td>
+            <td>
+              <div class="rating-container" onclick="openRatingModal('Group Study on Organic Chemistry', 5)">
+                <div class="rating-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+                <span class="rating-text">You rated this 5★</span>
+                <div class="edit-tooltip">Click to edit</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="kuppi-details.html" class="title-link">Review Session for Physics Exam</a>
+            </td>
+            <td>
+              <a href="#" class="module-link">Physics III</a>
+            </td>
+            <td>2024-07-10</td>
+            <td>
+              <a href="#" class="conductor-link">Dr. Chloe Bennett</a>
+            </td>
+            <td>
+              <div class="resource-status">
+                <a href="#" class="download-link">Download</a>
+              </div>
+            </td>
+            <td>
+              <div class="rating-container" onclick="openRatingModal('Review Session for Physics Exam', 3)">
+                <div class="rating-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star" style="color: #d1d5db;">★</span>
+                  <span class="star" style="color: #d1d5db;">★</span>
+                </div>
+                <span class="rating-text">You rated this 3★</span>
+                <div class="edit-tooltip">Click to edit</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="kuppi-details.html" class="title-link">Discussion on Linear Algebra</a>
+            </td>
+            <td>
+              <a href="#" class="module-link">Linear Algebra</a>
+            </td>
+            <td>2024-07-05</td>
+            <td>
+              <a href="#" class="conductor-link">Prof. David Lee</a>
+            </td>
+            <td>
+              <div class="resource-status">
+                <span class="download-icon">✓</span>
+                <span class="downloaded">Downloaded</span>
+              </div>
+            </td>
+            <td>
+              <div class="rating-container" onclick="openRatingModal('Discussion on Linear Algebra', 4)">
+                <div class="rating-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star" style="color: #d1d5db;">★</span>
+                </div>
+                <span class="rating-text">You rated this 4★</span>
+                <div class="edit-tooltip">Click to edit</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="kuppi-details.html" class="title-link">Practice Problems in Statistics</a>
+            </td>
+            <td>
+              <a href="#" class="module-link">Statistics</a>
+            </td>
+            <td>2024-06-30</td>
+            <td>
+              <a href="#" class="conductor-link">Dr. Emily Chen</a>
+            </td>
+            <td>
+              <div class="resource-status">
+                <a href="#" class="download-link">Download</a>
+              </div>
+            </td>
+            <td>
+              <div class="rating-container" onclick="openRatingModal('Practice Problems in Statistics', 5)">
+                <div class="rating-stars">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+                <span class="rating-text">You rated this 5★</span>
+                <div class="edit-tooltip">Click to edit</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Rating Modal -->
+  <div class="modal-overlay" id="ratingModal">
+    <div class="modal-content">
+      <h3 class="modal-title">Edit Rating</h3>
+      <p id="modalKuppiTitle" style="color: #6b7280; margin-bottom: 20px;"></p>
+      <div class="modal-stars" id="modalStars">
+        <span class="modal-star" data-rating="1">★</span>
+        <span class="modal-star" data-rating="2">★</span>
+        <span class="modal-star" data-rating="3">★</span>
+        <span class="modal-star" data-rating="4">★</span>
+        <span class="modal-star" data-rating="5">★</span>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" onclick="closeRatingModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="saveRating()">Save Rating</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentRating = 5;
+    let currentKuppiTitle = '';
+    let currentKuppiRating = 0;
+
+    // Filter functionality
+    function toggleFilter(filterType) {
+      const btn = event.target.closest('.filter-btn');
+      btn.classList.toggle('active');
+      // Add dropdown functionality here
+      console.log(`Toggling ${filterType} filter`);
+    }
+
+    // Rating modal functionality
+    function openRatingModal(kuppiTitle, currentRating) {
+      currentKuppiTitle = kuppiTitle;
+      currentKuppiRating = currentRating;
+      
+      document.getElementById('modalKuppiTitle').textContent = kuppiTitle;
+      
+      // Set current rating
+      const stars = document.querySelectorAll('.modal-star');
+      stars.forEach((star, index) => {
+        if (index < currentRating) {
+          star.classList.add('filled');
+        } else {
+          star.classList.remove('filled');
+        }
+      });
+      
+      document.getElementById('ratingModal').classList.add('show');
+    }
+
+    function closeRatingModal() {
+      document.getElementById('ratingModal').classList.remove('show');
+    }
+
+    function saveRating() {
+      // In a real application, this would save to a server
+      console.log(`Saving rating ${currentRating} for: ${currentKuppiTitle}`);
+      
+      // Update the table row
+      updateTableRating(currentKuppiTitle, currentRating);
+      
+      closeRatingModal();
+      
+      // Show success message
+      alert('Rating updated successfully!');
+    }
+
+    function updateTableRating(kuppiTitle, rating) {
+      // Find the row and update the rating display
+      const rows = document.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const titleCell = row.querySelector('.title-link');
+        if (titleCell && titleCell.textContent === kuppiTitle) {
+          const ratingContainer = row.querySelector('.rating-container');
+          const stars = ratingContainer.querySelectorAll('.star');
+          const ratingText = ratingContainer.querySelector('.rating-text');
+          
+          // Update stars
+          stars.forEach((star, index) => {
+            if (index < rating) {
+              star.style.color = '#fbbf24';
+            } else {
+              star.style.color = '#d1d5db';
+            }
+          });
+          
+          // Update text
+          ratingText.textContent = `You rated this ${rating}★`;
+          
+          // Update onclick
+          ratingContainer.onclick = () => openRatingModal(kuppiTitle, rating);
+        }
+      });
+    }
+
+    // Modal star interaction
+    document.querySelectorAll('.modal-star').forEach(star => {
+      star.addEventListener('click', function() {
+        const rating = parseInt(this.getAttribute('data-rating'));
+        currentRating = rating;
+        
+        // Update star display
+        const stars = document.querySelectorAll('.modal-star');
+        stars.forEach((s, index) => {
+          if (index < rating) {
+            s.classList.add('filled');
+          } else {
+            s.classList.remove('filled');
+          }
+        });
+      });
+      
+      star.addEventListener('mouseenter', function() {
+        const rating = parseInt(this.getAttribute('data-rating'));
+        const stars = document.querySelectorAll('.modal-star');
+        stars.forEach((s, index) => {
+          if (index < rating) {
+            s.classList.add('filled');
+          } else {
+            s.classList.remove('filled');
+          }
+        });
+      });
+    });
+
+    // Close modal when clicking outside
+    document.getElementById('ratingModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeRatingModal();
+      }
+    });
+
+    // Search functionality
+    document.querySelector('.search-input').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const rows = document.querySelectorAll('tbody tr');
+      
+      rows.forEach(row => {
+        const title = row.querySelector('.title-link').textContent.toLowerCase();
+        const module = row.querySelector('.module-link').textContent.toLowerCase();
+        const conductor = row.querySelector('.conductor-link').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || module.includes(searchTerm) || conductor.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+
+    // Download functionality
+    document.querySelectorAll('.download-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const row = this.closest('tr');
+        const title = row.querySelector('.title-link').textContent;
+        
+        // Simulate download
+        alert(`Downloading resources for: ${title}`);
+        
+        // Update status to downloaded
+        const statusDiv = this.closest('.resource-status');
+        statusDiv.innerHTML = `
+          <span class="download-icon">✓</span>
+          <span class="downloaded">Downloaded</span>
+        `;
+      });
+    });
+  </script>
+
+</body>
+</html>
