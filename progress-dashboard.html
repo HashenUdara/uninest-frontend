@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudySphere | Progress Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: #ffffff;
+      color: #111827;
+      line-height: 1.5;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .nav-left {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #6c3ef6;
+    }
+    .nav a {
+      color: #374151;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+    .nav a.active {
+      background: #6c3ef6;
+      color: white;
+      font-weight: 600;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .search-input {
+      padding: 8px 12px 8px 35px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      width: 200px;
+      font-size: 14px;
+    }
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+    .page-subtitle {
+      font-size: 16px;
+      color: #6b7280;
+      margin-bottom: 32px;
+    }
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+         .summary-card {
+       background: #f9fafb;
+       border: 1px solid #e5e7eb;
+       border-radius: 8px;
+       padding: 24px;
+       text-align: center;
+       transition: all 0.2s ease;
+     }
+     .summary-card:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+     }
+     .summary-card.clickable {
+       cursor: pointer;
+     }
+     .summary-card.clickable:hover {
+       background: #f3f4f6;
+       border-color: #6c3ef6;
+     }
+    .summary-title {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .summary-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .section-header {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #111827;
+    }
+    .filters {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+    .filter-select {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      min-width: 150px;
+    }
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .subject-card {
+      background: #1f2937;
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      transition: transform 0.2s;
+    }
+    .subject-card:hover {
+      transform: translateY(-2px);
+    }
+    .subject-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+    }
+    .subject-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .subject-progress {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #6c3ef6;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="logo">StudyHub</div>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Courses</a>
+      <a href="#">Resources</a>
+      <a href="#">Community</a>
+    </div>
+    <div class="nav-right">
+      <input type="text" class="search-input" placeholder="Search">
+      <button>🔔</button>
+      <div style="width: 32px; height: 32px; border-radius: 50%; background: #6c3ef6; display: grid; place-items: center; color: white; font-weight: 600;">👤</div>
+    </div>
+  </nav>
+
+  <div class="main-container">
+    <h1 class="page-title">My Dashboard</h1>
+    <p class="page-subtitle">Track your academic progress and stay motivated.</p>
+
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="summary-title">Total Subjects</div>
+        <div class="summary-value" id="totalSubjects">0</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-title">Topics Completed</div>
+        <div class="summary-value" id="topicsCompleted">0</div>
+      </div>
+             <div class="summary-card clickable" id="gpaCard">
+         <div class="summary-title">GPA Cumulative</div>
+         <div class="summary-value" id="gpaValue">3.8</div>
+       </div>
+    </div>
+
+    <div class="section-header">Enrolled Subjects</div>
+    
+    <div class="filters">
+      <select class="filter-select" id="semesterFilter">
+        <option value="all">All Semesters</option>
+        <option value="semester1-year1">Semester 1 - Year 1</option>
+        <option value="semester2-year1">Semester 2 - Year 1</option>
+        <option value="semester1-year2">Semester 1 - Year 2</option>
+        <option value="semester2-year2">Semester 2 - Year 2</option>
+        <option value="semester1-year3">Semester 1 - Year 3</option>
+        <option value="semester2-year3">Semester 2 - Year 3</option>
+      </select>
+    </div>
+
+         <div class="subjects-grid" id="subjectsGrid">
+       <!-- Subject cards will be dynamically generated -->
+     </div>
+  </div>
+
+     <script>
+     // Sample subject data (in a real app, this would come from a database)
+     const subjectsData = [
+       {
+         title: 'Calculus II',
+         icon: '📐',
+         semester: 'semester1-year2',
+         completedTopics: 6,
+         totalTopics: 8
+       },
+       {
+         title: 'Organic Chemistry',
+         icon: '🧪',
+         semester: 'semester2-year1',
+         completedTopics: 5,
+         totalTopics: 8
+       },
+       {
+         title: 'Linear Algebra',
+         icon: '📊',
+         semester: 'semester1-year2',
+         completedTopics: 7,
+         totalTopics: 8
+       },
+       {
+         title: 'Data Structures',
+         icon: '💻',
+         semester: 'semester2-year2',
+         completedTopics: 8,
+         totalTopics: 8
+       },
+       {
+         title: 'Probability & Statistics',
+         icon: '📈',
+         semester: 'semester1-year3',
+         completedTopics: 4,
+         totalTopics: 8
+       },
+       {
+         title: 'Differential Equations',
+         icon: '∫',
+         semester: 'semester2-year2',
+         completedTopics: 6,
+         totalTopics: 8
+       },
+       {
+         title: 'Discrete Mathematics',
+         icon: '🔢',
+         semester: 'semester1-year3',
+         completedTopics: 7,
+         totalTopics: 8
+       },
+       {
+         title: 'Physics II',
+         icon: '⚡',
+         semester: 'semester2-year1',
+         completedTopics: 5,
+         totalTopics: 8
+       }
+     ];
+
+     function getGPAFromCalculator() {
+       const storedGPA = localStorage.getItem('cumulativeGPA');
+       return storedGPA ? parseFloat(storedGPA) : 3.8;
+     }
+
+     function calculateProgress(completed, total) {
+       return Math.round((completed / total) * 100);
+     }
+
+     function generateSubjectCard(subject) {
+       const progress = calculateProgress(subject.completedTopics, subject.totalTopics);
+       
+       return `
+         <div class="subject-card" data-semester="${subject.semester}">
+           <div class="subject-icon">${subject.icon}</div>
+           <div class="subject-title">${subject.title}</div>
+           <div class="subject-progress">Progress: ${progress}%</div>
+           <div class="progress-bar">
+             <div class="progress-fill" style="width: ${progress}%"></div>
+           </div>
+         </div>
+       `;
+     }
+
+     function renderSubjects() {
+       const subjectsGrid = document.getElementById('subjectsGrid');
+       subjectsGrid.innerHTML = subjectsData.map(subject => generateSubjectCard(subject)).join('');
+     }
+
+     function calculateTotalSubjects() {
+       const subjectCards = document.querySelectorAll('.subject-card');
+       return subjectCards.length;
+     }
+
+     function calculateTopicsCompleted() {
+       let totalTopics = 0;
+       
+       subjectsData.forEach(subject => {
+         totalTopics += subject.completedTopics;
+       });
+       
+       return totalTopics;
+     }
+
+           function updateSummaryCards() {
+        // Update Total Subjects
+        const totalSubjects = calculateTotalSubjects();
+        document.getElementById('totalSubjects').textContent = totalSubjects;
+        
+        // Update Topics Completed
+        const topicsCompleted = calculateTopicsCompleted();
+        document.getElementById('topicsCompleted').textContent = topicsCompleted;
+        
+        // Update GPA
+        updateGPADisplay();
+      }
+
+     function filterSubjects() {
+       const selectedSemester = document.getElementById('semesterFilter').value;
+       const subjectCards = document.querySelectorAll('.subject-card');
+       
+       subjectCards.forEach(card => {
+         if (selectedSemester === 'all' || card.dataset.semester === selectedSemester) {
+           card.style.display = 'block';
+         } else {
+           card.style.display = 'none';
+         }
+       });
+       
+       // Update summary cards after filtering
+       updateSummaryCards();
+     }
+
+     // Function to update subject progress (can be called from other parts of the app)
+     function updateSubjectProgress(subjectTitle, completedTopics, totalTopics) {
+       const subjectIndex = subjectsData.findIndex(subject => subject.title === subjectTitle);
+       if (subjectIndex !== -1) {
+         subjectsData[subjectIndex].completedTopics = completedTopics;
+         subjectsData[subjectIndex].totalTopics = totalTopics;
+         renderSubjects();
+         updateSummaryCards();
+       }
+     }
+
+     // Function to add new subject
+     function addSubject(subject) {
+       subjectsData.push(subject);
+       renderSubjects();
+       updateSummaryCards();
+     }
+
+     // Function to remove subject
+     function removeSubject(subjectTitle) {
+       const subjectIndex = subjectsData.findIndex(subject => subject.title === subjectTitle);
+       if (subjectIndex !== -1) {
+         subjectsData.splice(subjectIndex, 1);
+         renderSubjects();
+         updateSummaryCards();
+       }
+     }
+
+           // Function to update GPA display
+      function updateGPADisplay() {
+        const gpaValue = getGPAFromCalculator();
+        document.getElementById('gpaValue').textContent = gpaValue.toFixed(1);
+      }
+
+      // GPA Card click event
+      document.getElementById('gpaCard').addEventListener('click', function() {
+        window.location.href = 'calculator.html';
+      });
+
+      document.getElementById('semesterFilter').addEventListener('change', filterSubjects);
+      document.addEventListener('DOMContentLoaded', function() {
+        renderSubjects();
+        updateSummaryCards();
+      });
+
+      // Update GPA when returning from calculator page
+      window.addEventListener('focus', function() {
+        updateGPADisplay();
+      });
+
+      // Also update when the page becomes visible (for mobile/tab switching)
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+          updateGPADisplay();
+        }
+      });
+   </script>
+
+</body>
+</html>
