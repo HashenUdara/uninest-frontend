@@ -309,7 +309,7 @@
 
     // Action button functions
     function joinKuppi(title) {
-      window.location.href = 'kuppi-details.html';
+      window.location.href = `kuppi-details.html?kuppi=${encodeURIComponent(title)}`;
     }
 
     function voteKuppi(title) {

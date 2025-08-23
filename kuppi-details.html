@@ -499,6 +499,145 @@
   </div>
 
   <script>
+    // Sample kuppi data (in a real app, this would come from a database)
+    const kuppiData = {
+      'Study Group for Calculus': {
+        title: 'Study Group for Calculus',
+        description: 'Join us for a comprehensive study session on calculus fundamentals. We\'ll cover derivatives, integrals, and their applications with plenty of practice problems.',
+        conductor: 'Dr. Anya Sharma',
+        conductorAvatar: 'A',
+        topic: 'Calculus I',
+        module: 'Calculus I',
+        dateTime: 'March 10, 2024, 3:00 PM - 5:00 PM',
+        meetingLink: 'meet.google.com/calc-study-2024',
+        resources: [
+          { name: 'Calculus I Notes', type: 'PDF', icon: 'PDF' },
+          { name: 'Practice Problems Set', type: 'PDF', icon: 'PDF' },
+          { name: 'Derivatives Cheat Sheet', type: 'PDF', icon: 'PDF' }
+        ],
+        comments: [
+          { author: 'Sophia', avatar: 'S', time: '2 days ago', text: 'Looking forward to this session! I need help with derivatives.' },
+          { author: 'Ethan', avatar: 'E', time: '1 day ago', text: 'Will we cover integration by parts?' }
+        ]
+      },
+      'Review Session for Organic Chemistry': {
+        title: 'Review Session for Organic Chemistry',
+        description: 'Comprehensive review of organic chemistry concepts including reaction mechanisms, stereochemistry, and synthesis strategies. Perfect for exam preparation.',
+        conductor: 'Dr. Priya Patel',
+        conductorAvatar: 'P',
+        topic: 'Organic Chemistry II',
+        module: 'Organic Chemistry II',
+        dateTime: 'March 15, 2024, 6:00 PM - 8:00 PM',
+        meetingLink: 'meet.google.com/org-chem-review',
+        resources: [
+          { name: 'Reaction Mechanisms Guide', type: 'PDF', icon: 'PDF' },
+          { name: 'Stereochemistry Notes', type: 'PPT', icon: 'PPT' },
+          { name: 'Practice Synthesis Problems', type: 'PDF', icon: 'PDF' }
+        ],
+        comments: [
+          { author: 'Alex', avatar: 'A', time: '3 days ago', text: 'This is exactly what I need for my upcoming exam!' },
+          { author: 'Maria', avatar: 'M', time: '1 day ago', text: 'Will we go over SN1 and SN2 reactions?' }
+        ]
+      },
+      'Help with Linear Algebra': {
+        title: 'Help with Linear Algebra',
+        description: 'Get help with linear algebra concepts including matrices, vector spaces, eigenvalues, and eigenvectors. Bring your questions!',
+        conductor: 'Liam Harper',
+        conductorAvatar: 'L',
+        topic: 'Linear Algebra',
+        module: 'Linear Algebra',
+        dateTime: 'March 20, 2024, 5:00 PM - 7:00 PM',
+        meetingLink: 'meet.google.com/linear-algebra-help',
+        resources: [
+          { name: 'Matrix Operations Guide', type: 'PDF', icon: 'PDF' },
+          { name: 'Eigenvalues Tutorial', type: 'PDF', icon: 'PDF' }
+        ],
+        comments: [
+          { author: 'David', avatar: 'D', time: '1 day ago', text: 'I\'m struggling with eigenvalues. Hope this helps!' },
+          { author: 'Sarah', avatar: 'S', time: '2 hours ago', text: 'Will we cover diagonalization?' }
+        ]
+      },
+      'Physics Problem Solving': {
+        title: 'Physics Problem Solving',
+        description: 'Interactive problem-solving session covering mechanics, thermodynamics, and wave phenomena. Work through challenging problems together.',
+        conductor: 'Dr. Chloe Bennett',
+        conductorAvatar: 'C',
+        topic: 'Physics I',
+        module: 'Physics I',
+        dateTime: 'February 25, 2024, 11:00 AM - 1:00 PM',
+        meetingLink: 'meet.google.com/physics-problems',
+        resources: [
+          { name: 'Physics Formula Sheet', type: 'PDF', icon: 'PDF' },
+          { name: 'Problem Set Solutions', type: 'PDF', icon: 'PDF' },
+          { name: 'Lab Report Template', type: 'DOC', icon: 'DOC' }
+        ],
+        comments: [
+          { author: 'Sophia', avatar: 'S', time: '2 days ago', text: 'This was a great session! The explanations were very clear and helpful.' },
+          { author: 'Ethan', avatar: 'E', time: '1 day ago', text: 'I had some trouble with the last example. Could we go over it again?' }
+        ]
+      }
+    };
+
+    function getKuppiFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('kuppi') || 'Study Group for Calculus';
+    }
+
+    function updatePageContent(kuppiTitle) {
+      const kuppi = kuppiData[kuppiTitle];
+      if (!kuppi) {
+        console.error('Kuppi not found:', kuppiTitle);
+        return;
+      }
+
+      // Update page title
+      document.title = `StudyCircle | ${kuppi.title}`;
+
+      // Update breadcrumbs
+      document.querySelector('.breadcrumbs span').textContent = kuppi.title;
+
+      // Update session header
+      document.querySelector('.session-title').textContent = kuppi.title;
+      document.querySelector('.session-description').textContent = kuppi.description;
+
+      // Update conductor info
+      document.querySelector('.conductor-avatar').textContent = kuppi.conductorAvatar;
+      document.querySelector('.conductor-details h4').textContent = `Conducted by ${kuppi.conductor}`;
+      document.querySelector('.conductor-details p').textContent = 'Subject Expert';
+
+      // Update session meta
+      const metaItems = document.querySelectorAll('.meta-value');
+      metaItems[0].textContent = kuppi.topic;
+      metaItems[1].textContent = kuppi.module;
+      metaItems[2].textContent = kuppi.dateTime;
+      metaItems[3].textContent = kuppi.meetingLink;
+
+      // Update resources
+      const resourcesList = document.querySelector('.resources-list');
+      resourcesList.innerHTML = kuppi.resources.map(resource => `
+        <a href="#" class="resource-item">
+          <div class="resource-icon ${resource.type.toLowerCase()}">${resource.icon}</div>
+          <div class="resource-name">${resource.name}</div>
+          <div class="resource-type">${resource.type}</div>
+        </a>
+      `).join('');
+
+      // Update comments
+      const commentsList = document.querySelector('.comments-list');
+      commentsList.innerHTML = kuppi.comments.map(comment => `
+        <div class="comment">
+          <div class="comment-avatar">${comment.avatar}</div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <span class="comment-author">${comment.author}</span>
+              <span class="comment-time">${comment.time}</span>
+            </div>
+            <div class="comment-text">${comment.text}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
     function joinSession() {
       window.location.href = 'joinkuppi.html';
     }
@@ -563,6 +702,12 @@
 
     document.querySelector('.icon-btn').addEventListener('click', function() {
       alert('Notifications: No new notifications');
+    });
+
+    // Initialize page with dynamic content
+    document.addEventListener('DOMContentLoaded', function() {
+      const kuppiTitle = getKuppiFromURL();
+      updatePageContent(kuppiTitle);
     });
   </script>
 
