@@ -7,7 +7,7 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: Arial, "Inter",sans-serif;
       background: #ffffff; /* White background */
       color: #111827;      /* Dark text */
       line-height: 1.5;
@@ -19,11 +19,11 @@
       align-items: center;
       justify-content: space-between;
       padding: 14px 20px;
-      background: #4A90E2;
+      background: #ffffff;
       color: white;
     }
     .nav a {
-      color: white;
+      color: rgb(0, 0, 0);
       text-decoration: none;
       margin-right: 15px;
       font-weight: 600;
@@ -172,6 +172,11 @@
       padding: 20px;
       color: #666;
     }
+
+    /* Hidden rows for filtering */
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -184,7 +189,7 @@
       <a href="#">Home</a>
     </div>
     <div class="nav-right">
-      <button class="btn primary" onclick="alert('Demo: Request flow')">Request a Kuppi</button>
+      <a href="reqkuppi.html" class="btn primary">Request a Kuppi</a>
       <div class="avatar">V</div>
     </div>
   </nav>
@@ -193,7 +198,7 @@
   <main class="wrap">
     <div class="header">
       <div class="title">My Kuppis</div>
-      <input id="search" class="input" type="search" placeholder="Search by title or subject..." />
+      <input id="search" class="input" type="search" placeholder="Search by title or subject..." oninput="filterTable()" />
     </div>
 
     <!-- Tabs -->
@@ -224,7 +229,7 @@
             <td>2024-03-10 15:00</td>
             <td>Dr. Anya Sharma</td>
             <td><span class="badge scheduled"><span class="dot"></span>Scheduled</span></td>
-            <td><button class="btn-pill join">Join</button></td>
+            <td><button class="btn-pill join" onclick="joinKuppi('Study Group for Calculus')">Join</button></td>
           </tr>
           <tr data-status="scheduled">
             <td class="title-cell">Review Session for Organic Chemistry</td>
@@ -232,7 +237,7 @@
             <td>2024-03-15 18:00</td>
             <td>Dr. Priya Patel</td>
             <td><span class="badge scheduled"><span class="dot"></span>Scheduled</span></td>
-            <td><button class="btn-pill join">Join</button></td>
+            <td><button class="btn-pill join" onclick="joinKuppi('Review Session for Organic Chemistry')">Join</button></td>
           </tr>
           <tr data-status="requested">
             <td class="title-cell">Help with Linear Algebra</td>
@@ -240,7 +245,7 @@
             <td>2024-03-20 17:00</td>
             <td>Liam Harper</td>
             <td><span class="badge requested"><span class="dot"></span>Requested</span></td>
-            <td><button class="btn-pill vote">Vote</button></td>
+            <td><button class="btn-pill vote" onclick="voteKuppi('Help with Linear Algebra')">Vote</button></td>
           </tr>
           <tr data-status="completed">
             <td class="title-cell">Physics Problem Solving</td>
@@ -248,7 +253,73 @@
             <td>2024-02-25 11:00</td>
             <td>Dr. Chloe Bennett</td>
             <td><span class="badge completed"><span class="dot"></span>Completed</span></td>
-            <td><button class="btn-pill details">Details</button></td>
+            <td><button class="btn-pill details" onclick="showDetails('Physics Problem Solving')">Details</button></td>
           </tr>
-          <tr data-status="completed">
-            <td class="title-cell">Group Study for Statistics
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    let currentTab = 'all';
+    let currentSearch = '';
+
+    // Tab functionality
+    function setTab(tabName) {
+      currentTab = tabName;
+      
+      // Update tab buttons
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      
+      // Filter table
+      filterTable();
+    }
+
+    // Search and filter functionality
+    function filterTable() {
+      const searchTerm = document.getElementById('search').value.toLowerCase();
+      currentSearch = searchTerm;
+      
+      const rows = document.querySelectorAll('#kuppiBody tr');
+      
+      rows.forEach(row => {
+        const title = row.querySelector('.title-cell').textContent.toLowerCase();
+        const subject = row.querySelector('.subtle').textContent.toLowerCase();
+        const status = row.getAttribute('data-status');
+        
+        const matchesSearch = title.includes(searchTerm) || subject.includes(searchTerm);
+        const matchesTab = currentTab === 'all' || status === currentTab;
+        
+        if (matchesSearch && matchesTab) {
+          row.classList.remove('hidden');
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+    }
+
+    // Action button functions
+    function joinKuppi(title) {
+      alert(`Joining: ${title}`);
+    }
+
+    function voteKuppi(title) {
+      alert(`Voting for: ${title}`);
+    }
+
+    function showDetails(title) {
+      alert(`Showing details for: ${title}`);
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up search input event listener
+      document.getElementById('search').addEventListener('input', filterTable);
+    });
+  </script>
+
+</body>
+</html>
