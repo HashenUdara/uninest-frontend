@@ -5,9 +5,9 @@ Leads the most critical module - Kuppi scheduling, voting, and tracking academic
 	•	Request a Kuppi (done need to link)
 	•	Vote on Requested Kuppis
 	•	Schedule a Kuppi (done need to link)
-	•	Kuppi Detail Page
-	•	Join Live Kuppi
-	•	Kuppi Feedback Modal
+	•	Kuppi Detail Page (done)
+	•	Join Live Kuppi (done)
+	•	Kuppi Feedback Modal (done)
 	•	My Conducted Kuppis
 	•	Kuppi History
 	•	Progress Dashboard

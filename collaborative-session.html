@@ -359,6 +359,7 @@
     <!-- Join Button -->
     <div class="join-section">
       <button class="join-btn" onclick="joinSession()">Join Now</button>
+      <button class="join-btn" onclick="leaveFeedback()" style="background: #10b981; margin-top: 12px;">Leave Feedback</button>
     </div>
   </main>
 
@@ -397,13 +398,22 @@
       // In a real application, this would connect to the video call
       alert('Joining the collaborative study session...');
       
-      // Redirect to video call or open video interface
-      // window.open('https://meet.google.com/xyz-abc-def', '_blank');
+      // After session ends, show feedback option
+      setTimeout(() => {
+        if (confirm('Session ended. Would you like to leave feedback?')) {
+          window.location.href = 'feedback.html';
+        }
+      }, 5000);
     }
 
     // Show notifications
     function showNotifications() {
       alert('Notifications:\n• Session starting in 5 minutes\n• New study materials available');
+    }
+
+    // Leave feedback functionality
+    function leaveFeedback() {
+      window.location.href = 'feedback.html';
     }
 
     // Auto-check guidelines after a delay (optional)

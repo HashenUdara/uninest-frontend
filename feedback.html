@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudySphere | Feedback & Rating</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: #f5f5f5;
+      color: #111827;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feedback-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      margin: 20px;
+    }
+
+    /* Rating Section */
+    .rating-section {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .rating-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+    .rating-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #6c3ef6;
+      margin-bottom: 12px;
+    }
+    .stars-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .star {
+      font-size: 32px;
+      cursor: pointer;
+      transition: color 0.2s;
+      color: #d1d5db;
+    }
+    .star.filled {
+      color: #fbbf24;
+    }
+    .star:hover {
+      color: #fbbf24;
+    }
+    .rating-count {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    /* Comments Section */
+    .comments-section {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .comments-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .comments-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .online-badge {
+      background: #10b981;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    /*.login-link {
+      color: #6c3ef6;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .login-link:hover {
+      text-decoration: underline; */
+    
+    .comment-input {
+      width: 100%;
+      min-height: 100px;
+      padding: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      resize: vertical;
+      margin-bottom: 8px;
+      box-sizing: border-box;
+    }
+    .comment-input:focus {
+      outline: none;
+      border-color: #6c3ef6;
+      box-shadow: 0 0 0 3px rgba(108, 62, 246, 0.1);
+    }
+    .comment-placeholder {
+      font-size: 14px;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    /* Anonymous Option */
+    .anonymous-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .anonymous-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: #6c3ef6;
+      cursor: pointer;
+    }
+    .anonymous-label {
+      font-size: 14px;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    /* Submit Button */
+    .submit-section {
+      text-align: center;
+    }
+    .submit-btn {
+      background: #6c3ef6;
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .submit-btn:hover {
+      background: #5b21b6;
+      transform: translateY(-1px);
+    }
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    .submit-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Success Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: white;
+      padding: 32px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      margin: 20px;
+    }
+    .success-icon {
+      font-size: 48px;
+      color: #10b981;
+      margin-bottom: 16px;
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+    .modal-message {
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+    .modal-btn {
+      background: #6c3ef6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .modal-btn:hover {
+      background: #5b21b6;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .feedback-card {
+        margin: 16px;
+        padding: 24px;
+      }
+      .rating-value {
+        font-size: 28px;
+      }
+      .star {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="feedback-card">
+    <!-- Rating Section -->
+    <div class="rating-section">
+      <h2 class="rating-title">Leave a rating</h2>
+      <div class="rating-value" id="ratingValue">5.0</div>
+      <div class="stars-container" id="starsContainer">
+        <span class="star filled" data-rating="1">★</span>
+        <span class="star filled" data-rating="2">★</span>
+        <span class="star filled" data-rating="3">★</span>
+        <span class="star filled" data-rating="4">★</span>
+        <span class="star" data-rating="5">★</span>
+      </div>
+      <div class="rating-count">1 rating</div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-section">
+      <textarea 
+        class="comment-input" 
+        placeholder="How you feal about today's session ?..." 
+        id="commentInput"
+      ></textarea>
+      <div class="comment-placeholder">Your feedback is important to us...</div>
+    </div>
+
+    <!-- Anonymous Option -->
+    <div class="anonymous-option">
+      <input type="checkbox" id="anonymousCheckbox" class="anonymous-checkbox">
+      <label for="anonymousCheckbox" class="anonymous-label">
+        Submit feedback anonymously
+      </label>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="submit-section">
+      <button class="submit-btn" onclick="submitFeedback()">Submit Feedback</button>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-content">
+      <div class="success-icon">✓</div>
+      <h3 class="modal-title">Feedback Recorded!</h3>
+      <p class="modal-message">Thank you for your feedback. Your rating and comments have been submitted successfully.</p>
+      <button class="modal-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    let currentRating = 5;
+    let isAnonymous = false;
+
+    // Star rating functionality
+    const stars = document.querySelectorAll('.star');
+    const ratingValue = document.getElementById('ratingValue');
+
+    stars.forEach(star => {
+      star.addEventListener('click', function() {
+        const rating = parseInt(this.getAttribute('data-rating'));
+        setRating(rating);
+      });
+
+      star.addEventListener('mouseenter', function() {
+        const rating = parseInt(this.getAttribute('data-rating'));
+        highlightStars(rating);
+      });
+    });
+
+    document.getElementById('starsContainer').addEventListener('mouseleave', function() {
+      highlightStars(currentRating);
+    });
+
+    function setRating(rating) {
+      currentRating = rating;
+      ratingValue.textContent = rating + '.0';
+      highlightStars(rating);
+    }
+
+    function highlightStars(rating) {
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add('filled');
+        } else {
+          star.classList.remove('filled');
+        }
+      });
+    }
+
+    // Anonymous checkbox functionality
+    document.getElementById('anonymousCheckbox').addEventListener('change', function() {
+      isAnonymous = this.checked;
+    });
+
+    // Submit feedback functionality
+    function submitFeedback() {
+      const comment = document.getElementById('commentInput').value.trim();
+      
+      // Validate rating
+      if (currentRating < 1) {
+        alert('Please select a rating before submitting.');
+        return;
+      }
+
+      // Prepare feedback data
+      const feedbackData = {
+        rating: currentRating,
+        comment: comment,
+        anonymous: isAnonymous,
+        timestamp: new Date().toISOString()
+      };
+
+      // In a real application, this would send the data to a server
+      console.log('Submitting feedback:', feedbackData);
+
+      // Show success modal
+      showSuccessModal();
+
+      // Reset form
+      resetForm();
+    }
+
+    function showSuccessModal() {
+      const modal = document.getElementById('successModal');
+      modal.classList.add('show');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('successModal');
+      modal.classList.remove('show');
+      
+      // Redirect back to kuppi overview or previous page
+      setTimeout(() => {
+        window.location.href = 'kuppi overview.html';
+      }, 500);
+    }
+
+    function resetForm() {
+      // Reset rating
+      currentRating = 5;
+      setRating(5);
+      
+      // Reset comment
+      document.getElementById('commentInput').value = '';
+      
+      // Reset anonymous checkbox
+      document.getElementById('anonymousCheckbox').checked = false;
+      isAnonymous = false;
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('successModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Handle Enter key in comment input
+    document.getElementById('commentInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && e.ctrlKey) {
+        submitFeedback();
+      }
+    });
+
+    // Initialize with 5-star rating
+    setRating(5);
+  </script>
+
+</body>
+</html>
