@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudyCircle | Advanced Calculus Study Session</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: #ffffff;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #6c3ef6;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav a {
+      color: #374151;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav a:hover {
+      color: #6c3ef6;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .search-bar {
+      position: relative;
+    }
+    .search-input {
+      padding: 8px 12px 8px 35px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      width: 200px;
+      font-size: 14px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      color: #6b7280;
+    }
+    .icon-btn:hover {
+      background: #f3f4f6;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #6c3ef6;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .breadcrumbs {
+      padding: 12px 20px;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .breadcrumbs a {
+      color: #6b7280;
+      text-decoration: none;
+    }
+    .breadcrumbs a:hover {
+      color: #6c3ef6;
+    }
+    .breadcrumbs span {
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .session-header {
+      margin-bottom: 40px;
+    }
+    .session-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+    .session-description {
+      font-size: 16px;
+      color: #6b7280;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .conductor-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .conductor-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #10b981;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 600;
+    }
+    .conductor-details h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .conductor-details p {
+      margin: 4px 0 0 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .session-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .meta-item {
+      background: #f9fafb;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+    .meta-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6b7280;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .meta-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #111827;
+    }
+    .join-btn {
+      background: #6c3ef6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .join-btn:hover {
+      background: #5b21b6;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+    .resources-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .resource-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #111827;
+      transition: background-color 0.2s;
+    }
+    .resource-item:hover {
+      background: #f3f4f6;
+    }
+    .resource-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .resource-icon.pdf {
+      background: #ef4444;
+      color: white;
+    }
+    .resource-icon.ppt {
+      background: #f59e0b;
+      color: white;
+    }
+    .resource-name {
+      flex: 1;
+      font-weight: 500;
+    }
+    .resource-type {
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .comments-list {
+      margin-bottom: 24px;
+    }
+    .comment {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .comment-avatar.sophia {
+      background: #8b5cf6;
+      color: white;
+    }
+    .comment-avatar.ethan {
+      background: #10b981;
+      color: white;
+    }
+    .comment-avatar.user {
+      background: #6c3ef6;
+      color: white;
+    }
+    .comment-content {
+      flex: 1;
+    }
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .comment-author {
+      font-weight: 600;
+      color: #111827;
+    }
+    .comment-time {
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .comment-text {
+      color: #374151;
+      line-height: 1.5;
+    }
+    .comment-input-container {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    .comment-input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      resize: none;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .comment-input:focus {
+      outline: none;
+      border-color: #6c3ef6;
+    }
+    .attach-btn {
+      background: none;
+      border: 1px solid #d1d5db;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #6b7280;
+    }
+    .attach-btn:hover {
+      background: #f3f4f6;
+    }
+    .send-btn {
+      background: #6c3ef6;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .send-btn:hover {
+      background: #5b21b6;
+    }
+    .comment-filters {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .filter-btn {
+      padding: 6px 12px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover {
+      background: #f3f4f6;
+    }
+    .filter-btn.active {
+      background: #6c3ef6;
+      color: white;
+      border-color: #6c3ef6;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="logo">StudyCircle</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="kuppi overview.html">Kuppis</a>
+        <a href="#">Groups</a>
+        <a href="#">Resources</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" placeholder="Search">
+      </div>
+      <button class="icon-btn">🔔</button>
+      <div class="avatar">U</div>
+    </div>
+  </nav>
+
+  <div class="breadcrumbs">
+    <a href="kuppi overview.html">Kuppis</a> / <span>Kuppi Details</span>
+  </div>
+
+  <div class="container">
+    <div class="session-header">
+      <h1 class="session-title">Advanced Calculus Study Session</h1>
+      <p class="session-description">
+        Join us for an in-depth discussion on advanced calculus concepts. This session will cover complex derivatives, integrals, and applications in physics and engineering.
+      </p>
+      
+      <div class="conductor-info">
+        <div class="conductor-avatar">A</div>
+        <div class="conductor-details">
+          <h4>Conducted by Alex</h4>
+          <p>Mathematics Expert</p>
+        </div>
+      </div>
+
+      <div class="session-meta">
+        <div class="meta-item">
+          <div class="meta-label">Topic</div>
+          <div class="meta-value">Advanced Calculus</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Module</div>
+          <div class="meta-value">Calculus III</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Date & Time</div>
+          <div class="meta-value">July 20, 2024, 2:00 PM - 4:00 PM</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Meeting Link</div>
+          <div class="meta-value">meet.google.com/xyz-abc-def</div>
+        </div>
+      </div>
+
+      <button class="join-btn" onclick="joinSession()">Join Kuppi</button>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Resources</h2>
+      <div class="resources-list">
+        <a href="#" class="resource-item">
+          <div class="resource-icon pdf">PDF</div>
+          <div class="resource-name">Calculus III Notes</div>
+          <div class="resource-type">PDF</div>
+        </a>
+        <a href="#" class="resource-item">
+          <div class="resource-icon ppt">PPT</div>
+          <div class="resource-name">Advanced Calculus Presentation</div>
+          <div class="resource-type">PPT</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Comments</h2>
+      
+      <div class="comments-list">
+        <div class="comment">
+          <div class="comment-avatar sophia">S</div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <span class="comment-author">Sophia</span>
+              <span class="comment-time">2 days ago</span>
+            </div>
+            <div class="comment-text">
+              This was a great session! The explanations were very clear and helpful.
+            </div>
+          </div>
+        </div>
+
+        <div class="comment">
+          <div class="comment-avatar ethan">E</div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <span class="comment-author">Ethan</span>
+              <span class="comment-time">1 day ago</span>
+            </div>
+            <div class="comment-text">
+              I had some trouble with the last example. Could we go over it again?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="comment-input-container">
+        <div class="comment-avatar user">U</div>
+        <textarea class="comment-input" placeholder="Ask a question or share your thoughts..." rows="3"></textarea>
+        <button class="attach-btn" onclick="attachFile()">📎</button>
+        <button class="send-btn" onclick="sendComment()">Send</button>
+      </div>
+
+      <div class="comment-filters">
+        <button class="filter-btn active" onclick="filterComments('all')">All</button>
+        <button class="filter-btn" onclick="filterComments('scheduled')">Scheduled</button>
+        <button class="filter-btn" onclick="filterComments('completed')">Completed</button>
+        <button class="filter-btn" onclick="filterComments('conducted')">Conducted by Me</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function joinSession() {
+      const meetingLink = 'meet.google.com/xyz-abc-def';
+      if (confirm('Join the meeting at ' + meetingLink + '?')) {
+        window.open('https://' + meetingLink, '_blank');
+      }
+    }
+
+    function sendComment() {
+      const commentInput = document.querySelector('.comment-input');
+      const commentText = commentInput.value.trim();
+      
+      if (commentText) {
+        const commentsList = document.querySelector('.comments-list');
+        const newComment = document.createElement('div');
+        newComment.className = 'comment';
+        newComment.innerHTML = `
+          <div class="comment-avatar user">U</div>
+          <div class="comment-content">
+            <div class="comment-header">
+              <span class="comment-author">You</span>
+              <span class="comment-time">Just now</span>
+            </div>
+            <div class="comment-text">${commentText}</div>
+          </div>
+        `;
+        
+        commentsList.appendChild(newComment);
+        commentInput.value = '';
+        newComment.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function attachFile() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.pdf,.ppt,.pptx,.doc,.docx';
+      input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          alert('File attached: ' + file.name);
+        }
+      };
+      input.click();
+    }
+
+    function filterComments(filter) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      console.log('Filtering comments by:', filter);
+    }
+
+    document.querySelector('.comment-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendComment();
+      }
+    });
+
+    document.querySelector('.search-input').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      console.log('Searching for:', searchTerm);
+    });
+
+    document.querySelector('.icon-btn').addEventListener('click', function() {
+      alert('Notifications: No new notifications');
+    });
+  </script>
+
+</body>
+</html>

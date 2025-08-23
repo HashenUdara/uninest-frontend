@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudySphere | Collaborative Study Session</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Inter", sans-serif;
+      background: #ffffff;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    /* Header/Navigation */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      background: #6c3ef6;
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      color: #374151;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: #6c3ef6;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .notification-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      color: #6b7280;
+      font-size: 18px;
+    }
+    .notification-btn:hover {
+      background: #f3f4f6;
+    }
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #6c3ef6;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* Video Player Section */
+    .video-section {
+      margin-bottom: 40px;
+    }
+    .video-player {
+      width: 100%;
+      height: 400px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .play-button {
+      width: 80px;
+      height: 80px;
+      background: #374151;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .play-button:hover {
+      background: #6c3ef6;
+    }
+    .play-icon {
+      width: 0;
+      height: 0;
+      border-left: 20px solid white;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 4px;
+    }
+    .video-overlay {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .cup-icon {
+      font-size: 24px;
+      color: #6b7280;
+    }
+
+    /* Session Details */
+    .session-details {
+      margin-bottom: 32px;
+    }
+    .session-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+    .session-topic {
+      font-size: 18px;
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+    .conductor-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .conductor-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #10b981;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .conductor-text {
+      font-size: 16px;
+      color: #374151;
+    }
+    .session-time {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #6b7280;
+      font-size: 16px;
+    }
+    .clock-icon {
+      font-size: 18px;
+    }
+
+    /* Guidelines Section */
+    .guidelines {
+      margin-bottom: 32px;
+    }
+    .guidelines-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+    .guidelines-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .guideline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .checkbox.checked {
+      background: #6c3ef6;
+      border-color: #6c3ef6;
+      position: relative;
+    }
+    .checkbox.checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .guideline-text {
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    /* Join Button */
+    .join-section {
+      text-align: center;
+    }
+    .join-btn {
+      background: #6c3ef6;
+      color: white;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      box-shadow: 0 4px 6px rgba(108, 62, 246, 0.2);
+    }
+    .join-btn:hover {
+      background: #5b21b6;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(108, 62, 246, 0.3);
+    }
+    .join-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 16px;
+      }
+      .video-player {
+        height: 300px;
+      }
+      .session-title {
+        font-size: 24px;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header/Navigation -->
+  <header class="header">
+    <div class="logo-section">
+      <div class="logo-icon">S</div>
+      <div class="logo-text">StudySphere</div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#">Explore</a>
+      <a href="kuppi overview.html">My Kuppis</a>
+    </nav>
+    <div class="header-right">
+      <button class="notification-btn" onclick="showNotifications()">🔔</button>
+      <div class="user-avatar">U</div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Video Player Section -->
+    <div class="video-section">
+      <div class="video-player" onclick="playVideo()">
+        <div class="play-button">
+          <div class="play-icon"></div>
+        </div>
+        <div class="video-overlay">
+          <div class="cup-icon">☕</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session Details -->
+    <div class="session-details">
+      <h1 class="session-title">Collaborative Study Session</h1>
+      <div class="session-topic">Advanced Calculus Review</div>
+      
+      <div class="conductor-info">
+        <div class="conductor-avatar">E</div>
+        <div class="conductor-text">Conductor: Dr. Emily Carter</div>
+      </div>
+      
+      <div class="session-time">
+        <span class="clock-icon">🕐</span>
+        <span>Session Start Time: 2:00 PM PST</span>
+      </div>
+    </div>
+
+    <!-- Guidelines Section -->
+    <div class="guidelines">
+      <h2 class="guidelines-title">Guidelines</h2>
+      <ul class="guidelines-list">
+        <li class="guideline-item">
+          <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+          <div class="guideline-text">Keep your microphone muted unless speaking.</div>
+        </li>
+        <li class="guideline-item">
+          <div class="checkbox" onclick="toggleCheckbox(this)"></div>
+          <div class="guideline-text">Ask questions in the chat or during designated Q&A periods.</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Join Button -->
+    <div class="join-section">
+      <button class="join-btn" onclick="joinSession()">Join Now</button>
+    </div>
+  </main>
+
+  <script>
+    // Toggle checkbox functionality
+    function toggleCheckbox(checkbox) {
+      checkbox.classList.toggle('checked');
+    }
+
+    // Play video functionality
+    function playVideo() {
+      const videoPlayer = document.querySelector('.video-player');
+      const playButton = document.querySelector('.play-button');
+      
+      // In a real application, this would start the video stream
+      alert('Starting video stream...');
+      
+      // Visual feedback
+      videoPlayer.style.background = '#e5e7eb';
+      playButton.style.display = 'none';
+    }
+
+    // Join session functionality
+    function joinSession() {
+      // Check if guidelines are accepted
+      const checkboxes = document.querySelectorAll('.checkbox');
+      const allChecked = Array.from(checkboxes).every(checkbox => 
+        checkbox.classList.contains('checked')
+      );
+      
+      if (!allChecked) {
+        alert('Please review and accept all guidelines before joining the session.');
+        return;
+      }
+      
+      // In a real application, this would connect to the video call
+      alert('Joining the collaborative study session...');
+      
+      // Redirect to video call or open video interface
+      // window.open('https://meet.google.com/xyz-abc-def', '_blank');
+    }
+
+    // Show notifications
+    function showNotifications() {
+      alert('Notifications:\n• Session starting in 5 minutes\n• New study materials available');
+    }
+
+    // Auto-check guidelines after a delay (optional)
+    setTimeout(() => {
+      const checkboxes = document.querySelectorAll('.checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.classList.add('checked');
+      });
+    }, 3000);
+  </script>
+
+</body>
+</html>
