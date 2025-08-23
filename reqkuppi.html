@@ -131,12 +131,35 @@
     </div>
   </div>
 
+<script src="security-utils.js"></script>
 <script>
   const form = document.getElementById('kuppiForm');
   const successMsg = document.getElementById('successMessage');
 
   form.addEventListener('submit', function(e) {
     e.preventDefault(); // prevent actual form submission
+    
+    // Validate and sanitize form inputs
+    const subject = SecurityUtils.validateFormInput(document.getElementById('subject').value, 'text');
+    const topic = SecurityUtils.validateFormInput(document.getElementById('topic').value, 'text');
+    const details = SecurityUtils.validateFormInput(document.getElementById('details').value, 'text');
+    
+    // Check if required fields are filled
+    if (!subject || !topic) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    
+    // Prepare form data with sanitized input
+    const formData = {
+      subject: subject,
+      topic: topic,
+      details: details,
+      timestamp: new Date().toISOString()
+    };
+    
+    console.log('Submitting kuppi request:', formData);
+    
     successMsg.style.display = 'block';
     form.reset();
     window.scrollTo({ top: 0, behavior: 'smooth' });

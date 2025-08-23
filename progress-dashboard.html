@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>StudySphere | Progress Dashboard</title>
+  <title>Uninest | Progress Dashboard</title>
   <style>
     body {
       margin: 0;
@@ -232,8 +232,9 @@
      </div>
   </div>
 
-     <script>
-     // Sample subject data (in a real app, this would come from a database)
+           <script src="security-utils.js"></script>
+      <script>
+      // Sample subject data (in a real app, this would come from a database)
      const subjectsData = [
        {
          title: 'Calculus II',
@@ -302,20 +303,25 @@
        return Math.round((completed / total) * 100);
      }
 
-     function generateSubjectCard(subject) {
-       const progress = calculateProgress(subject.completedTopics, subject.totalTopics);
-       
-       return `
-         <div class="subject-card" data-semester="${subject.semester}" onclick="goToSubjectProgress('${subject.title}')" style="cursor: pointer;">
-           <div class="subject-icon">${subject.icon}</div>
-           <div class="subject-title">${subject.title}</div>
-           <div class="subject-progress">Progress: ${progress}%</div>
-           <div class="progress-bar">
-             <div class="progress-fill" style="width: ${progress}%"></div>
-           </div>
-         </div>
-       `;
-     }
+         function generateSubjectCard(subject) {
+      const progress = calculateProgress(subject.completedTopics, subject.totalTopics);
+      
+      // Sanitize subject data
+      const sanitizedTitle = SecurityUtils.escapeHTML(subject.title);
+      const sanitizedSemester = SecurityUtils.escapeHTML(subject.semester);
+      const sanitizedIcon = SecurityUtils.escapeHTML(subject.icon);
+      
+      return `
+        <div class="subject-card" data-semester="${sanitizedSemester}" onclick="goToSubjectProgress('${sanitizedTitle}')" style="cursor: pointer;">
+          <div class="subject-icon">${sanitizedIcon}</div>
+          <div class="subject-title">${sanitizedTitle}</div>
+          <div class="subject-progress">Progress: ${progress}%</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${progress}%"></div>
+          </div>
+        </div>
+      `;
+    }
 
      function renderSubjects() {
        const subjectsGrid = document.getElementById('subjectsGrid');

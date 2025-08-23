@@ -130,6 +130,7 @@
   <button class="save-btn" onclick="saveRecord()">Save GPA Record</button>
 </div>
 
+<script src="security-utils.js"></script>
 <script>
   const subjectsDiv = document.getElementById('subjects');
   const semesterGpaEl = document.getElementById('semesterGpa');
@@ -153,14 +154,20 @@
   function addSubject(name='', grade='', credits='') {
     const row = document.createElement('div');
     row.className = 'subject-row';
+    
+    // Sanitize inputs
+    const sanitizedName = SecurityUtils.escapeHTML(name);
+    const sanitizedGrade = SecurityUtils.escapeHTML(grade);
+    const sanitizedCredits = SecurityUtils.escapeHTML(credits.toString());
+    
     row.innerHTML = `
-      <input type="text" placeholder="Subject Name" value="${name}" />
+      <input type="text" placeholder="Subject Name" value="${sanitizedName}" />
       <select>
         <option value="">Grade</option>
         ${Object.keys(gradePoints).map(g => 
-          `<option value="${g}" ${g===grade?'selected':''}>${g}</option>`).join('')}
+          `<option value="${SecurityUtils.escapeHTML(g)}" ${g===grade?'selected':''}>${SecurityUtils.escapeHTML(g)}</option>`).join('')}
       </select>
-      <input type="number" placeholder="Credits" min="0" step="1" value="${credits}" />
+      <input type="number" placeholder="Credits" min="0" step="1" value="${sanitizedCredits}" />
       <button type="button" class="remove-btn" onclick="this.parentElement.remove(); calculateGPA()">✖</button>
     `;
     subjectsDiv.appendChild(row);

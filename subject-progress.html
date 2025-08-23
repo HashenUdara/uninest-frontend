@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>StudySphere | Subject Progress</title>
+  <title>Uninest | Subject Progress</title>
   <style>
     body {
       margin: 0;
@@ -240,6 +240,7 @@
     </div>
   </div>
 
+  <script src="security-utils.js"></script>
   <script>
     // Sample topics data for different subjects
     const subjectsTopics = {
@@ -426,19 +427,26 @@
 
     function updatePageTitle(subject) {
       document.getElementById('subjectTitle').textContent = subject;
-      document.title = `StudySphere | ${subject} Progress`;
+      document.title = `Uninest | ${subject} Progress`;
     }
 
     function generateTopicItem(topic) {
+      // Sanitize topic data
+      const sanitizedTitle = SecurityUtils.escapeHTML(topic.title);
+      const sanitizedDescription = SecurityUtils.escapeHTML(topic.description);
+      const sanitizedIcon = SecurityUtils.escapeHTML(topic.icon);
+      const sanitizedStatus = SecurityUtils.escapeHTML(topic.status);
+      const sanitizedStatusText = SecurityUtils.escapeHTML(getStatusText(topic.status));
+      
       return `
-        <div class="topic-item ${topic.status}" onclick="goToResources('${topic.title}')">
-          <div class="topic-icon" style="background: ${getTopicIconColor(topic.status)}">${topic.icon}</div>
+        <div class="topic-item ${sanitizedStatus}" onclick="goToResources('${sanitizedTitle}')">
+          <div class="topic-icon" style="background: ${getTopicIconColor(topic.status)}">${sanitizedIcon}</div>
           <div class="topic-info">
-            <div class="topic-title">${topic.title}</div>
-            <div class="topic-description">${topic.description}</div>
+            <div class="topic-title">${sanitizedTitle}</div>
+            <div class="topic-description">${sanitizedDescription}</div>
           </div>
           <div class="topic-status">
-            <span class="status-badge ${topic.status}">${getStatusText(topic.status)}</span>
+            <span class="status-badge ${sanitizedStatus}">${sanitizedStatusText}</span>
           </div>
         </div>
       `;

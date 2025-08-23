@@ -266,6 +266,7 @@
     </div>
   </main>
 
+  <script src="security-utils.js"></script>
   <script>
     let currentTab = 'all';
     let currentSearch = '';
@@ -286,7 +287,8 @@
 
     // Search and filter functionality
     function filterTable() {
-      const searchTerm = document.getElementById('search').value.toLowerCase();
+      const rawSearchTerm = document.getElementById('search').value;
+      const searchTerm = SecurityUtils.validateSearchInput(rawSearchTerm).toLowerCase();
       currentSearch = searchTerm;
       
       const rows = document.querySelectorAll('#kuppiBody tr');

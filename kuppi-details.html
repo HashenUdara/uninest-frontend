@@ -498,6 +498,7 @@
     </div>
   </div>
 
+  <script src="security-utils.js"></script>
   <script>
     // Sample kuppi data (in a real app, this would come from a database)
     const kuppiData = {
@@ -612,30 +613,73 @@
       metaItems[2].textContent = kuppi.dateTime;
       metaItems[3].textContent = kuppi.meetingLink;
 
-      // Update resources
+      // Update resources securely
       const resourcesList = document.querySelector('.resources-list');
-      resourcesList.innerHTML = kuppi.resources.map(resource => `
-        <a href="#" class="resource-item">
-          <div class="resource-icon ${resource.type.toLowerCase()}">${resource.icon}</div>
-          <div class="resource-name">${resource.name}</div>
-          <div class="resource-type">${resource.type}</div>
-        </a>
-      `).join('');
+      resourcesList.innerHTML = '';
+      kuppi.resources.forEach(resource => {
+        const resourceItem = SecurityUtils.createSecureElement('a', {
+          href: '#',
+          class: 'resource-item'
+        });
+        
+        const iconDiv = SecurityUtils.createSecureElement('div', {
+          class: `resource-icon ${SecurityUtils.escapeHTML(resource.type.toLowerCase())}`
+        }, SecurityUtils.escapeHTML(resource.icon));
+        
+        const nameDiv = SecurityUtils.createSecureElement('div', {
+          class: 'resource-name'
+        }, SecurityUtils.escapeHTML(resource.name));
+        
+        const typeDiv = SecurityUtils.createSecureElement('div', {
+          class: 'resource-type'
+        }, SecurityUtils.escapeHTML(resource.type));
+        
+        resourceItem.appendChild(iconDiv);
+        resourceItem.appendChild(nameDiv);
+        resourceItem.appendChild(typeDiv);
+        resourcesList.appendChild(resourceItem);
+      });
 
-      // Update comments
+      // Update comments securely
       const commentsList = document.querySelector('.comments-list');
-      commentsList.innerHTML = kuppi.comments.map(comment => `
-        <div class="comment">
-          <div class="comment-avatar">${comment.avatar}</div>
-          <div class="comment-content">
-            <div class="comment-header">
-              <span class="comment-author">${comment.author}</span>
-              <span class="comment-time">${comment.time}</span>
-            </div>
-            <div class="comment-text">${comment.text}</div>
-          </div>
-        </div>
-      `).join('');
+      commentsList.innerHTML = '';
+      kuppi.comments.forEach(comment => {
+        const commentDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment'
+        });
+        
+        const avatarDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment-avatar'
+        }, SecurityUtils.escapeHTML(comment.avatar));
+        
+        const contentDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment-content'
+        });
+        
+        const headerDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment-header'
+        });
+        
+        const authorSpan = SecurityUtils.createSecureElement('span', {
+          class: 'comment-author'
+        }, SecurityUtils.escapeHTML(comment.author));
+        
+        const timeSpan = SecurityUtils.createSecureElement('span', {
+          class: 'comment-time'
+        }, SecurityUtils.escapeHTML(comment.time));
+        
+        const textDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment-text'
+        }, SecurityUtils.escapeHTML(comment.text));
+        
+        headerDiv.appendChild(authorSpan);
+        headerDiv.appendChild(timeSpan);
+        contentDiv.appendChild(headerDiv);
+        contentDiv.appendChild(textDiv);
+        commentDiv.appendChild(avatarDiv);
+        commentDiv.appendChild(contentDiv);
+        commentsList.appendChild(commentDiv);
+      });
     }
 
     function joinSession() {
@@ -644,22 +688,49 @@
 
     function sendComment() {
       const commentInput = document.querySelector('.comment-input');
-      const commentText = commentInput.value.trim();
+      const rawCommentText = commentInput.value;
+      
+      // Validate and sanitize comment input
+      const commentText = SecurityUtils.validateCommentInput(rawCommentText);
       
       if (commentText) {
         const commentsList = document.querySelector('.comments-list');
-        const newComment = document.createElement('div');
-        newComment.className = 'comment';
-        newComment.innerHTML = `
-          <div class="comment-avatar user">U</div>
-          <div class="comment-content">
-            <div class="comment-header">
-              <span class="comment-author">You</span>
-              <span class="comment-time">Just now</span>
-            </div>
-            <div class="comment-text">${commentText}</div>
-          </div>
-        `;
+        
+        // Create comment elements securely
+        const newComment = SecurityUtils.createSecureElement('div', {
+          class: 'comment'
+        });
+        
+        const avatarDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment-avatar user'
+        }, 'U');
+        
+        const contentDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment-content'
+        });
+        
+        const headerDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment-header'
+        });
+        
+        const authorSpan = SecurityUtils.createSecureElement('span', {
+          class: 'comment-author'
+        }, 'You');
+        
+        const timeSpan = SecurityUtils.createSecureElement('span', {
+          class: 'comment-time'
+        }, 'Just now');
+        
+        const textDiv = SecurityUtils.createSecureElement('div', {
+          class: 'comment-text'
+        }, commentText);
+        
+        headerDiv.appendChild(authorSpan);
+        headerDiv.appendChild(timeSpan);
+        contentDiv.appendChild(headerDiv);
+        contentDiv.appendChild(textDiv);
+        newComment.appendChild(avatarDiv);
+        newComment.appendChild(contentDiv);
         
         commentsList.appendChild(newComment);
         commentInput.value = '';
@@ -670,11 +741,27 @@
     function attachFile() {
       const input = document.createElement('input');
       input.type = 'file';
-      input.accept = '.pdf,.ppt,.pptx,.doc,.docx';
+      input.accept = '.pdf,.ppt,.pptx,.doc,.docx,.txt';
+      
       input.onchange = function(e) {
         const file = e.target.files[0];
         if (file) {
-          alert('File attached: ' + file.name);
+          // Validate file upload
+          const validation = SecurityUtils.validateFileUpload(file, [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'text/plain'
+          ], 10 * 1024 * 1024); // 10MB limit
+          
+          if (validation.success) {
+            alert('File attached: ' + SecurityUtils.escapeHTML(file.name));
+          } else {
+            alert('File validation failed: ' + validation.message);
+            input.value = ''; // Clear the input
+          }
         }
       };
       input.click();

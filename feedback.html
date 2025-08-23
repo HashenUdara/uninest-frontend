@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>StudySphere | Feedback & Rating</title>
+  <title>Uninest | Feedback & Rating</title>
   <style>
     body {
       margin: 0;
@@ -293,6 +293,7 @@
     </div>
   </div>
 
+  <script src="security-utils.js"></script>
   <script>
     let currentRating = 5;
     let isAnonymous = false;
@@ -340,15 +341,18 @@
 
     // Submit feedback functionality
     function submitFeedback() {
-      const comment = document.getElementById('commentInput').value.trim();
+      const rawComment = document.getElementById('commentInput').value;
+      
+      // Validate and sanitize comment input
+      const comment = SecurityUtils.validateCommentInput(rawComment);
       
       // Validate rating
-      if (currentRating < 1) {
-        alert('Please select a rating before submitting.');
+      if (currentRating < 1 || currentRating > 5) {
+        alert('Please select a valid rating (1-5) before submitting.');
         return;
       }
 
-      // Prepare feedback data
+      // Prepare feedback data with sanitized input
       const feedbackData = {
         rating: currentRating,
         comment: comment,
