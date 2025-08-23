@@ -6,13 +6,13 @@
 <title>GPA Calculator | StudyCentral</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, "Inter", sans-serif;
     background: #f4f6fc;
     margin: 0;
     padding: 0;
   }
   .navbar {
-    background: #4A90E2;
+    background: #6c3ef6;
     color: white;
     padding: 12px 24px;
     font-size: 18px;
@@ -107,11 +107,14 @@
 <div class="container">
   <h2>GPA Calculator</h2>
   
-  <label for="semester">Select Semester / Year</label>
+  <label for="semester">Select Semester & Year</label>
   <select id="semester">
-    <option value="Fall 2024">Fall 2024</option>
-    <option value="Spring 2025">Spring 2025</option>
-    <option value="Fall 2025">Fall 2025</option>
+    <option value="Semester 1 - Year 1">Semester 1 - Year 1</option>
+    <option value="Semester 2 - Year 1">Semester 2 - Year 1</option>
+    <option value="Semester 1 - Year 2">Semester 1 - Year 2</option>
+    <option value="Semester 2 - Year 2">Semester 2 - Year 2</option>
+    <option value="Semester 1 - Year 3">Semester 1 - Year 3</option>
+    <option value="Semester 2 - Year 3">Semester 2 - Year 3</option>
   </select>
   
   <div id="subjects"></div>
@@ -121,6 +124,8 @@
   <div class="gpa-summary">
     <p>Semester GPA: <span id="semesterGpa">0.00</span></p>
     <p>Cumulative GPA: <span id="cumulativeGpa">0.00</span></p>
+    <p>Current Class: <span id="currentClass">N/A</span></p>
+
   </div>
   
   <button class="save-btn" onclick="saveRecord()">Save GPA Record</button>
@@ -132,6 +137,7 @@
   const cumulativeGpaEl = document.getElementById('cumulativeGpa');
   
   const gradePoints = {
+    'A+': 4.0,
     'A': 4.0,
     'A-': 3.7,
     'B+': 3.3,
@@ -141,6 +147,7 @@
     'C': 2.0,
     'C-': 1.7,
     'D': 1.0,
+    'E': 0.0,
     'F': 0.0
   };
   
@@ -174,7 +181,19 @@
     semesterGpaEl.textContent = semesterGpa.toFixed(2);
     // For demo, cumulative GPA equals semester GPA
     cumulativeGpaEl.textContent = semesterGpa.toFixed(2);
+  //  cumulativeGpaEl.textContent = semesterGpa.toFixed(2);
+  document.getElementById('currentClass').textContent = getClassFromGPA(semesterGpa);
+
+
   }
+
+  function getClassFromGPA(gpa) {
+  if (gpa >= 3.7) return "First Class 🌟 Outstanding! Keep pushing your limits!";
+  if (gpa >= 3.3) return "Second Upper 💪 Great job! Aim for the top!";
+  if (gpa >= 3.0) return "Second Lower 📈 Solid work! Keep improving!";
+  if (gpa < 3.0) return "General 🔥 You’re on track! Stay consistent!";
+}
+
   
   function saveRecord() {
     alert('GPA record saved successfully!');
