@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign Up • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+  </head>
+  <body class="u-bg-surface">
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">🌙</span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+    <main class="o-center">
+      <section class="c-auth" aria-labelledby="signup-title">
+        <h1 class="c-auth__title" id="signup-title">Create your account</h1>
+        <form class="c-auth__form js-signup-form" novalidate>
+          <div class="c-field">
+            <label for="fullName" class="c-field__label">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              class="c-field__input"
+              placeholder="Enter your full name"
+              required
+            />
+            <p
+              class="c-field__error"
+              data-error-for="fullName"
+              aria-live="polite"
+            ></p>
+          </div>
+          <div class="c-field">
+            <label for="signupEmail" class="c-field__label">Email</label>
+            <input
+              type="email"
+              id="signupEmail"
+              name="email"
+              class="c-field__input"
+              placeholder="Enter your email"
+              required
+              autocomplete="email"
+            />
+            <p
+              class="c-field__error"
+              data-error-for="signupEmail"
+              aria-live="polite"
+            ></p>
+          </div>
+          <div class="c-field">
+            <label for="signupPassword" class="c-field__label">Password</label>
+            <input
+              type="password"
+              id="signupPassword"
+              name="password"
+              class="c-field__input js-password"
+              placeholder="Create a password"
+              required
+              minlength="8"
+              autocomplete="new-password"
+            />
+            <p
+              class="c-field__error"
+              data-error-for="signupPassword"
+              aria-live="polite"
+            ></p>
+          </div>
+          <div
+            class="c-password-meter"
+            id="passwordStrength"
+            data-strength="0"
+            aria-live="polite"
+            aria-label="Password strength"
+          >
+            <div class="c-password-meter__bar" aria-hidden="true"></div>
+            <p class="c-password-meter__label js-password-strength-label">
+              Weak
+            </p>
+          </div>
+          <div class="c-field">
+            <label for="confirmPassword" class="c-field__label"
+              >Confirm Password</label
+            >
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              class="c-field__input"
+              placeholder="Confirm your password"
+              required
+              minlength="8"
+              autocomplete="new-password"
+            />
+            <p
+              class="c-field__error"
+              data-error-for="confirmPassword"
+              aria-live="polite"
+            ></p>
+          </div>
+          <button type="submit" class="c-btn c-btn--primary c-auth__submit">
+            Sign Up
+          </button>
+        </form>
+        <div class="c-auth__switch">
+          Already have an account? <a class="c-link" href="index.html">Login</a>
+        </div>
+        <footer class="c-auth__legal">
+          <a href="#" class="c-link c-link--muted">Terms of Service</a>
+          <span aria-hidden="true">·</span>
+          <a href="#" class="c-link c-link--muted">Privacy Policy</a>
+        </footer>
+      </section>
+    </main>
+    <script src="scripts/app.js"></script>
+    <script>
+      const signupForm = document.querySelector(".js-signup-form");
+      if (signupForm) {
+        signupForm.classList.add("js-validate");
+      }
+      UniNest.password.initPasswordMeter(
+        "#signupPassword",
+        "#passwordStrength"
+      );
+      // custom confirm password check
+      signupForm?.addEventListener("submit", (e) => {
+        const pw = document.getElementById("signupPassword");
+        const cpw = document.getElementById("confirmPassword");
+        if (pw && cpw && pw.value !== cpw.value) {
+          e.preventDefault();
+          const field = cpw.closest(".c-field");
+          if (field) {
+            field.classList.add("is-invalid");
+            const err = field.querySelector(".c-field__error");
+            if (err) err.textContent = "Passwords do not match";
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
