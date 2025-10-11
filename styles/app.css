@@ -216,6 +216,11 @@ a:hover {
   height: 1rem;
   display: block;
 }
+.c-theme-toggle__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 .c-theme-toggle__label {
   line-height: 1;
 }
@@ -370,6 +375,11 @@ a:hover {
   color: var(--color-success);
   font-size: 2rem;
   box-shadow: inset 0 0 0 1px rgba(47, 157, 91, 0.12);
+}
+.c-state__icon svg {
+  width: 2rem;
+  height: 2rem;
+  stroke-width: 3;
 }
 .c-state__body {
   display: flex;
