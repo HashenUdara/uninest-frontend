@@ -45,26 +45,30 @@
       document.documentElement.getAttribute("data-theme") || "system";
     const labelEl = btn.querySelector(".c-theme-toggle__label");
     const iconEl = btn.querySelector(".c-theme-toggle__icon");
-    let icon = "",
+    let iconName = "",
       text = "";
     switch (theme) {
       case "dark":
-        icon = "🌙";
+        iconName = "moon";
         text = "Dark";
         btn.setAttribute("aria-pressed", "true");
         break;
       case "light":
-        icon = "☀️";
+        iconName = "sun";
         text = "Light";
         btn.setAttribute("aria-pressed", "false");
         break;
       default:
         const systemDark = prefersDark.matches;
-        icon = systemDark ? "🌙" : "☀️";
+        iconName = systemDark ? "moon" : "sun";
         text = "Auto";
         btn.setAttribute("aria-pressed", systemDark ? "true" : "false");
     }
-    if (iconEl) iconEl.textContent = icon;
+    if (iconEl && window.lucide) {
+      iconEl.innerHTML = '';
+      const iconSvg = window.lucide.createElement(window.lucide[iconName.charAt(0).toUpperCase() + iconName.slice(1)]);
+      iconEl.appendChild(iconSvg);
+    }
     if (labelEl) labelEl.textContent = text;
   }
   function initTheme() {
@@ -134,6 +138,10 @@
 
   /* ================= Init (DOM Ready) ================= */
   document.addEventListener("DOMContentLoaded", () => {
+    // Initialize Lucide icons
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
     initTheme();
     document
       .querySelectorAll("form.js-validate")
