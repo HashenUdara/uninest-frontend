@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Password Updated • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+  </head>
+  <body class="u-bg-surface">
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">🌙</span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+    <main class="o-center">
+      <section class="c-auth" aria-labelledby="success-title">
+        <div class="c-state">
+          <span class="c-state__icon" aria-hidden="true">✔</span>
+          <div class="c-state__body">
+            <h1 class="c-state__title" id="success-title">Password updated</h1>
+            <p class="c-state__text">
+              Your password has been reset successfully. You can now sign in with
+              your new credentials.
+            </p>
+          </div>
+          <a href="index.html" class="c-btn c-auth__submit">Return to Login</a>
+        </div>
+        <footer class="c-auth__legal">
+          <a href="#" class="c-link c-link--muted">Terms of Service</a>
+          <span aria-hidden="true">·</span>
+          <a href="#" class="c-link c-link--muted">Privacy Policy</a>
+        </footer>
+      </section>
+    </main>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>

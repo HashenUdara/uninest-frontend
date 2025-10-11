@@ -15,6 +15,8 @@
   --color-brand: #542cf5;
   --color-brand-hover: #4723d6;
   --color-brand-active: #3b1db4;
+  --color-success: #2f9d5b;
+  --color-success-soft: #ebf8f1;
   --color-text: #101623;
   --color-text-muted: #667085;
   --color-border: #d9dce2;
@@ -24,9 +26,7 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-pill: 1000px;
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
-    "Helvetica Neue", Arial, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
   --shadow-focus: 0 0 0 3px rgba(84, 44, 245, 0.35);
   --shadow-elev-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.05);
   --fs-xs: 0.75rem;
@@ -45,13 +45,11 @@
   --space-6: 1.5rem;
   --space-8: 2rem;
   --space-10: 2.5rem;
-  --max-content-width: 640px; /* generic wider layouts */
-  --max-auth-width: 420px; /* narrower auth forms */
+  --max-content-width: 640px;
+  --max-auth-width: 420px;
   --transition-base: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   color-scheme: light;
-  /* Allow smooth theme transition for background + color */
-  transition: background-color var(--transition-base),
-    color var(--transition-base);
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 /* Dark mode scaffold */
@@ -63,6 +61,8 @@
     --color-border: #2e3440;
     --color-surface: #0d1117;
     --color-white: #1b1f24;
+    --color-success: #2f9d5b;
+    --color-success-soft: rgba(47, 157, 91, 0.2);
     --shadow-focus: 0 0 0 3px rgba(126, 103, 255, 0.5);
     color-scheme: dark;
   }
@@ -73,7 +73,8 @@
   --color-text: #f3f4f6;
   --color-text-muted: #98a2b3;
   --color-border: #2e3440;
-  --color-surface: #0d1117;
+  --color-success: #2f9d5b;
+  --color-success-soft: rgba(47, 157, 91, 0.2);
   --color-white: #1b1f24;
   --shadow-focus: 0 0 0 3px rgba(126, 103, 255, 0.5);
   color-scheme: dark;
@@ -350,6 +351,40 @@ a:hover {
 }
 .c-password-meter[data-strength="4"] .c-password-meter__bar::before {
   background: #14804a;
+}
+
+.c-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-6);
+}
+.c-state__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: 2rem;
+  box-shadow: inset 0 0 0 1px rgba(47, 157, 91, 0.12);
+}
+.c-state__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.c-state__title {
+  margin: 0;
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+}
+.c-state__text {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
 }
 
 /* ================== 7. UTILITIES ================== */
