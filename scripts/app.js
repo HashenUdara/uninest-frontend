@@ -151,6 +151,61 @@
   }
   ns.org = { initOrgSwitcher, getActiveOrg, setActiveOrg };
 
+  /* ================= Upload UI (Dropzone + Progress) ================= */
+  function initUploadUI() {
+    const dz = document.querySelector(".js-upload-dropzone");
+    if (!dz) return;
+    const browseBtn = dz.querySelector(".js-browse-files");
+    const startBtn = dz.querySelector(".js-start-upload");
+    const hiddenInput = dz.querySelector(".js-hidden-file");
+    const wrapper = document.querySelector(".js-upload-progress");
+    const bar = wrapper ? wrapper.querySelector(".c-progress") : null;
+    const pctText = wrapper ? wrapper.querySelector(".js-progress-text") : null;
+
+    function setProgress(pct) {
+      if (!bar) return;
+      bar.style.setProperty("--progress", pct + "%");
+      if (pctText) pctText.textContent = pct + "%";
+    }
+
+    function simulateUpload(files) {
+      if (!files || !files.length) return;
+      if (wrapper) wrapper.hidden = false;
+      let pct = 0;
+      setProgress(0);
+      const id = setInterval(() => {
+        pct = Math.min(100, pct + Math.round(Math.random() * 12 + 4));
+        setProgress(pct);
+        if (pct >= 100) clearInterval(id);
+      }, 300);
+    }
+
+    ["dragenter", "dragover"].forEach((ev) => {
+      dz.addEventListener(ev, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dz.classList.add("is-dragover");
+      });
+    });
+    ["dragleave", "drop"].forEach((ev) => {
+      dz.addEventListener(ev, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dz.classList.remove("is-dragover");
+      });
+    });
+    dz.addEventListener("drop", (e) => {
+      const files = e.dataTransfer?.files;
+      simulateUpload(files);
+    });
+    if (browseBtn && hiddenInput) {
+      browseBtn.addEventListener("click", () => hiddenInput.click());
+      hiddenInput.addEventListener("change", () => simulateUpload(hiddenInput.files));
+    }
+    if (startBtn) startBtn.addEventListener("click", () => simulateUpload([{}]));
+  }
+  ns.upload = { initUploadUI };
+
   /* ================= Init (DOM Ready) ================= */
   document.addEventListener("DOMContentLoaded", () => {
     // Initialize Lucide icons
@@ -159,6 +214,7 @@
     }
     initTheme();
     initOrgSwitcher();
+    initUploadUI();
     document
       .querySelectorAll("form.js-validate")
       .forEach((f) => attachValidation(f));

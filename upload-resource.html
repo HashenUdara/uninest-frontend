@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Upload Resource • UniNest</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="styles/app.css" />
+		<script src="scripts/vendor/lucide.js"></script>
+	</head>
+	<body>
+		<!-- Theme toggle (shared) -->
+		<button
+			type="button"
+			class="c-theme-toggle js-theme-toggle"
+			aria-pressed="false"
+			aria-label="Toggle dark mode"
+		>
+			<span class="c-theme-toggle__icon" aria-hidden="true"
+				><i data-lucide="moon"></i
+			></span>
+			<span class="c-theme-toggle__label">Dark</span>
+		</button>
+
+		<div class="l-app">
+			<!-- Sidebar (shared layout) -->
+			<aside class="c-sidebar">
+				<div class="c-logo">
+					<img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+				</div>
+				<div class="c-user-mini">
+					<div class="c-user-mini__avatar" aria-hidden="true"></div>
+					<div class="c-user-mini__meta">
+						<span class="c-user-mini__name">Sophia</span>
+						<span class="c-user-mini__role">Student</span>
+					</div>
+				</div>
+				<nav class="c-nav" aria-label="Main">
+					<a href="dashboard.html" class="c-nav__item"
+						><span class="c-nav__icon"><i data-lucide="home"></i></span
+						>Dashboard</a
+					>
+					<a href="#" class="c-nav__item"
+						><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+						Subjects</a
+					>
+					<a href="#" class="c-nav__item"
+						><span class="c-nav__icon"
+							><i data-lucide="graduation-cap"></i></span
+						>Kuppi Sessions</a
+					>
+					<a href="resources.html" class="c-nav__item is-active"
+						><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+						Resources</a
+					>
+					<a href="#" class="c-nav__item"
+						><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+						>Progress Analysis</a
+					>
+					<a href="#" class="c-nav__item"
+						><span class="c-nav__icon"
+							><i data-lucide="message-square"></i></span
+						>Community</a
+					>
+					<a href="#" class="c-nav__item"
+						><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+						Settings</a
+					>
+				</nav>
+
+				<a href="#" class="c-nav__item c-logout-button"
+					><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+					>Logout</a
+				>
+			</aside>
+
+			<!-- Page Content -->
+			<main class="c-page">
+				<header class="c-page__header">
+					<nav class="c-breadcrumbs" aria-label="Breadcrumb">
+						<a href="resources.html">Resources</a>
+						<span class="c-breadcrumbs__sep">/</span>
+						<a href="#">Calculus I</a>
+						<span class="c-breadcrumbs__sep">/</span>
+						<span aria-current="page">Resource Title</span>
+					</nav>
+					<h1 class="c-page__title">Upload New Resource</h1>
+				</header>
+
+				<section class="c-panel">
+					<form class="js-validate c-form" action="#" method="post">
+						<!-- Title -->
+						<div class="c-field">
+							<label for="res-title" class="c-field__label">Resource Title</label>
+							<input
+								id="res-title"
+								name="title"
+								type="text"
+								required
+								placeholder="Enter resource title"
+								class="c-field__input"
+							/>
+							<p class="c-field__error" aria-live="polite"></p>
+						</div>
+
+						<!-- Description -->
+						<div class="c-field">
+							<label for="res-desc" class="c-field__label">Description</label>
+							<textarea
+								id="res-desc"
+								name="description"
+								rows="6"
+								class="c-field__input"
+								placeholder="Add a helpful description, key points, or usage notes"
+							></textarea>
+							<p class="c-field__error" aria-live="polite"></p>
+						</div>
+
+						<!-- Grid row: subject/topic -->
+						<div class="c-form-grid">
+							<div class="c-field">
+								<label for="res-subject" class="c-field__label">Select Subject</label>
+								<select id="res-subject" name="subject" class="c-select">
+									<option value="">Choose a subject</option>
+									<option>CS204 - Data Structures</option>
+									<option>MA201 - Calculus II</option>
+									<option>PH102 - Physics for Engineers</option>
+								</select>
+							</div>
+							<div class="c-field">
+								<label for="res-topic" class="c-field__label">Select Topic</label>
+								<select id="res-topic" name="topic" class="c-select">
+									<option value="">Choose a topic</option>
+									<option>Linked Lists</option>
+									<option>Sorting</option>
+									<option>Integrals</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Grid row: category/tags -->
+						<div class="c-form-grid">
+							<div class="c-field">
+								<label for="res-category" class="c-field__label">Select Category</label>
+								<select id="res-category" name="category" class="c-select">
+									<option value="">Select category</option>
+									<option>Lecture Notes</option>
+									<option>Slides</option>
+									<option>Assignments</option>
+								</select>
+							</div>
+							<div class="c-field">
+								<label for="res-tags" class="c-field__label">Tags</label>
+								<input
+									id="res-tags"
+									name="tags"
+									type="text"
+									placeholder="Comma separated tags (e.g., trees,graphs)"
+									class="c-field__input"
+								/>
+							</div>
+						</div>
+
+						<!-- Dropzone -->
+						<div class="c-field">
+							<div
+								class="c-dropzone js-upload-dropzone"
+								role="region"
+								aria-label="File upload"
+							>
+								<div class="c-dropzone__content">
+									<div class="c-dropzone__title">Drag and drop files here or</div>
+									<button type="button" class="c-btn c-btn--secondary js-browse-files">
+										Browse Files
+									</button>
+									<div class="c-dropzone__actions">
+										<button type="button" class="c-btn c-btn--secondary js-start-upload">
+											<span class="u-sr-only">Start</span>
+											Upload
+										</button>
+									</div>
+								</div>
+								<input type="file" class="u-sr-only js-hidden-file" multiple />
+							</div>
+						</div>
+
+						<!-- Progress -->
+						<div class="c-upload-progress js-upload-progress" hidden>
+							<div class="c-upload-progress__meta">
+								<span>Uploading...</span>
+								<span class="u-text-muted js-progress-text">0%</span>
+							</div>
+							<div class="c-progress" style="--progress: 0%"></div>
+						</div>
+
+						<p class="u-text-muted" style="margin-top: var(--space-4)">
+							Accepted file types: PDF, DOCX, PPTX. Max file size: 20MB.
+						</p>
+
+						<!-- Actions -->
+						<div class="c-form-actions">
+							<button type="button" class="c-btn c-btn--secondary">Cancel</button>
+							<button type="submit" class="c-btn">Submit</button>
+						</div>
+					</form>
+				</section>
+			</main>
+		</div>
+
+		<script src="scripts/app.js"></script>
+	</body>
+	</html>
+
