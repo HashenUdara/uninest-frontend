@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resource • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <!-- Sidebar -->
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item is-active"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <a href="#" class="c-nav__item"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <!-- Content -->
+      <main class="c-page">
+        <div class="o-panel">
+          <header class="c-page__header">
+            <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+              <a href="#">Resources</a>
+              <span class="c-breadcrumbs__sep">/</span>
+              <a href="#">Calculus I</a>
+              <span class="c-breadcrumbs__sep">/</span>
+              <span aria-current="page">Resource Title</span>
+            </nav>
+            <div>
+              <h1 class="c-page__title">Calculus I - Chapter 3 Notes</h1>
+              <p class="u-text-muted" style="margin-top: var(--space-2)">
+                Uploaded by Sarah Miller · Oct 26, 2023
+              </p>
+            </div>
+            <div class="c-media-viewer" aria-label="Preview">
+              <i data-lucide="play" style="width:40px; height:40px;"></i>
+            </div>
+            <div class="c-actions">
+              <div style="display:flex; gap: var(--space-2);">
+                <button class="c-btn c-btn--ghost c-btn--sm">Report</button>
+                <button class="c-btn c-btn--ghost c-btn--sm">Edit</button>
+              </div>
+              <div style="display:flex; gap: var(--space-2);">
+                <button class="c-btn c-btn--secondary c-btn--sm">Rate this Resource</button>
+                <button class="c-btn c-btn--sm"><i data-lucide="download"></i> Download</button>
+              </div>
+            </div>
+          </header>
+
+          <section class="c-section">
+            <h2 class="c-section-title">Metadata</h2>
+            <div class="c-kv-grid">
+              <div>
+                <div class="c-kv-grid__key">Tags</div>
+                <div class="c-kv-grid__val">Calculus, Notes, Chapter 3</div>
+              </div>
+              <div>
+                <div class="c-kv-grid__key">Semester</div>
+                <div class="c-kv-grid__val">Fall 2023</div>
+              </div>
+              <div>
+                <div class="c-kv-grid__key">File Size</div>
+                <div class="c-kv-grid__val">2.5 MB</div>
+              </div>
+              <div>
+                <div class="c-kv-grid__key">Type</div>
+                <div class="c-kv-grid__val">PDF</div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="c-section-title" style="margin-top:0;">Description</h3>
+              <p class="u-text-muted">
+                Comprehensive notes covering Chapter 3 of Calculus I, including examples and practice problems.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="c-section-title" style="margin-top:0;">Ratings</h3>
+              <div class="c-rating">
+                <div>
+                  <div class="c-rating__score">4.5</div>
+                  <div class="u-text-muted">12 reviews</div>
+                </div>
+                <div class="c-rating-bars">
+                  <div class="c-rating-bars__row"><span>5</span><div class="c-rating-bars__bar" style="--pct:50%"></div><span>50%</span></div>
+                  <div class="c-rating-bars__row"><span>4</span><div class="c-rating-bars__bar" style="--pct:30%"></div><span>30%</span></div>
+                  <div class="c-rating-bars__row"><span>3</span><div class="c-rating-bars__bar" style="--pct:10%"></div><span>10%</span></div>
+                  <div class="c-rating-bars__row"><span>2</span><div class="c-rating-bars__bar" style="--pct:5%"></div><span>5%</span></div>
+                  <div class="c-rating-bars__row"><span>1</span><div class="c-rating-bars__bar" style="--pct:5%"></div><span>5%</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="c-section-title" style="margin-top:0;">Comments</h3>
+              <div class="c-comment">
+                <div class="c-comment__avatar" aria-hidden="true"></div>
+                <div>
+                  <div class="c-comment__meta">Alex Johnson · Nov 1, 2023</div>
+                  <div>These notes were incredibly helpful for my exam preparation. Thank you!</div>
+                </div>
+              </div>
+              <div class="c-comment">
+                <div class="c-comment__avatar" aria-hidden="true"></div>
+                <div>
+                  <div class="c-comment__meta">Emily Clark · Oct 28, 2023</div>
+                  <div>Clear and concise explanations. Highly recommend.</div>
+                </div>
+              </div>
+              <div class="c-comment">
+                <div class="c-comment__avatar" aria-hidden="true"></div>
+                <div>
+                  <div class="c-comment__meta">David Lee · Oct 27, 2023</div>
+                  <div>Great resource! Helped me understand the concepts better.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+  </body>
+</html>
