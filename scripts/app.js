@@ -274,34 +274,31 @@
   });
 })();
 
-
-    // Initialize user avatars (initial + soft background color)
-    function avatarColorFromChar(ch) {
-      const palette = [
-        [245, 241, 255, 84, 44, 245], // brand soft
-        [230, 247, 255, 14, 165, 233],
-        [235, 248, 241, 47, 157, 91],
-        [255, 242, 235, 234, 88, 12],
-        [255, 240, 246, 236, 72, 153],
-        [239, 246, 255, 37, 99, 235],
-        [240, 253, 244, 16, 185, 129],
-      ];
-      const idx = (ch.charCodeAt(0) - 65) % palette.length;
-      const [br, bg, bb, fr, fg, fb] = palette[idx];
-      return {
-        bg: `rgba(${br}, ${bg}, ${bb}, 1)`,
-        fg: `rgb(${fr}, ${fg}, ${fb})`,
-      };
-    }
-    document.querySelectorAll(".c-user-cell").forEach((row) => {
-      const nameEl = row.querySelector(".c-user-cell__name");
-      const avatarEl = row.querySelector(".c-user-cell__avatar");
-      if (!nameEl || !avatarEl) return;
-      const name = nameEl.textContent.trim();
-      if (!name) return;
-      const first = name[0].toUpperCase();
-      const { bg, fg } = avatarColorFromChar(first);
-      avatarEl.style.setProperty("--avatar-bg", bg);
-      avatarEl.style.setProperty("--avatar-fg", fg);
-      avatarEl.textContent = first;
-    });
+// Initialize user avatars (initial + soft background color)
+function avatarColorFromChar(ch) {
+  // Map A-Z to distinct hues across the color wheel
+  const A = "A".charCodeAt(0);
+  const idx = Math.max(0, (ch.toUpperCase().charCodeAt(0) - A) % 26);
+  const hue = Math.round((360 / 26) * idx); // step around the wheel
+  // Soft pastel background + stronger foreground for the letter
+  const bg = `hsl(${hue} 85% 92%)`;
+  const fg = `hsl(${hue} 60% 35%)`;
+  return { bg, fg };
+}
+function firstAlpha(name) {
+  if (!name) return "U";
+  const normalized = name.normalize("NFD").replace(/\p{Diacritic}+/gu, "");
+  const match = normalized.match(/[A-Za-z]/);
+  return match ? match[0].toUpperCase() : "U";
+}
+document.querySelectorAll(".c-user-cell").forEach((row) => {
+  const nameEl = row.querySelector(".c-user-cell__name");
+  const avatarEl = row.querySelector(".c-user-cell__avatar");
+  if (!nameEl || !avatarEl) return;
+  const name = nameEl.textContent.trim();
+  const first = firstAlpha(name);
+  const { bg, fg } = avatarColorFromChar(first);
+  avatarEl.style.setProperty("--avatar-bg", bg);
+  avatarEl.style.setProperty("--avatar-fg", fg);
+  avatarEl.textContent = first;
+});
