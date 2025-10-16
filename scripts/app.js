@@ -14,13 +14,13 @@
 
   /* ================= Theme ================= */
   const THEME_KEY = "uninest-theme";
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  // Two-state theme only (light/dark)
 
   function applyTheme(theme) {
     const root = document.documentElement;
     if (theme === "dark") root.setAttribute("data-theme", "dark");
     else if (theme === "light") root.setAttribute("data-theme", "light");
-    else root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", "light");
     updateThemeToggle();
   }
   function storedTheme() {
@@ -31,43 +31,32 @@
   }
   function cycleTheme() {
     const current =
-      document.documentElement.getAttribute("data-theme") || "system";
-    const next =
-      current === "system" ? "dark" : current === "dark" ? "light" : "system";
-    if (next === "system") localStorage.removeItem(THEME_KEY);
-    else setStoredTheme(next);
+      document.documentElement.getAttribute("data-theme") || "light";
+    const next = current === "dark" ? "light" : "dark";
+    setStoredTheme(next);
     applyTheme(next);
   }
   function updateThemeToggle() {
     const btn = document.querySelector(".js-theme-toggle");
     if (!btn) return;
     const theme =
-      document.documentElement.getAttribute("data-theme") || "system";
+      document.documentElement.getAttribute("data-theme") || "light";
     const labelEl = btn.querySelector(".c-theme-toggle__label");
     const iconEl = btn.querySelector(".c-theme-toggle__icon");
     let iconName = "",
       text = "";
-    switch (theme) {
-      case "dark":
-        iconName = "moon";
-        text = "Dark";
-        btn.setAttribute("aria-pressed", "true");
-        break;
-      case "light":
-        iconName = "sun";
-        text = "Light";
-        btn.setAttribute("aria-pressed", "false");
-        break;
-      default:
-        const systemDark = prefersDark.matches;
-        iconName = systemDark ? "moon" : "sun";
-        text = "Auto";
-        btn.setAttribute("aria-pressed", systemDark ? "true" : "false");
+    if (theme === "dark") {
+      iconName = "moon";
+      text = "Dark";
+      btn.setAttribute("aria-pressed", "true");
+    } else {
+      iconName = "sun";
+      text = "Light";
+      btn.setAttribute("aria-pressed", "false");
     }
     if (iconEl && window.lucide) {
-      iconEl.innerHTML = '';
-      const iconSvg = window.lucide.createElement(window.lucide[iconName.charAt(0).toUpperCase() + iconName.slice(1)]);
-      iconEl.appendChild(iconSvg);
+      iconEl.innerHTML = `<i data-lucide="${iconName}"></i>`;
+      window.lucide.createIcons();
     }
     if (labelEl) labelEl.textContent = text;
   }
@@ -75,12 +64,9 @@
     const btn = document.querySelector(".js-theme-toggle");
     if (btn) {
       btn.addEventListener("click", cycleTheme);
-      prefersDark.addEventListener("change", () => {
-        if (!storedTheme()) updateThemeToggle();
-      });
       const stored = storedTheme();
       if (stored) applyTheme(stored);
-      else updateThemeToggle();
+      else applyTheme("light");
     }
   }
 

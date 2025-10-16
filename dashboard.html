@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+    <div class="l-app">
+      <!-- Sidebar -->
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img
+            src="img/logo.png"
+            alt="Uninest"
+            class="c-logo__mark"
+            style="width: 22px; height: 22px; object-fit: contain"
+          />
+          <span>Uninest</span>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="#" class="c-nav__item is-active"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <a href="#" class="c-nav__item"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <!-- Content -->
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="#">CS204</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Trees & Graphs</span>
+          </nav>
+          <h1 class="c-page__title">My Subjects</h1>
+          <div class="c-input-group">
+            <input
+              class="c-input"
+              type="search"
+              placeholder="Search subjects by name or code"
+              aria-label="Search subjects"
+            />
+            <button class="c-btn">Search</button>
+          </div>
+          <div class="c-tabs" role="tablist">
+            <a
+              href="#"
+              class="c-tabs__link is-active"
+              role="tab"
+              aria-selected="true"
+              >All</a
+            >
+            <a href="#" class="c-tabs__link" role="tab" aria-selected="false"
+              >In Progress</a
+            >
+            <a href="#" class="c-tabs__link" role="tab" aria-selected="false"
+              >Completed</a
+            >
+          </div>
+        </header>
+
+        <section class="o-panel o-container">
+          <h2 class="c-section-title">Semester 3</h2>
+          <div class="o-grid o-grid--cards">
+            <article class="c-card">
+              <div class="c-card__media"></div>
+              <div class="c-card__body">
+                <h3 class="c-card__title">CS204 - Data Structures</h3>
+                <p class="c-card__meta">Instructor: Dr. Evelyn Reed</p>
+              </div>
+            </article>
+            <article class="c-card">
+              <div class="c-card__media"></div>
+              <div class="c-card__body">
+                <h3 class="c-card__title">MA201 - Calculus II</h3>
+                <p class="c-card__meta">Instructor: Prof. Samuel Harper</p>
+              </div>
+            </article>
+            <article class="c-card">
+              <div class="c-card__media"></div>
+              <div class="c-card__body">
+                <h3 class="c-card__title">PH102 - Physics for Engineers</h3>
+                <p class="c-card__meta">Instructor: Dr. Olivia Bennett</p>
+              </div>
+            </article>
+          </div>
+
+          <h2 class="c-section-title">Semester 4</h2>
+          <div class="o-grid o-grid--cards">
+            <article class="c-card">
+              <div class="c-card__media"></div>
+              <div class="c-card__body">
+                <h3 class="c-card__title">CS205 - Algorithms</h3>
+                <p class="c-card__meta">Instructor: Dr. Evelyn Reed</p>
+              </div>
+            </article>
+            <article class="c-card">
+              <div class="c-card__media"></div>
+              <div class="c-card__body">
+                <h3 class="c-card__title">EE201 - Circuit Analysis</h3>
+                <p class="c-card__meta">Instructor: Prof. Ethan Carter</p>
+              </div>
+            </article>
+            <article class="c-card">
+              <div class="c-card__media"></div>
+              <div class="c-card__body">
+                <h3 class="c-card__title">LA101 - Technical Writing</h3>
+                <p class="c-card__meta">Instructor: Dr. Sophia Turner</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>
