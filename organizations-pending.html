@@ -71,9 +71,9 @@
                 Review and manage organization requests.
               </p>
             </div>
-            <button class="c-btn js-org-create">
+            <a class="c-btn" href="organization-create.html">
               <i data-lucide="plus"></i> Create Organization
-            </button>
+            </a>
           </div>
           <div class="c-tabs" role="tablist" aria-label="Organization tabs">
             <a
@@ -182,9 +182,6 @@
                       >
                         Reject
                       </button>
-                      <button class="c-icon-btn js-org-edit" aria-label="Edit">
-                        <i data-lucide="pencil"></i>
-                      </button>
                       <button
                         class="c-icon-btn js-org-delete"
                         aria-label="Delete"
@@ -231,9 +228,6 @@
                       >
                         Reject
                       </button>
-                      <button class="c-icon-btn js-org-edit" aria-label="Edit">
-                        <i data-lucide="pencil"></i>
-                      </button>
                       <button
                         class="c-icon-btn js-org-delete"
                         aria-label="Delete"
@@ -274,81 +268,6 @@
       </div>
     </div>
     <div class="c-toasts" aria-live="polite" aria-atomic="true"></div>
-    <!-- Edit/Create Organization Modal -->
-    <div
-      class="c-modal"
-      id="org-edit-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="org-edit-title"
-      hidden
-    >
-      <div class="c-modal__backdrop" data-close></div>
-      <div class="c-modal__dialog">
-        <div class="c-modal__header">
-          <h3 id="org-edit-title">Create organization</h3>
-        </div>
-        <div class="c-modal__body">
-          <form class="c-form js-org-form" onsubmit="return false;">
-            <div class="c-form-grid">
-              <div class="c-field">
-                <label class="c-field__label" for="org-title">Title</label>
-                <input
-                  class="c-field__input"
-                  id="org-title"
-                  type="text"
-                  required
-                />
-              </div>
-              <div class="c-field">
-                <label class="c-field__label" for="org-id">ID</label>
-                <input
-                  class="c-field__input"
-                  id="org-id"
-                  type="text"
-                  required
-                />
-              </div>
-            </div>
-            <div class="c-field">
-              <label class="c-field__label" for="org-desc">Description</label>
-              <textarea
-                class="c-field__input"
-                id="org-desc"
-                rows="3"
-              ></textarea>
-            </div>
-            <div class="c-form-grid">
-              <div class="c-field">
-                <label class="c-field__label" for="org-created-by"
-                  >Created by</label
-                >
-                <input
-                  class="c-field__input"
-                  id="org-created-by"
-                  type="email"
-                  required
-                />
-              </div>
-              <div class="c-field">
-                <label class="c-field__label" for="org-members">Members</label>
-                <input
-                  class="c-field__input"
-                  id="org-members"
-                  type="number"
-                  min="0"
-                  step="1"
-                  required
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="c-modal__footer">
-          <button class="c-btn c-btn--ghost" data-close>Cancel</button>
-          <button class="c-btn js-org-save">Save</button>
-        </div>
-      </div>
-    </div>
+    
   </body>
 </html>

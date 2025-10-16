@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Organization • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Admin</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="users.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="users"></i></span
+            >Users</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#">Admin</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="organizations-pending.html">Organizations</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Create</span>
+          </nav>
+          <div class="c-page__titlebar">
+            <div>
+              <h1 class="c-page__title">Create organization</h1>
+              <p class="c-page__subtitle u-text-muted">
+                Add a new organization and assign a moderator.
+              </p>
+            </div>
+            <a class="c-btn c-btn--ghost" href="organizations-pending.html">
+              <i data-lucide="arrow-left"></i> Back to Organizations
+            </a>
+          </div>
+        </header>
+
+        <section>
+          <form class="c-form js-validate" action="#" method="post">
+            <div class="c-form-card">
+              <div class="c-form-grid">
+                <div class="c-field">
+                  <label class="c-field__label" for="org-title">Title</label>
+                  <input
+                    class="c-field__input"
+                    id="org-title"
+                    name="title"
+                    type="text"
+                    placeholder="e.g., Northshore Group"
+                    required
+                  />
+                  <div class="c-field__error"></div>
+                </div>
+                <div class="c-field">
+                  <label class="c-field__label" for="org-id">Organization ID</label>
+                  <input
+                    class="c-field__input"
+                    id="org-id"
+                    name="id"
+                    type="text"
+                    placeholder="e.g., O-20001"
+                    required
+                  />
+                  <div class="c-field__error"></div>
+                </div>
+              </div>
+
+              <div class="c-field">
+                <label class="c-field__label" for="org-desc">Description</label>
+                <textarea
+                  class="c-field__input"
+                  id="org-desc"
+                  name="description"
+                  rows="4"
+                  placeholder="Brief description (what does this organization do?)"
+                  required
+                ></textarea>
+                <div class="c-field__error"></div>
+              </div>
+
+              <div class="c-form-grid">
+                <div class="c-field">
+                  <label class="c-field__label" for="org-created-by">Created by (Moderator)</label>
+                  <select class="c-field__input" id="org-created-by" name="createdBy" required>
+                    <option value="" disabled selected>Select a moderator</option>
+                    <option value="ethan.carter@uni.edu">ethan.carter@uni.edu</option>
+                    <option value="ava.nguyen@uni.edu">ava.nguyen@uni.edu</option>
+                    <option value="chloe.zhang@uni.edu">chloe.zhang@uni.edu</option>
+                    <option value="liam.harper@uni.edu">liam.harper@uni.edu</option>
+                    <option value="diego.fernandez@uni.edu">diego.fernandez@uni.edu</option>
+                  </select>
+                  <div class="c-field__error"></div>
+                </div>
+                <div class="c-field">
+                  <label class="c-field__label" for="org-members">Members</label>
+                  <input
+                    class="c-field__input"
+                    id="org-members"
+                    name="members"
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="e.g., 50"
+                    required
+                  />
+                  <div class="c-field__error"></div>
+                </div>
+              </div>
+
+              <div class="c-form-actions">
+                <a class="c-btn c-btn--ghost" href="organizations-pending.html">Cancel</a>
+                <button type="submit" class="c-btn">Create Organization</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+  </body>
+</html>
