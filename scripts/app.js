@@ -274,6 +274,7 @@
 
     // Users table enhancements (sorting, toolbar count, delete modal/toast)
     initUsersTable();
+    initOrgTables();
   });
 })();
 
@@ -436,4 +437,298 @@ function initUsersTable() {
       item.remove();
     }, 2500);
   }
+}
+
+/* ================= Organizations Tables (sorting + approve/reject) ================= */
+function initOrgTables() {
+  const tables = document.querySelectorAll("table.c-table[data-org-table]");
+  if (!tables.length) return;
+
+  tables.forEach((table) => {
+    const tbody = table.querySelector("tbody");
+    const countEl = table.closest("section")?.querySelector(".js-org-count");
+    const sortButtons = table.querySelectorAll(".js-sort");
+    const modal = document.getElementById("confirm-modal");
+    const editModal = document.getElementById("org-edit-modal");
+    const toasts = document.querySelector(".c-toasts");
+    let pendingAction = null; // { row, type }
+    let editingRow = null; // tr | null
+
+    updateCount();
+
+    sortButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const th = btn.closest("th");
+        const key = btn.getAttribute("data-key");
+        if (!th || !key) return;
+        const current = th.getAttribute("aria-sort") || "none";
+        const next = current === "ascending" ? "descending" : "ascending";
+        table.querySelectorAll("thead th").forEach((oth) => {
+          if (oth !== th) oth.setAttribute("aria-sort", "none");
+        });
+        th.setAttribute("aria-sort", next);
+        sortRows(key, next === "ascending");
+      });
+    });
+
+    function sortRows(key, asc) {
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+      const getVal = (row) => {
+        switch (key) {
+          case "title": {
+            const el = row.querySelector(".c-org-cell__title");
+            return el ? el.textContent.trim().toLowerCase() : "";
+          }
+          case "createdBy": {
+            const el = row.querySelector("td:nth-child(4)");
+            return el ? el.textContent.trim().toLowerCase() : "";
+          }
+          case "members": {
+            const el = row.querySelector("td:nth-child(5)");
+            const m = el ? el.textContent.match(/(\d+)/) : null;
+            return m ? parseInt(m[1], 10) : 0;
+          }
+          default:
+            return "";
+        }
+      };
+      rows.sort((a, b) => {
+        const va = getVal(a);
+        const vb = getVal(b);
+        if (typeof va === "number" && typeof vb === "number") {
+          return asc ? va - vb : vb - va;
+        }
+        return asc ? va.localeCompare(vb) : vb.localeCompare(va);
+      });
+      rows.forEach((r) => tbody.appendChild(r));
+    }
+
+    // Approve/Reject/Edit/Delete actions
+    tbody.addEventListener("click", (e) => {
+      const approve = e.target.closest(".js-org-approve");
+      const reject = e.target.closest(".js-org-reject");
+      const del = e.target.closest(".js-org-delete");
+      const edit = e.target.closest(".js-org-edit");
+      if (approve || reject) {
+        const row = e.target.closest("tr");
+        const type = approve ? "approve" : "reject";
+        pendingAction = { row, type };
+        openModal(
+          type === "approve" ? "Approve organization" : "Reject organization"
+        );
+        return;
+      }
+      if (del) {
+        const row = e.target.closest("tr");
+        pendingAction = { row, type: "delete" };
+        openModal("Delete organization");
+        return;
+      }
+      if (edit) {
+        editingRow = e.target.closest("tr");
+        openEditModal("Edit organization", rowToData(editingRow));
+        return;
+      }
+    });
+
+    function updateCount() {
+      if (!countEl) return;
+      const count = tbody.querySelectorAll("tr").length;
+      countEl.textContent = String(count);
+    }
+
+    function openModal(titleText) {
+      if (!modal) return;
+      const title = modal.querySelector("#confirm-title");
+      if (title && titleText) title.textContent = titleText;
+      modal.hidden = false;
+      modal.querySelector(".js-confirm-delete")?.focus();
+    }
+    function closeModal() {
+      if (!modal) return;
+      modal.hidden = true;
+    }
+    if (modal) {
+      modal.addEventListener("click", (e) => {
+        if (e.target.matches("[data-close]")) closeModal();
+      });
+      const confirmBtn = modal.querySelector(".js-confirm-delete");
+      confirmBtn?.addEventListener("click", () => {
+        if (pendingAction?.row) {
+          if (pendingAction.type === "delete") {
+            pendingAction.row.remove();
+            updateCount();
+            showToast("Organization deleted");
+          } else {
+            pendingAction.row.remove();
+            updateCount();
+            showToast(
+              pendingAction.type === "approve"
+                ? "Organization approved"
+                : "Organization rejected"
+            );
+          }
+          pendingAction = null;
+        }
+        closeModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (!modal.hidden && e.key === "Escape") closeModal();
+      });
+    }
+
+    // Create button
+    const createBtn = table.closest(".c-page")?.querySelector(".js-org-create");
+    if (createBtn) {
+      createBtn.addEventListener("click", () => {
+        editingRow = null;
+        openEditModal("Create organization", {
+          title: "",
+          id: "",
+          desc: "",
+          createdBy: "",
+          members: 0,
+        });
+      });
+    }
+
+    function openEditModal(titleText, data) {
+      if (!editModal) return;
+      const title = editModal.querySelector("#org-edit-title");
+      if (title) title.textContent = titleText;
+      const form = editModal.querySelector(".js-org-form");
+      form.querySelector("#org-title").value = data.title || "";
+      form.querySelector("#org-id").value = data.id || "";
+      form.querySelector("#org-desc").value = data.desc || "";
+      form.querySelector("#org-created-by").value = data.createdBy || "";
+      form.querySelector("#org-members").value = String(data.members || 0);
+      editModal.hidden = false;
+      form.querySelector("#org-title").focus();
+      const saveBtn = editModal.querySelector(".js-org-save");
+      const onSave = () => {
+        const newData = {
+          title: form.querySelector("#org-title").value.trim(),
+          id: form.querySelector("#org-id").value.trim(),
+          desc: form.querySelector("#org-desc").value.trim(),
+          createdBy: form.querySelector("#org-created-by").value.trim(),
+          members: parseInt(form.querySelector("#org-members").value, 10) || 0,
+        };
+        if (editingRow) {
+          updateRow(editingRow, newData);
+          showToast("Organization updated");
+        } else {
+          addRow(newData);
+          showToast("Organization created");
+        }
+        closeEditModal();
+      };
+      saveBtn.addEventListener("click", onSave, { once: true });
+      const onClose = (e) => {
+        if (e.target.matches("[data-close]")) closeEditModal();
+      };
+      editModal.addEventListener("click", onClose, { once: true });
+      const onKey = (e) => {
+        if (!editModal.hidden && e.key === "Escape") closeEditModal();
+      };
+      document.addEventListener("keydown", onKey, { once: true });
+    }
+    function closeEditModal() {
+      if (editModal) editModal.hidden = true;
+    }
+
+    function rowToData(row) {
+      return {
+        title:
+          row.querySelector(".c-org-cell__title")?.textContent.trim() || "",
+        id: (row
+          .querySelector(".c-org-cell__sub")
+          ?.textContent.match(/ID:\s*(.*)/) || [null, ""])[1],
+        desc: row.querySelector("td:nth-child(2)")?.textContent.trim() || "",
+        createdBy:
+          row.querySelector("td:nth-child(3)")?.textContent.trim() || "",
+        members:
+          parseInt(
+            row.querySelector("td:nth-child(4)")?.textContent.trim() || "0",
+            10
+          ) || 0,
+      };
+    }
+    function updateRow(row, data) {
+      row.querySelector(".c-org-cell__title").textContent = data.title;
+      const sub = row.querySelector(".c-org-cell__sub");
+      if (sub) sub.textContent = `ID: ${data.id}`;
+      const descEl =
+        row.querySelector("td:nth-child(2) .u-clamp-2") ||
+        row.querySelector("td:nth-child(2)");
+      if (descEl) descEl.textContent = data.desc;
+      row.querySelector("td:nth-child(3)").textContent = data.createdBy;
+      row.querySelector("td:nth-child(4)").textContent = String(data.members);
+      const avatar = row.querySelector(".c-org-cell__avatar");
+      if (avatar) {
+        const first = firstAlpha(data.title);
+        const { bg, fg } = avatarColorFromChar(first);
+        avatar.style.setProperty("--avatar-bg", bg);
+        avatar.style.setProperty("--avatar-fg", fg);
+        avatar.textContent = first;
+      }
+    }
+    function addRow(data) {
+      const hasApprove = !!table.querySelector(".js-org-approve");
+      const hasReject = !!table.querySelector(".js-org-reject");
+      const actions = `
+        ${
+          hasApprove
+            ? '<button class="c-btn c-btn--sm js-org-approve" aria-label="Approve">Approve</button>'
+            : ""
+        }
+        ${
+          hasReject
+            ? '<button class="c-btn c-btn--sm c-btn--ghost js-org-reject" aria-label="Reject">Reject</button>'
+            : ""
+        }
+        <button class="c-icon-btn js-org-edit" aria-label="Edit"><i data-lucide="pencil"></i></button>
+        <button class="c-icon-btn js-org-delete" aria-label="Delete"><i data-lucide="trash"></i></button>`;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>
+          <div class="c-org-cell">
+            <span class="c-org-cell__avatar" aria-hidden="true"></span>
+            <div class="c-org-cell__meta">
+              <span class="c-org-cell__title"></span>
+              <span class="c-org-cell__sub u-text-muted"></span>
+            </div>
+          </div>
+        </td>
+        <td><div class="u-clamp-2"></div></td>
+        <td></td>
+        <td></td>
+        <td class="u-text-right"><div class="c-table-actions">${actions}</div></td>`;
+      tbody.appendChild(tr);
+      updateRow(tr, data);
+      updateCount();
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function showToast(msg) {
+      if (!toasts) return;
+      const item = document.createElement("div");
+      item.className = "c-toast";
+      item.textContent = msg;
+      toasts.appendChild(item);
+      setTimeout(() => item.remove(), 2500);
+    }
+
+    // Initialize org avatars from title initial
+    table.querySelectorAll(".c-org-cell").forEach((row) => {
+      const titleEl = row.querySelector(".c-org-cell__title");
+      const avatarEl = row.querySelector(".c-org-cell__avatar");
+      if (!titleEl || !avatarEl) return;
+      const title = titleEl.textContent.trim();
+      const first = firstAlpha(title);
+      const { bg, fg } = avatarColorFromChar(first);
+      avatarEl.style.setProperty("--avatar-bg", bg);
+      avatarEl.style.setProperty("--avatar-fg", fg);
+      avatarEl.textContent = first;
+    });
+  });
 }

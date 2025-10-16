@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Organizations • Rejected • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Admin</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="users.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="users"></i></span
+            >Users</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#">Admin</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Organizations</span>
+          </nav>
+          <div class="c-page__titlebar">
+            <div>
+              <h1 class="c-page__title">Organizations</h1>
+              <p class="c-page__subtitle u-text-muted">
+                Rejected organizations.
+              </p>
+            </div>
+            <button class="c-btn js-org-create">
+              <i data-lucide="plus"></i> Create Organization
+            </button>
+          </div>
+          <div class="c-tabs" role="tablist" aria-label="Organization tabs">
+            <a
+              href="organizations-pending.html"
+              class="c-tabs__link"
+              role="tab"
+              aria-selected="false"
+              >Pending</a
+            >
+            <a
+              href="organizations-accepted.html"
+              class="c-tabs__link"
+              role="tab"
+              aria-selected="false"
+              >Accepted</a
+            >
+            <a
+              href="organizations-rejected.html"
+              class="c-tabs__link is-active"
+              role="tab"
+              aria-selected="true"
+              >Rejected</a
+            >
+          </div>
+        </header>
+
+        <section>
+          <div class="c-table-toolbar">
+            <div class="c-table-toolbar__left">
+              <span class="u-text-muted"
+                ><span class="js-org-count">0</span> organizations</span
+              >
+            </div>
+          </div>
+          <div class="c-table-wrap">
+            <table
+              class="c-table c-table--sticky"
+              aria-label="Rejected organizations"
+              data-org-table
+            >
+              <thead>
+                <tr>
+                  <th aria-sort="none">
+                    <button class="c-table-sort js-sort" data-key="title">
+                      Organization<span
+                        class="c-sort-indicator"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </th>
+                  <th>Description</th>
+                  <th aria-sort="none">
+                    <button class="c-table-sort js-sort" data-key="createdBy">
+                      Created by<span
+                        class="c-sort-indicator"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </th>
+                  <th aria-sort="none">
+                    <button class="c-table-sort js-sort" data-key="members">
+                      Members<span
+                        class="c-sort-indicator"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </th>
+                  <th class="u-text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="c-org-cell">
+                      <span
+                        class="c-org-cell__avatar"
+                        aria-hidden="true"
+                      ></span>
+                      <div class="c-org-cell__meta">
+                        <span class="c-org-cell__title">Highland Org</span>
+                        <span class="c-org-cell__sub u-text-muted"
+                          >ID: O-40001</span
+                        >
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="u-clamp-2">
+                      Previously rejected due to incomplete documentation.
+                      Awaiting resubmission for review.
+                    </div>
+                  </td>
+                  <td>diego.fernandez@uni.edu</td>
+                  <td>51</td>
+                  <td class="u-text-right">
+                    <div class="c-table-actions">
+                      <button
+                        class="c-btn c-btn--sm js-org-approve"
+                        aria-label="Approve"
+                      >
+                        Approve
+                      </button>
+                      <button class="c-icon-btn js-org-edit" aria-label="Edit">
+                        <i data-lucide="pencil"></i>
+                      </button>
+                      <button
+                        class="c-icon-btn js-org-delete"
+                        aria-label="Delete"
+                      >
+                        <i data-lucide="trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="scripts/app.js"></script>
+    <!-- Confirm Modal (shared) -->
+    <div
+      class="c-modal"
+      id="confirm-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-title"
+      hidden
+    >
+      <div class="c-modal__backdrop" data-close></div>
+      <div class="c-modal__dialog">
+        <div class="c-modal__header">
+          <h3 id="confirm-title">Confirm</h3>
+        </div>
+        <div class="c-modal__body">
+          <p>Are you sure?</p>
+        </div>
+        <div class="c-modal__footer">
+          <button class="c-btn c-btn--ghost" data-close>Cancel</button>
+          <button class="c-btn c-btn--danger js-confirm-delete">Confirm</button>
+        </div>
+      </div>
+    </div>
+    <div class="c-toasts" aria-live="polite" aria-atomic="true"></div>
+    <!-- Edit/Create Organization Modal -->
+    <div
+      class="c-modal"
+      id="org-edit-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="org-edit-title"
+      hidden
+    >
+      <div class="c-modal__backdrop" data-close></div>
+      <div class="c-modal__dialog">
+        <div class="c-modal__header">
+          <h3 id="org-edit-title">Create organization</h3>
+        </div>
+        <div class="c-modal__body">
+          <form class="c-form js-org-form" onsubmit="return false;">
+            <div class="c-form-grid">
+              <div class="c-field">
+                <label class="c-field__label" for="org-title">Title</label>
+                <input
+                  class="c-field__input"
+                  id="org-title"
+                  type="text"
+                  required
+                />
+              </div>
+              <div class="c-field">
+                <label class="c-field__label" for="org-id">ID</label>
+                <input
+                  class="c-field__input"
+                  id="org-id"
+                  type="text"
+                  required
+                />
+              </div>
+            </div>
+            <div class="c-field">
+              <label class="c-field__label" for="org-desc">Description</label>
+              <textarea
+                class="c-field__input"
+                id="org-desc"
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="c-form-grid">
+              <div class="c-field">
+                <label class="c-field__label" for="org-created-by"
+                  >Created by</label
+                >
+                <input
+                  class="c-field__input"
+                  id="org-created-by"
+                  type="email"
+                  required
+                />
+              </div>
+              <div class="c-field">
+                <label class="c-field__label" for="org-members">Members</label>
+                <input
+                  class="c-field__input"
+                  id="org-members"
+                  type="number"
+                  min="0"
+                  step="1"
+                  required
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="c-modal__footer">
+          <button class="c-btn c-btn--ghost" data-close>Cancel</button>
+          <button class="c-btn js-org-save">Save</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

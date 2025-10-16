@@ -915,6 +915,36 @@ a:hover {
   font-size: var(--fs-xs);
 }
 
+/* Org cell (similar to user cell, avatar with md radius) */
+.c-org-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.c-org-cell__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--avatar-bg, #e6e6e6);
+  color: var(--avatar-fg, var(--color-brand));
+  display: grid;
+  place-items: center;
+  font-weight: var(--fw-semibold);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+.c-org-cell__meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.c-org-cell__title {
+  font-weight: var(--fw-medium);
+}
+.c-org-cell__sub {
+  font-size: var(--fs-xs);
+}
+
 /* Small/Ghost buttons for table actions */
 .c-btn--sm {
   padding: var(--space-2) var(--space-4);
@@ -1089,6 +1119,15 @@ th[aria-sort="none"] .c-sort-indicator {
 /* Utilities */
 .u-text-right {
   text-align: right;
+}
+
+/* Line clamp */
+.u-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
 }
 
 /* ===== Resource Feedback components ===== */
