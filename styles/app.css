@@ -291,23 +291,23 @@ a:hover {
   grid-template-columns: 1fr auto;
   gap: var(--space-3);
 }
-  /* Input with leading icon */
-  .c-input-icon {
-    position: relative;
-  }
-  .c-input-icon__icon {
-    position: absolute;
-    left: var(--space-4);
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-text-muted);
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-  }
-  .c-input-icon .c-input {
-    padding-left: calc(var(--space-4) * 2 + 18px);
-  }
+/* Input with leading icon */
+.c-input-icon {
+  position: relative;
+}
+.c-input-icon__icon {
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+}
+.c-input-icon .c-input {
+  padding-left: calc(var(--space-4) * 2 + 18px);
+}
 .c-input {
   padding: var(--space-4);
   border: 1px solid var(--color-border);
@@ -345,35 +345,35 @@ a:hover {
   border-radius: var(--radius-pill);
 }
 
-  /* Chips */
-  .c-chip-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
-  .c-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
-    font-size: var(--fs-xs);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-pill);
-    background: var(--color-white);
-    color: var(--color-text);
-    text-decoration: none;
-    transition: background-color var(--transition-base),
-      border-color var(--transition-base), color var(--transition-base);
-  }
-  .c-chip:hover {
-    background: var(--color-surface);
-    text-decoration: none;
-  }
-  .c-chip.is-active {
-    border-color: var(--color-brand);
-    background: rgba(84, 44, 245, 0.08);
-    color: var(--color-text);
-  }
+/* Chips */
+.c-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.c-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--fs-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background-color var(--transition-base),
+    border-color var(--transition-base), color var(--transition-base);
+}
+.c-chip:hover {
+  background: var(--color-surface);
+  text-decoration: none;
+}
+.c-chip.is-active {
+  border-color: var(--color-brand);
+  background: rgba(84, 44, 245, 0.08);
+  color: var(--color-text);
+}
 
 .c-section-title {
   margin: var(--space-8) 0 var(--space-4);
