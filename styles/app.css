@@ -54,6 +54,7 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
   --panel-bg: #f4f5fb;
+  --color-brand-soft: rgba(84, 44, 245, 0.12);
   --transition-base: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   color-scheme: light;
   transition: background-color var(--transition-base),
@@ -86,6 +87,7 @@
   --color-success-soft: rgba(47, 157, 91, 0.2);
   --color-white: #1b1f24;
   --panel-bg: #0f1420;
+  --color-brand-soft: rgba(84, 44, 245, 0.2);
   --shadow-focus: 0 0 0 3px rgba(126, 103, 255, 0.5);
   color-scheme: dark;
 }
@@ -202,6 +204,44 @@ a:hover {
   color: var(--color-brand);
 }
 
+/* Organization switcher */
+.c-org-switcher {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.c-org-switcher__label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+.c-select--full {
+  width: 100%;
+}
+
+/* Select (shared) */
+.c-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: var(--space-3) var(--space-6) var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+  color: var(--color-text);
+  font: inherit;
+  line-height: 1.2;
+  min-height: 40px;
+}
+.c-select:focus-visible {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: var(--shadow-focus);
+}
+
 .c-nav {
   display: flex;
   flex-direction: column;
@@ -230,7 +270,6 @@ a:hover {
 }
 
 .c-user-mini {
-  margin-top: auto;
   padding: var(--space-4);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -258,6 +297,9 @@ a:hover {
   color: var(--color-text-muted);
 }
 
+.c-logout-button {
+  margin-top: auto;
+}
 .c-page {
   padding: var(--space-8);
 }
@@ -581,6 +623,15 @@ a:hover {
 .c-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Secondary button (soft brand background, brand text) */
+.c-btn--secondary {
+  --_bg: var(--color-brand-soft);
+  --_bg-hover: rgba(84, 44, 245, 0.16);
+  --_bg-active: rgba(84, 44, 245, 0.2);
+  --_color: var(--color-brand);
+  box-shadow: none;
 }
 
 .c-link {

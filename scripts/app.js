@@ -122,6 +122,35 @@
   }
   ns.password = { passwordScore, initPasswordMeter };
 
+  /* ================= Organization Switcher ================= */
+  const ORG_KEY = "uninest-active-org";
+  function getActiveOrg() {
+    return localStorage.getItem(ORG_KEY) || "Default University";
+  }
+  function setActiveOrg(org) {
+    localStorage.setItem(ORG_KEY, org);
+  }
+  function initOrgSwitcher() {
+    document.querySelectorAll(".js-org-select").forEach((sel) => {
+      const current = getActiveOrg();
+      // If the current value exists in options, select it; otherwise keep first
+      Array.from(sel.options).forEach((opt) => {
+        if (opt.value === current) sel.value = current;
+      });
+      sel.addEventListener("change", () => {
+        setActiveOrg(sel.value);
+        // Optional: emit a custom event for components to react
+        document.dispatchEvent(
+          new CustomEvent("uninest:org-changed", { detail: { org: sel.value } })
+        );
+      });
+    });
+    // Reflect active org into any placeholder nodes
+    const orgNodes = document.querySelectorAll(".js-active-org");
+    orgNodes.forEach((n) => (n.textContent = getActiveOrg()));
+  }
+  ns.org = { initOrgSwitcher, getActiveOrg, setActiveOrg };
+
   /* ================= Init (DOM Ready) ================= */
   document.addEventListener("DOMContentLoaded", () => {
     // Initialize Lucide icons
@@ -129,6 +158,7 @@
       window.lucide.createIcons();
     }
     initTheme();
+    initOrgSwitcher();
     document
       .querySelectorAll("form.js-validate")
       .forEach((f) => attachValidation(f));
