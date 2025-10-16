@@ -855,6 +855,11 @@ a:hover {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 }
+.c-table--sticky thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
 .c-table thead th {
   text-align: left;
   font-weight: var(--fw-medium);
@@ -958,6 +963,116 @@ a:hover {
 .c-table-actions {
   display: inline-flex;
   gap: var(--space-2);
+}
+
+/* Table toolbar */
+.c-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 var(--space-3);
+}
+.c-table-toolbar__left,
+.c-table-toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Sortable column header */
+.c-table-sort {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.c-sort-indicator {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+  background: transparent;
+  opacity: 0.5;
+}
+th[aria-sort="ascending"] .c-sort-indicator {
+  transform: rotate(180deg);
+  background: var(--color-brand);
+}
+th[aria-sort="descending"] .c-sort-indicator {
+  transform: rotate(0deg);
+  background: var(--color-brand);
+}
+th[aria-sort="none"] .c-sort-indicator {
+  background: transparent;
+}
+
+/* Danger button variant */
+.c-btn--danger {
+  --_bg: var(--color-danger);
+  --_bg-hover: #b5241a;
+  --_bg-active: #981f16;
+}
+
+/* Modal */
+.c-modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.c-modal[hidden] {
+  display: none;
+}
+.c-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+.c-modal__dialog {
+  position: relative;
+  width: min(520px, 92vw);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elev-1);
+  overflow: hidden;
+}
+.c-modal__header {
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+.c-modal__body {
+  padding: var(--space-5);
+}
+.c-modal__footer {
+  padding: var(--space-5);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Toasts */
+.c-toasts {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  z-index: 1000;
+}
+.c-toast {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--fs-xs);
+  box-shadow: var(--shadow-elev-1);
 }
 
 /* Badge */

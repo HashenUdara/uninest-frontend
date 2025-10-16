@@ -271,6 +271,9 @@
     document
       .querySelectorAll("form.js-validate")
       .forEach((f) => attachValidation(f));
+
+    // Users table enhancements (sorting, toolbar count, delete modal/toast)
+    initUsersTable();
   });
 })();
 
@@ -302,3 +305,135 @@ document.querySelectorAll(".c-user-cell").forEach((row) => {
   avatarEl.style.setProperty("--avatar-fg", fg);
   avatarEl.textContent = first;
 });
+
+/* ================= Users Table (sorting + delete) ================= */
+function initUsersTable() {
+  const table = document.getElementById("users-table");
+  if (!table) return;
+  const tbody = table.querySelector("tbody");
+  const countEl = document.querySelector(".js-user-count");
+  const sortButtons = table.querySelectorAll(".js-sort");
+  const modal = document.getElementById("confirm-modal");
+  const toasts = document.querySelector(".c-toasts");
+  let pendingDeleteRow = null;
+
+  // Update count initially
+  updateCount();
+
+  // Sorting
+  sortButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const th = btn.closest("th");
+      const key = btn.getAttribute("data-key");
+      if (!th || !key) return;
+      // Toggle sort state
+      const current = th.getAttribute("aria-sort") || "none";
+      const next = current === "ascending" ? "descending" : "ascending";
+      // Reset others to none
+      table.querySelectorAll("thead th").forEach((oth) => {
+        if (oth !== th) oth.setAttribute("aria-sort", "none");
+      });
+      th.setAttribute("aria-sort", next);
+      sortRows(key, next === "ascending");
+    });
+  });
+
+  function sortRows(key, asc) {
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    const getVal = (row) => {
+      switch (key) {
+        case "name": {
+          const el = row.querySelector(".c-user-cell__name");
+          return el ? el.textContent.trim().toLowerCase() : "";
+        }
+        case "email": {
+          const el = row.querySelector("td:nth-child(2)");
+          return el ? el.textContent.trim().toLowerCase() : "";
+        }
+        case "year": {
+          const el = row.querySelector("td:nth-child(3)");
+          if (!el) return 0;
+          const m = el.textContent.match(/(\d+)/);
+          return m ? parseInt(m[1], 10) : 0;
+        }
+        case "university": {
+          const el = row.querySelector("td:nth-child(4)");
+          return el ? el.textContent.trim().toLowerCase() : "";
+        }
+        case "organization": {
+          const el = row.querySelector("td:nth-child(5)");
+          return el ? el.textContent.trim().toLowerCase() : "";
+        }
+        default:
+          return "";
+      }
+    };
+    rows.sort((a, b) => {
+      const va = getVal(a);
+      const vb = getVal(b);
+      if (typeof va === "number" && typeof vb === "number") {
+        return asc ? va - vb : vb - va;
+      }
+      return asc ? va.localeCompare(vb) : vb.localeCompare(va);
+    });
+    // Re-append in order
+    rows.forEach((r) => tbody.appendChild(r));
+  }
+
+  // Delete flow: open modal on delete icon
+  tbody.addEventListener("click", (e) => {
+    const delBtn = e.target.closest(".c-icon-btn[aria-label='Delete user']");
+    if (!delBtn) return;
+    pendingDeleteRow = delBtn.closest("tr");
+    openModal();
+  });
+
+  function openModal() {
+    if (!modal) return;
+    modal.hidden = false;
+    const confirmBtn = modal.querySelector(".js-confirm-delete");
+    confirmBtn?.focus();
+  }
+  function closeModal() {
+    if (!modal) return;
+    modal.hidden = true;
+  }
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target.matches("[data-close]")) {
+        closeModal();
+      }
+    });
+    const confirmBtn = modal.querySelector(".js-confirm-delete");
+    confirmBtn?.addEventListener("click", () => {
+      if (pendingDeleteRow) {
+        pendingDeleteRow.remove();
+        updateCount();
+        showToast("User deleted");
+        pendingDeleteRow = null;
+      }
+      closeModal();
+    });
+    // Escape to close
+    document.addEventListener("keydown", (e) => {
+      if (!modal.hidden && e.key === "Escape") closeModal();
+    });
+  }
+
+  function updateCount() {
+    if (!countEl) return;
+    const count = tbody.querySelectorAll("tr").length;
+    countEl.textContent = String(count);
+  }
+
+  function showToast(msg) {
+    if (!toasts) return;
+    const item = document.createElement("div");
+    item.className = "c-toast";
+    item.textContent = msg;
+    toasts.appendChild(item);
+    setTimeout(() => {
+      item.remove();
+    }, 2500);
+  }
+}
