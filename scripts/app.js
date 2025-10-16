@@ -156,7 +156,6 @@
     const dz = document.querySelector(".js-upload-dropzone");
     if (!dz) return;
     const browseBtn = dz.querySelector(".js-browse-files");
-    const startBtn = dz.querySelector(".js-start-upload");
     const hiddenInput = dz.querySelector(".js-hidden-file");
     const wrapper = document.querySelector(".js-upload-progress");
     const bar = wrapper ? wrapper.querySelector(".c-progress") : null;
@@ -200,12 +199,15 @@
     });
     if (browseBtn && hiddenInput) {
       browseBtn.addEventListener("click", () => hiddenInput.click());
+      // Make entire dropzone clickable (excluding when clicking the button already triggers)
+      dz.addEventListener("click", (e) => {
+        const isBtn = e.target.closest(".js-browse-files");
+        if (!isBtn) hiddenInput.click();
+      });
       hiddenInput.addEventListener("change", () =>
         simulateUpload(hiddenInput.files)
       );
     }
-    if (startBtn)
-      startBtn.addEventListener("click", () => simulateUpload([{}]));
   }
   ns.upload = { initUploadUI };
 
@@ -250,6 +252,22 @@
     initOrgSwitcher();
     initUploadUI();
     initUploadTabs();
+    // Rating chips (feedback page)
+    const chipGroup = document.querySelector(".js-rating-chips");
+    if (chipGroup) {
+      chipGroup.addEventListener("click", (e) => {
+        const chip = e.target.closest(".js-rating-chip");
+        if (!chip) return;
+        chipGroup
+          .querySelectorAll(".js-rating-chip")
+          .forEach((c) => c.classList.remove("is-active"));
+        chip.classList.add("is-active");
+        chipGroup.setAttribute(
+          "data-rating",
+          chip.getAttribute("data-rating") || ""
+        );
+      });
+    }
     document
       .querySelectorAll("form.js-validate")
       .forEach((f) => attachValidation(f));

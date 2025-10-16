@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resource Feedback • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="resources.html">Resources</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="#">Calculus I</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Resource Title</span>
+          </nav>
+          <h1 class="c-page__title">Feedback</h1>
+        </header>
+
+        <section class="c-panel">
+          <!-- Rating Summary -->
+          <div class="c-rating-summary">
+            <div class="c-rating-summary__left">
+              <div class="c-rating-summary__score">4.5</div>
+              <div class="c-stars" aria-label="Average rating 4.5 out of 5">
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star"></i>
+                <i data-lucide="star-half"></i>
+              </div>
+              <div class="u-text-muted">12 reviews</div>
+            </div>
+            <div class="c-rating-bars" role="list">
+              <div class="c-rating-bars__row" role="listitem">
+                <span>5</span>
+                <div class="c-rating-bars__track" style="--pct: 40%"></div>
+                <span>40%</span>
+              </div>
+              <div class="c-rating-bars__row" role="listitem">
+                <span>4</span>
+                <div class="c-rating-bars__track" style="--pct: 30%"></div>
+                <span>30%</span>
+              </div>
+              <div class="c-rating-bars__row" role="listitem">
+                <span>3</span>
+                <div class="c-rating-bars__track" style="--pct: 15%"></div>
+                <span>15%</span>
+              </div>
+              <div class="c-rating-bars__row" role="listitem">
+                <span>2</span>
+                <div class="c-rating-bars__track" style="--pct: 10%"></div>
+                <span>10%</span>
+              </div>
+              <div class="c-rating-bars__row" role="listitem">
+                <span>1</span>
+                <div class="c-rating-bars__track" style="--pct: 5%"></div>
+                <span>5%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Leave a review -->
+          <h3 class="c-section-title">Leave a review</h3>
+          <div class="c-review-form">
+            <div
+              class="c-chip-group js-rating-chips"
+              role="radiogroup"
+              aria-label="Select rating"
+            >
+              <button
+                type="button"
+                class="c-chip js-rating-chip is-active"
+                data-rating="1"
+              >
+                1 star
+              </button>
+              <button
+                type="button"
+                class="c-chip js-rating-chip"
+                data-rating="2"
+              >
+                2 stars
+              </button>
+              <button
+                type="button"
+                class="c-chip js-rating-chip"
+                data-rating="3"
+              >
+                3 stars
+              </button>
+              <button
+                type="button"
+                class="c-chip js-rating-chip"
+                data-rating="4"
+              >
+                4 stars
+              </button>
+              <button
+                type="button"
+                class="c-chip js-rating-chip"
+                data-rating="5"
+              >
+                5 stars
+              </button>
+            </div>
+            <div class="c-field">
+              <label for="review-text" class="u-sr-only">Your review</label>
+              <textarea
+                id="review-text"
+                rows="5"
+                class="c-field__input"
+                placeholder="Share your experience with this resource..."
+              ></textarea>
+            </div>
+            <div class="c-form-actions">
+              <button class="c-btn">Submit Feedback</button>
+            </div>
+          </div>
+
+          <h3 class="c-section-title">All reviews</h3>
+          <div class="c-review-list">
+            <article class="c-review">
+              <div class="c-review__avatar" aria-hidden="true"></div>
+              <div class="c-review__body">
+                <div class="c-review__header">
+                  <strong>Ethan Carter</strong>
+                  <span class="u-text-muted">· 2 weeks ago</span>
+                </div>
+                <div class="c-stars c-stars--sm" aria-label="5 out of 5">
+                  <i data-lucide="star"></i><i data-lucide="star"></i
+                  ><i data-lucide="star"></i><i data-lucide="star"></i
+                  ><i data-lucide="star"></i>
+                </div>
+                <p class="c-review__text">
+                  This resource was incredibly helpful for my research paper.
+                  The information was well-organized and easy to understand.
+                </p>
+                <div class="c-review__actions">
+                  <span class="c-review__action"
+                    ><i data-lucide="thumbs-up"></i> 5</span
+                  >
+                  <span class="c-review__action"
+                    ><i data-lucide="message-square"></i> 1</span
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="c-review">
+              <div class="c-review__avatar" aria-hidden="true"></div>
+              <div class="c-review__body">
+                <div class="c-review__header">
+                  <strong>Sophia Clark</strong>
+                  <span class="u-text-muted">· 1 month ago</span>
+                </div>
+                <div class="c-stars c-stars--sm" aria-label="4 out of 5">
+                  <i data-lucide="star"></i><i data-lucide="star"></i
+                  ><i data-lucide="star"></i><i data-lucide="star"></i
+                  ><i data-lucide="star-off"></i>
+                </div>
+                <p class="c-review__text">
+                  Good resource, but could use more examples to illustrate the
+                  concepts.
+                </p>
+                <div class="c-review__actions">
+                  <span class="c-review__action"
+                    ><i data-lucide="thumbs-up"></i> 3</span
+                  >
+                  <span class="c-review__action"
+                    ><i data-lucide="message-square"></i> 2</span
+                  >
+                </div>
+              </div>
+            </article>
+            <article class="c-review">
+              <div class="c-review__avatar" aria-hidden="true"></div>
+              <div class="c-review__body">
+                <div class="c-review__header">
+                  <strong>Liam Harper</strong>
+                  <span class="u-text-muted">· 2 months ago</span>
+                </div>
+                <div class="c-stars c-stars--sm" aria-label="5 out of 5">
+                  <i data-lucide="star"></i><i data-lucide="star"></i
+                  ><i data-lucide="star"></i><i data-lucide="star"></i
+                  ><i data-lucide="star"></i>
+                </div>
+                <p class="c-review__text">
+                  Excellent resource! It helped me grasp the topic quickly and
+                  effectively.
+                </p>
+                <div class="c-review__actions">
+                  <span class="c-review__action"
+                    ><i data-lucide="thumbs-up"></i> 7</span
+                  >
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>
