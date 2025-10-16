@@ -167,7 +167,7 @@ a:hover {
 
 .o-grid {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-4);
 }
 .o-grid--cards {
   grid-template-columns: repeat(4, 1fr);
@@ -298,7 +298,7 @@ a:hover {
 .c-input-icon__icon {
   position: absolute;
   left: var(--space-4);
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   color: var(--color-text-muted);
   width: 18px;
@@ -314,6 +314,7 @@ a:hover {
   border-radius: var(--radius-pill);
   background: var(--color-white);
   color: var(--color-text);
+  width: 100%;
 }
 .c-input::placeholder {
   color: var(--color-text-muted);
@@ -407,6 +408,23 @@ a:hover {
   font-size: var(--fs-xs);
   color: var(--color-text-muted);
 }
+/* Progress */
+.c-progress {
+  position: relative;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  overflow: hidden;
+}
+.c-progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: var(--progress, 0%);
+  background: var(--color-brand);
+  transition: width var(--transition-base);
+}
+
 .c-auth {
   width: 100%;
   max-width: var(--max-auth-width);
