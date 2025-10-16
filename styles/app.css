@@ -50,7 +50,7 @@
   --max-content-width: 640px;
   --max-auth-width: 420px;
   --content-max: 1200px;
-  --sidebar-w: 260px;
+  --sidebar-w: 310px;
   --radius-lg: 16px;
   --radius-xl: 24px;
   --panel-bg: #f4f5fb;
@@ -182,8 +182,10 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  border-right: 1px solid var(--color-border);
-  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  background: rgba(84, 44, 245, 0.01);
+  border-radius: var(--radius-lg);
+  margin: var(--space-3);
 }
 .c-logo {
   display: flex;
