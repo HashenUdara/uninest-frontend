@@ -373,6 +373,14 @@ a:hover {
   text-decoration: none;
   font-weight: var(--fw-medium);
   position: relative;
+  /* Reset button defaults to allow using <button> as tab */
+  background: transparent;
+  border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font: inherit;
+  cursor: pointer;
 }
 .c-tabs__link.is-active {
   color: var(--color-text);
@@ -385,6 +393,11 @@ a:hover {
   bottom: -1px;
   height: 2px;
   background: var(--color-brand);
+  border-radius: var(--radius-pill);
+}
+.c-tabs__link:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
   border-radius: var(--radius-pill);
 }
 
@@ -545,6 +558,7 @@ a:hover {
   display: grid;
   place-items: center;
   text-align: center;
+  cursor: pointer;
 }
 .c-dropzone.is-dragover {
   border-color: var(--color-brand);
@@ -555,8 +569,25 @@ a:hover {
   font-weight: var(--fw-medium);
   margin-bottom: var(--space-3);
 }
+.c-dropzone__hint {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-muted);
+}
 .c-dropzone__actions {
   margin-top: var(--space-4);
+}
+/* Illustration inside dropzone */
+.c-dropzone__illustration {
+  width: min(180px, 40%);
+  height: auto;
+  margin-inline: auto;
+  margin-bottom: var(--space-4);
+  opacity: 0.9;
+  border-radius: var(--radius-md);
+}
+.c-dropzone__note {
+  margin-top: var(--space-3);
+  font-size: var(--fs-xs);
 }
 
 /* Upload progress meta */

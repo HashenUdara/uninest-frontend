@@ -200,11 +200,45 @@
     });
     if (browseBtn && hiddenInput) {
       browseBtn.addEventListener("click", () => hiddenInput.click());
-      hiddenInput.addEventListener("change", () => simulateUpload(hiddenInput.files));
+      hiddenInput.addEventListener("change", () =>
+        simulateUpload(hiddenInput.files)
+      );
     }
-    if (startBtn) startBtn.addEventListener("click", () => simulateUpload([{}]));
+    if (startBtn)
+      startBtn.addEventListener("click", () => simulateUpload([{}]));
   }
   ns.upload = { initUploadUI };
+
+  /* ================= Upload Mode Tabs (file | link) ================= */
+  function initUploadTabs() {
+    const tablist = document.querySelector(".js-upload-tabs");
+    if (!tablist) return;
+    const filePane = document.querySelector(".js-mode-file");
+    const linkPane = document.querySelector(".js-mode-link");
+    const linkInput = document.querySelector(".js-link-input");
+    function setMode(mode) {
+      const tabs = tablist.querySelectorAll(".c-tabs__link");
+      tabs.forEach((t) => {
+        const active = t.getAttribute("data-mode") === mode;
+        t.classList.toggle("is-active", active);
+        t.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      const fileActive = mode === "file";
+      if (filePane) filePane.hidden = !fileActive;
+      if (linkPane) linkPane.hidden = fileActive;
+      // Scope required attributes
+      if (linkInput) linkInput.required = !fileActive;
+    }
+    tablist.addEventListener("click", (e) => {
+      const btn = e.target.closest(".c-tabs__link");
+      if (!btn) return;
+      e.preventDefault();
+      const mode = btn.getAttribute("data-mode");
+      if (mode) setMode(mode);
+    });
+    setMode("file");
+  }
+  ns.uploadTabs = { initUploadTabs };
 
   /* ================= Init (DOM Ready) ================= */
   document.addEventListener("DOMContentLoaded", () => {
@@ -215,6 +249,7 @@
     initTheme();
     initOrgSwitcher();
     initUploadUI();
+    initUploadTabs();
     document
       .querySelectorAll("form.js-validate")
       .forEach((f) => attachValidation(f));
