@@ -471,21 +471,22 @@ function initOrgConfirm() {
 
 function initOrgAvatars() {
   // Colorize avatars and set counts per table
-  document.querySelectorAll("table.c-table[data-org-table]").forEach((table) => {
-    const countEl = table.closest("section")?.querySelector(".js-org-count");
-    const rows = table.querySelectorAll("tbody tr");
-    if (countEl) countEl.textContent = String(rows.length);
-    table.querySelectorAll(".c-org-cell").forEach((row) => {
-      const titleEl = row.querySelector(".c-org-cell__title");
-      const avatarEl = row.querySelector(".c-org-cell__avatar");
-      if (!titleEl || !avatarEl) return;
-      const title = titleEl.textContent.trim();
-      const first = firstAlpha(title);
-      const { bg, fg } = avatarColorFromChar(first);
-      avatarEl.style.setProperty("--avatar-bg", bg);
-      avatarEl.style.setProperty("--avatar-fg", fg);
-      avatarEl.textContent = first;
+  document
+    .querySelectorAll("table.c-table[data-org-table]")
+    .forEach((table) => {
+      const countEl = table.closest("section")?.querySelector(".js-org-count");
+      const rows = table.querySelectorAll("tbody tr");
+      if (countEl) countEl.textContent = String(rows.length);
+      table.querySelectorAll(".c-org-cell").forEach((row) => {
+        const titleEl = row.querySelector(".c-org-cell__title");
+        const avatarEl = row.querySelector(".c-org-cell__avatar");
+        if (!titleEl || !avatarEl) return;
+        const title = titleEl.textContent.trim();
+        const first = firstAlpha(title);
+        const { bg, fg } = avatarColorFromChar(first);
+        avatarEl.style.setProperty("--avatar-bg", bg);
+        avatarEl.style.setProperty("--avatar-fg", fg);
+        avatarEl.textContent = first;
+      });
     });
-  });
 }
-

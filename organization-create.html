@@ -71,7 +71,7 @@
             <div>
               <h1 class="c-page__title">Create organization</h1>
               <p class="c-page__subtitle u-text-muted">
-                Add a new organization and assign a moderator.
+                Add a new organization.
               </p>
             </div>
             <a class="c-btn c-btn--ghost" href="organizations-pending.html">
@@ -83,31 +83,17 @@
         <section>
           <form class="c-form js-validate" action="#" method="post">
             <div class="c-form-card">
-              <div class="c-form-grid">
-                <div class="c-field">
-                  <label class="c-field__label" for="org-title">Title</label>
-                  <input
-                    class="c-field__input"
-                    id="org-title"
-                    name="title"
-                    type="text"
-                    placeholder="e.g., Northshore Group"
-                    required
-                  />
-                  <div class="c-field__error"></div>
-                </div>
-                <div class="c-field">
-                  <label class="c-field__label" for="org-id">Organization ID</label>
-                  <input
-                    class="c-field__input"
-                    id="org-id"
-                    name="id"
-                    type="text"
-                    placeholder="e.g., O-20001"
-                    required
-                  />
-                  <div class="c-field__error"></div>
-                </div>
+              <div class="c-field">
+                <label class="c-field__label" for="org-title">Title</label>
+                <input
+                  class="c-field__input"
+                  id="org-title"
+                  name="title"
+                  type="text"
+                  placeholder="e.g., Northshore Group"
+                  required
+                />
+                <div class="c-field__error"></div>
               </div>
 
               <div class="c-field">
@@ -123,37 +109,10 @@
                 <div class="c-field__error"></div>
               </div>
 
-              <div class="c-form-grid">
-                <div class="c-field">
-                  <label class="c-field__label" for="org-created-by">Created by (Moderator)</label>
-                  <select class="c-field__input" id="org-created-by" name="createdBy" required>
-                    <option value="" disabled selected>Select a moderator</option>
-                    <option value="ethan.carter@uni.edu">ethan.carter@uni.edu</option>
-                    <option value="ava.nguyen@uni.edu">ava.nguyen@uni.edu</option>
-                    <option value="chloe.zhang@uni.edu">chloe.zhang@uni.edu</option>
-                    <option value="liam.harper@uni.edu">liam.harper@uni.edu</option>
-                    <option value="diego.fernandez@uni.edu">diego.fernandez@uni.edu</option>
-                  </select>
-                  <div class="c-field__error"></div>
-                </div>
-                <div class="c-field">
-                  <label class="c-field__label" for="org-members">Members</label>
-                  <input
-                    class="c-field__input"
-                    id="org-members"
-                    name="members"
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="e.g., 50"
-                    required
-                  />
-                  <div class="c-field__error"></div>
-                </div>
-              </div>
-
               <div class="c-form-actions">
-                <a class="c-btn c-btn--ghost" href="organizations-pending.html">Cancel</a>
+                <a class="c-btn c-btn--ghost" href="organizations-pending.html"
+                  >Cancel</a
+                >
                 <button type="submit" class="c-btn">Create Organization</button>
               </div>
             </div>

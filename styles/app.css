@@ -557,6 +557,18 @@ a:hover {
   justify-content: flex-end;
   padding-top: var(--space-2);
 }
+
+/* Members cell: icon + count inline */
+.c-members {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.c-members svg {
+  width: 16px;
+  height: 16px;
+}
+
 .c-form-actions--between {
   justify-content: space-between;
   align-items: center;

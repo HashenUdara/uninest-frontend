@@ -126,14 +126,6 @@
                   </th>
                   <th>Description</th>
                   <th aria-sort="none">
-                    <button class="c-table-sort js-sort" data-key="createdBy">
-                      Created by<span
-                        class="c-sort-indicator"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                  </th>
-                  <th aria-sort="none">
                     <button class="c-table-sort js-sort" data-key="members">
                       Members<span
                         class="c-sort-indicator"
@@ -166,8 +158,11 @@
                       academic support across engineering departments.
                     </div>
                   </td>
-                  <td>ethan.carter@uni.edu</td>
-                  <td>128</td>
+                  <td>
+                    <span class="c-members"
+                      ><i data-lucide="users"></i><span>128</span></span
+                    >
+                  </td>
                   <td class="u-text-right">
                     <div class="c-table-actions">
                       <button
@@ -182,6 +177,9 @@
                       >
                         Reject
                       </button>
+                      <a class="c-icon-btn" aria-label="Edit" href="edit?id=1">
+                        <i data-lucide="pencil"></i>
+                      </a>
                       <button
                         class="c-icon-btn js-org-delete"
                         aria-label="Delete"
@@ -212,8 +210,11 @@
                       regular workshops for first-year students.
                     </div>
                   </td>
-                  <td>ava.nguyen@uni.edu</td>
-                  <td>64</td>
+                  <td>
+                    <span class="c-members"
+                      ><i data-lucide="users"></i><span>64</span></span
+                    >
+                  </td>
                   <td class="u-text-right">
                     <div class="c-table-actions">
                       <button
@@ -228,6 +229,9 @@
                       >
                         Reject
                       </button>
+                      <a class="c-icon-btn" aria-label="Edit" href="edit?id=1">
+                        <i data-lucide="pencil"></i>
+                      </a>
                       <button
                         class="c-icon-btn js-org-delete"
                         aria-label="Delete"
@@ -268,6 +272,5 @@
       </div>
     </div>
     <div class="c-toasts" aria-live="polite" aria-atomic="true"></div>
-    
   </body>
 </html>
