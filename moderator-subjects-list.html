@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Subjects (List) • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/subjects.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="#" class="c-nav__item is-active"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Subjects (List)</span>
+          </nav>
+          <h1 class="c-page__title">Subjects (List View)</h1>
+          <div class="c-toolbar">
+            <div class="c-input-group">
+              <input
+                class="c-input"
+                type="search"
+                placeholder="Search subjects by name or code"
+                aria-label="Search subjects"
+              />
+              <button class="c-btn">Search</button>
+            </div>
+            <div class="c-view-switch" role="group" aria-label="View switch">
+              <a class="c-view-switch__btn" href="moderator-subjects.html">
+                <i data-lucide="grid"></i>
+                <span>Grid</span>
+              </a>
+              <a
+                class="c-view-switch__btn is-active"
+                href="moderator-subjects-list.html"
+                aria-current="page"
+              >
+                <i data-lucide="list"></i>
+                <span>List</span>
+              </a>
+            </div>
+          </div>
+        </header>
+
+        <section>
+          <div class="o-panel">
+            <div class="c-table-toolbar">
+              <div class="c-table-toolbar__left">
+                <strong>Subjects</strong>
+                <span class="u-text-muted"
+                  >Total: <span class="js-subject-count">0</span></span
+                >
+              </div>
+            </div>
+            <div class="o-table-wrap">
+              <table class="c-table" id="subjects-table" aria-label="Subjects">
+                <thead>
+                  <tr>
+                    <th aria-sort="none">
+                      <button
+                        type="button"
+                        class="c-table-sort js-sort"
+                        data-key="title"
+                      >
+                        <span>Name</span>
+                      </button>
+                    </th>
+                    <th>Description</th>
+                    <th aria-sort="none">
+                      <button
+                        type="button"
+                        class="c-table-sort js-sort"
+                        data-key="code"
+                      >
+                        <span>Code</span>
+                      </button>
+                    </th>
+                    <th aria-sort="none">
+                      <button
+                        type="button"
+                        class="c-table-sort js-sort"
+                        data-key="year"
+                      >
+                        <span>Academic year</span>
+                      </button>
+                    </th>
+                    <th aria-sort="none">
+                      <button
+                        type="button"
+                        class="c-table-sort js-sort"
+                        data-key="semester"
+                      >
+                        <span>Semester</span>
+                      </button>
+                    </th>
+                    <th aria-sort="none">
+                      <button
+                        type="button"
+                        class="c-table-sort js-sort"
+                        data-key="status"
+                      >
+                        <span>Status</span>
+                      </button>
+                    </th>
+                    <th class="u-text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Data Structures</td>
+                    <td>Core DS concepts and ADTs.</td>
+                    <td>CS204</td>
+                    <td>3</td>
+                    <td>1</td>
+                    <td><span class="c-status is-ongoing">ongoing</span></td>
+                    <td class="u-text-right">
+                      <div class="c-table-actions">
+                        <button class="c-icon-btn" aria-label="Edit subject">
+                          <i data-lucide="pencil"></i>
+                        </button>
+                        <button class="c-icon-btn" aria-label="Delete subject">
+                          <i data-lucide="trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Calculus II</td>
+                    <td>Integrals, series, and applications.</td>
+                    <td>MA201</td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>
+                      <span class="c-status is-completed">completed</span>
+                    </td>
+                    <td class="u-text-right">
+                      <div class="c-table-actions">
+                        <button class="c-icon-btn" aria-label="Edit subject">
+                          <i data-lucide="pencil"></i>
+                        </button>
+                        <button class="c-icon-btn" aria-label="Delete subject">
+                          <i data-lucide="trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Physics for Engineers</td>
+                    <td>Mechanics, waves, and heat.</td>
+                    <td>PH102</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td><span class="c-status is-ongoing">ongoing</span></td>
+                    <td class="u-text-right">
+                      <div class="c-table-actions">
+                        <button class="c-icon-btn" aria-label="Edit subject">
+                          <i data-lucide="pencil"></i>
+                        </button>
+                        <button class="c-icon-btn" aria-label="Delete subject">
+                          <i data-lucide="trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Algorithms</td>
+                    <td>Algorithm design and analysis.</td>
+                    <td>CS205</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td><span class="c-status is-upcoming">upcoming</span></td>
+                    <td class="u-text-right">
+                      <div class="c-table-actions">
+                        <button class="c-icon-btn" aria-label="Edit subject">
+                          <i data-lucide="pencil"></i>
+                        </button>
+                        <button class="c-icon-btn" aria-label="Delete subject">
+                          <i data-lucide="trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Circuit Analysis</td>
+                    <td>DC/AC circuit fundamentals.</td>
+                    <td>EE201</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td><span class="c-status is-ongoing">ongoing</span></td>
+                    <td class="u-text-right">
+                      <div class="c-table-actions">
+                        <button class="c-icon-btn" aria-label="Edit subject">
+                          <i data-lucide="pencil"></i>
+                        </button>
+                        <button class="c-icon-btn" aria-label="Delete subject">
+                          <i data-lucide="trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Technical Writing</td>
+                    <td>Clarity and structure in tech docs.</td>
+                    <td>LA101</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>
+                      <span class="c-status is-completed">completed</span>
+                    </td>
+                    <td class="u-text-right">
+                      <div class="c-table-actions">
+                        <button class="c-icon-btn" aria-label="Edit subject">
+                          <i data-lucide="pencil"></i>
+                        </button>
+                        <button class="c-icon-btn" aria-label="Delete subject">
+                          <i data-lucide="trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="scripts/app.js"></script>
+    <script>
+      // Minimal client-side count and sort for this table (reusing users table pattern)
+      (function () {
+        const table = document.getElementById("subjects-table");
+        const tbody = table?.querySelector("tbody");
+        const countEl = document.querySelector(".js-subject-count");
+        if (!table || !tbody || !countEl) return;
+        function updateCount() {
+          countEl.textContent = String(tbody.querySelectorAll("tr").length);
+        }
+        updateCount();
+        table.querySelectorAll(".js-sort").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const th = btn.closest("th");
+            const key = btn.getAttribute("data-key");
+            const current = th.getAttribute("aria-sort") || "none";
+            const next = current === "ascending" ? "descending" : "ascending";
+            table.querySelectorAll("thead th").forEach((oth) => {
+              if (oth !== th) oth.setAttribute("aria-sort", "none");
+            });
+            th.setAttribute("aria-sort", next);
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            const getter = (row) => {
+              if (key === "title") return row.children[0].textContent.trim();
+              if (key === "code") return row.children[2].textContent.trim();
+              if (key === "year") return row.children[3].textContent.trim();
+              if (key === "semester") return row.children[4].textContent.trim();
+              if (key === "status") return row.children[5].textContent.trim();
+              return "";
+            };
+            rows.sort((a, b) => {
+              const va = getter(a).toLowerCase();
+              const vb = getter(b).toLowerCase();
+              return next === "ascending"
+                ? va.localeCompare(vb)
+                : vb.localeCompare(va);
+            });
+            rows.forEach((r) => tbody.appendChild(r));
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

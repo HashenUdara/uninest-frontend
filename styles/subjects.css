@@ -1,0 +1,83 @@
+/* Subjects-specific light CSS. Reuse tokens from app.css */
+.c-view-switch {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  font-size: 0.85rem;
+}
+.c-toolbar {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-4);
+}
+.c-view-switch__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-xl);
+  color: var(--text-muted);
+  background: var(--surface-2);
+  text-decoration: none;
+}
+.c-view-switch__btn.is-active {
+  background: rgba(84, 44, 245, 0.08);
+}
+
+.c-view-switch__btn svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.5;
+}
+
+/* Status chip variations */
+.c-status {
+  display: inline-block;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 8px;
+  border-radius: 999px;
+  margin-bottom: var(--space-2);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  width: fit-content;
+}
+.c-status.is-upcoming {
+  background: hsl(210 100% 97%);
+  color: hsl(220 75% 35%);
+}
+.c-status.is-ongoing {
+  background: hsl(150 60% 94%);
+  color: hsl(150 50% 30%);
+}
+.c-status.is-completed {
+  background: hsl(210 14% 95%);
+  color: hsl(210 10% 40%);
+}
+
+/* Subject thumbnail with code inside */
+.c-subj-thumb {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 220px;
+
+  border-radius: var(--radius-3);
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.c-subj-thumb__code {
+  font-size: 20px;
+}
+
+/* Card actions */
+.c-card__actions {
+  margin-top: var(--space-3);
+  display: inline-flex;
+  gap: var(--space-2);
+}

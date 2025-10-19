@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/subjects.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+    <div class="l-app">
+      <!-- Sidebar -->
+      <aside class="c-sidebar">
+        <!-- Decorative blurred circles for sleek gradient effect -->
+        <span
+          aria-hidden="true"
+          style="
+            position: absolute;
+            bottom: -90px;
+            left: -80px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(255, 99, 188, 0.5);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: -1;
+          "
+        ></span>
+        <span
+          aria-hidden="true"
+          style="
+            position: absolute;
+            bottom: 40px;
+            right: -100px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(84, 44, 245, 0.45);
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: -1;
+          "
+        ></span>
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="#" class="c-nav__item is-active"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <!-- Content -->
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="#">CS204</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Trees & Graphs</span>
+          </nav>
+          <h1 class="c-page__title">Manage Subjects</h1>
+          <div class="c-toolbar">
+            <div class="c-input-group">
+              <input
+                class="c-input"
+                type="search"
+                placeholder="Search subjects by name or code"
+                aria-label="Search subjects"
+              />
+              <button class="c-btn">Search</button>
+            </div>
+            <div class="c-view-switch" role="group" aria-label="View switch">
+              <a
+                class="c-view-switch__btn is-active"
+                href="moderator-subjects.html"
+                aria-current="page"
+              >
+                <i data-lucide="grid"></i>
+                <span>Grid</span>
+              </a>
+              <a class="c-view-switch__btn" href="moderator-subjects-list.html">
+                <i data-lucide="list"></i>
+                <span>List</span>
+              </a>
+            </div>
+          </div>
+        </header>
+
+        <section>
+          <h2 class="c-section-title">Semester 3</h2>
+          <div class="o-grid o-grid--cards">
+            <article class="c-card" data-code="CS204">
+              <div class="c-card__media c-subj-thumb"></div>
+              <div class="c-card__body">
+                <span class="c-status is-ongoing">Ongoing</span>
+                <h3 class="c-card__title">CS204 - Data Structures</h3>
+                <p class="c-card__meta">Academic year 3 • Semester 1</p>
+                <div class="c-card__actions">
+                  <button class="c-icon-btn" aria-label="Edit subject">
+                    <i data-lucide="pencil"></i>
+                  </button>
+                  <button class="c-icon-btn" aria-label="Delete subject">
+                    <i data-lucide="trash"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="c-card" data-code="CS204">
+              <div class="c-card__media c-subj-thumb"></div>
+              <div class="c-card__body">
+                <span class="c-status is-upcoming">Upcoming</span>
+                <h3 class="c-card__title">CS204 - Data Structures</h3>
+                <p class="c-card__meta">Academic year 3 • Semester 1</p>
+                <div class="c-card__actions">
+                  <button class="c-icon-btn" aria-label="Edit subject">
+                    <i data-lucide="pencil"></i>
+                  </button>
+                  <button class="c-icon-btn" aria-label="Delete subject">
+                    <i data-lucide="trash"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="c-card" data-code="MA201">
+              <div class="c-card__media c-subj-thumb"></div>
+              <div class="c-card__body">
+                <span class="c-status is-completed">Completed</span>
+                <h3 class="c-card__title">MA201 - Calculus II</h3>
+                <p class="c-card__meta">Academic year 2 • Semester 2</p>
+                <div class="c-card__actions">
+                  <button class="c-icon-btn" aria-label="Edit subject">
+                    <i data-lucide="pencil"></i>
+                  </button>
+                  <button class="c-icon-btn" aria-label="Delete subject">
+                    <i data-lucide="trash"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="c-card" data-code="PH102">
+              <div class="c-card__media c-subj-thumb"></div>
+              <div class="c-card__body">
+                <span class="c-status is-ongoing">Ongoing</span>
+                <h3 class="c-card__title">PH102 - Physics for Engineers</h3>
+                <p class="c-card__meta">Academic year 1 • Semester 2</p>
+                <div class="c-card__actions">
+                  <button class="c-icon-btn" aria-label="Edit subject">
+                    <i data-lucide="pencil"></i>
+                  </button>
+                  <button class="c-icon-btn" aria-label="Delete subject">
+                    <i data-lucide="trash"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <h2 class="c-section-title">Semester 4</h2>
+          <div class="o-grid o-grid--cards">
+            <article class="c-card" data-code="CS205">
+              <div class="c-card__media c-subj-thumb"></div>
+              <div class="c-card__body">
+                <span class="c-status is-upcoming">Upcoming</span>
+                <h3 class="c-card__title">CS205 - Algorithms</h3>
+                <p class="c-card__meta">Academic year 3 • Semester 2</p>
+                <div class="c-card__actions">
+                  <button class="c-icon-btn" aria-label="Edit subject">
+                    <i data-lucide="pencil"></i>
+                  </button>
+                  <button class="c-icon-btn" aria-label="Delete subject">
+                    <i data-lucide="trash"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="c-card">
+              <div class="c-card__media c-subj-thumb"></div>
+              <div class="c-card__body">
+                <span class="c-status is-ongoing">Ongoing</span>
+                <h3 class="c-card__title">EE201 - Circuit Analysis</h3>
+                <p class="c-card__meta">Academic year 2 • Semester 1</p>
+                <div class="c-card__actions">
+                  <button class="c-icon-btn" aria-label="Edit subject">
+                    <i data-lucide="pencil"></i>
+                  </button>
+                  <button class="c-icon-btn" aria-label="Delete subject">
+                    <i data-lucide="trash"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+            <article class="c-card">
+              <div class="c-card__media c-subj-thumb"></div>
+              <div class="c-card__body">
+                <span class="c-status is-completed">Completed</span>
+                <h3 class="c-card__title">LA101 - Technical Writing</h3>
+                <p class="c-card__meta">Academic year 1 • Semester 1</p>
+                <div class="c-card__actions">
+                  <button class="c-icon-btn" aria-label="Edit subject">
+                    <i data-lucide="pencil"></i>
+                  </button>
+                  <button class="c-icon-btn" aria-label="Delete subject">
+                    <i data-lucide="trash"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>

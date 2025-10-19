@@ -279,6 +279,8 @@
     initOrgAvatars();
     // Resources: file-type thumbnails
     initResourceThumbnails();
+    // Subjects: grid thumbnails with code coloring
+    initSubjectThumbnails();
   });
 })();
 
@@ -552,4 +554,28 @@ function initResourceThumbnails() {
     thumb.innerHTML = `<i data-lucide="${icon}"></i>`;
   });
   if (window.lucide) window.lucide.createIcons();
+}
+
+/* ================= Subjects: grid thumbnails with code ================= */
+function initSubjectThumbnails() {
+  const thumbs = document.querySelectorAll(".c-card .c-subj-thumb");
+  if (!thumbs.length) return;
+  const hueFromCode = (code) => {
+    // Create a deterministic hue from the subject code string
+    let h = 0;
+    for (let i = 0; i < code.length; i++) {
+      h = (h * 31 + code.charCodeAt(i)) % 360;
+    }
+    return h;
+  };
+  thumbs.forEach((el) => {
+    const card = el.closest(".c-card");
+    const code = (card?.getAttribute("data-code") || "").trim() || "SUBJ";
+    const hue = hueFromCode(code);
+    const bg = `hsl(${hue} 85% 95%)`;
+    const fg = `hsl(${hue} 50% 28%)`;
+    el.style.background = bg;
+    el.style.color = fg;
+    el.innerHTML = `<span class="c-subj-thumb__code">${code}</span>`;
+  });
 }
