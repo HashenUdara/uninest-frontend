@@ -1,0 +1,25 @@
+/* Resource thumbnails (scoped) */
+.c-thumb {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 240px; /* matches card media height in app.css if any */
+  border-radius: var(--radius-3);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  position: relative;
+  overflow: hidden;
+}
+.c-thumb svg {
+  inline-size: 60px;
+  block-size: 60px;
+  stroke-width: 1;
+}
+/* Subtle inner highlight */
+.c-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #ffffff22, transparent 40%);
+  pointer-events: none;
+}
