@@ -218,5 +218,67 @@
     </div>
 
     <script src="scripts/app.js"></script>
+    <script>
+      /* ================= Resources: thumbnails by file type ================= */
+      function initResourceThumbnails() {
+        const cards = document.querySelectorAll(
+          ".c-card[data-filetype] .c-card__media.c-thumb"
+        );
+        if (!cards.length) return;
+        const iconMap = {
+          pdf: "file-text", // lucide doesn't have dedicated pdf; use file-text
+          doc: "file-text",
+          docx: "file-text",
+          txt: "file-text",
+          md: "file-text",
+          ppt: "file-input",
+          pptx: "file-input",
+          xls: "table",
+          xlsx: "table",
+          csv: "table",
+          image: "image",
+          jpg: "image",
+          jpeg: "image",
+          png: "image",
+          gif: "image",
+          svg: "image",
+          video: "film",
+          mp4: "film",
+          mov: "film",
+          avi: "film",
+          zip: "file-archive",
+          rar: "file-archive",
+          code: "code",
+        };
+        const palette = [
+          "hsl(210 100% 97%)", // blue 50
+          "hsl(190 95% 95%)", // cyan 50
+          "hsl(150 60% 94%)", // green 70
+          "hsl(45 100% 95%)", // amber 50
+          "hsl(270 80% 96%)", // violet 60
+          "hsl(0 85% 96%)", // red 60
+          "hsl(320 80% 96%)", // pink 60
+        ];
+        const fgForBg = (hslStr) => {
+          // Extract hue to compute a pleasant darker fg
+          const m = hslStr.match(/hsl\((\d+)/);
+          const hue = m ? parseInt(m[1], 10) : Math.floor(Math.random() * 360);
+          return `hsl(${hue} 60% 30%)`;
+        };
+        cards.forEach((thumb, idx) => {
+          const article = thumb.closest(".c-card");
+          const type = (
+            article?.getAttribute("data-filetype") || "file"
+          ).toLowerCase();
+          const icon = iconMap[type] || "file";
+          const bg = palette[idx % palette.length];
+          const fg = fgForBg(bg);
+          thumb.style.background = bg;
+          thumb.style.color = fg;
+          thumb.innerHTML = `<i data-lucide="${icon}"></i>`;
+        });
+        if (window.lucide) window.lucide.createIcons();
+      }
+    </script>
   </body>
 </html>

@@ -586,40 +586,64 @@ function initSubjectThumbnails() {
 
 /* ================= Calendar (sessions) ================= */
 function initCalendar() {
-  const cal = document.querySelector('.js-calendar');
+  const cal = document.querySelector(".js-calendar");
   if (!cal) return;
-  const titleEl = document.querySelector('.js-cal-title');
-  const prevBtn = document.querySelector('.js-cal-prev');
-  const nextBtn = document.querySelector('.js-cal-next');
-  const todayBtn = document.querySelector('.js-cal-today');
+  const titleEl = document.querySelector(".js-cal-title");
+  const prevBtn = document.querySelector(".js-cal-prev");
+  const nextBtn = document.querySelector(".js-cal-next");
+  const todayBtn = document.querySelector(".js-cal-today");
 
   // Example session data; can be replaced with real data later
   const sessions = [
-    { date: '2025-10-20', time: '10:00', title: 'DS Lecture', kind: 'lecture', location: 'Room A', subject: 'CS204' },
-    { date: '2025-10-22', time: '14:00', title: 'Workshop: Sorting', kind: 'workshop', location: 'Lab 2', subject: 'CS204' },
-    { date: '2025-10-25', time: '09:00', title: 'Exam Prep', kind: 'examprep', location: 'Hall 1', subject: 'MA201' },
+    {
+      date: "2025-10-20",
+      time: "10:00",
+      title: "DS Lecture",
+      kind: "lecture",
+      location: "Room A",
+      subject: "CS204",
+    },
+    {
+      date: "2025-10-22",
+      time: "14:00",
+      title: "Workshop: Sorting",
+      kind: "workshop",
+      location: "Lab 2",
+      subject: "CS204",
+    },
+    {
+      date: "2025-10-25",
+      time: "09:00",
+      title: "Exam Prep",
+      kind: "examprep",
+      location: "Hall 1",
+      subject: "MA201",
+    },
   ];
 
   let viewDate = new Date();
 
   function fmtMonth(date) {
-    return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+    return date.toLocaleDateString(undefined, {
+      month: "long",
+      year: "numeric",
+    });
   }
   function ymd(d) {
     const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
     return `${y}-${m}-${day}`;
   }
 
   function render() {
     // Clear
-    cal.innerHTML = '';
+    cal.innerHTML = "";
     // Day of week header
-    const dow = document.createElement('div');
-    dow.className = 'c-cal-dow';
-    ;['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
-      const s = document.createElement('span');
+    const dow = document.createElement("div");
+    dow.className = "c-cal-dow";
+    ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((d) => {
+      const s = document.createElement("span");
       s.textContent = d;
       dow.appendChild(s);
     });
@@ -635,80 +659,104 @@ function initCalendar() {
     const totalCells = firstWeekday + daysInMonth;
     for (let i = 0; i < totalCells; i++) {
       if (i < firstWeekday) {
-        const filler = document.createElement('div');
-        filler.className = 'c-cal-cell';
-        filler.setAttribute('aria-hidden', 'true');
+        const filler = document.createElement("div");
+        filler.className = "c-cal-cell";
+        filler.setAttribute("aria-hidden", "true");
         cal.appendChild(filler);
         continue;
       }
       const dayNum = i - firstWeekday + 1;
-      const cellDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), dayNum);
-      const cell = document.createElement('div');
-      cell.className = 'c-cal-cell';
-      const head = document.createElement('div');
-      head.className = 'c-cal-cell__head';
-      const dateEl = document.createElement('span');
-      dateEl.className = 'c-cal-cell__date';
+      const cellDate = new Date(
+        viewDate.getFullYear(),
+        viewDate.getMonth(),
+        dayNum
+      );
+      const cell = document.createElement("div");
+      cell.className = "c-cal-cell";
+      const head = document.createElement("div");
+      head.className = "c-cal-cell__head";
+      const dateEl = document.createElement("span");
+      dateEl.className = "c-cal-cell__date";
       dateEl.textContent = String(dayNum);
       head.appendChild(dateEl);
       cell.appendChild(head);
 
       const dateKey = ymd(cellDate);
-      sessions.filter(s => s.date === dateKey).forEach(s => {
-        const a = document.createElement('a');
-        a.href = '#';
-        a.className = 'c-cal-event';
-        a.dataset.kind = s.kind;
-        a.textContent = `${s.time} • ${s.title}`;
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          openSessionModal(s);
+      sessions
+        .filter((s) => s.date === dateKey)
+        .forEach((s) => {
+          const a = document.createElement("a");
+          a.href = "#";
+          a.className = "c-cal-event";
+          a.dataset.kind = s.kind;
+          a.textContent = `${s.time} • ${s.title}`;
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            openSessionModal(s);
+          });
+          cell.appendChild(a);
         });
-        cell.appendChild(a);
-      });
       cal.appendChild(cell);
     }
     if (window.lucide) window.lucide.createIcons();
   }
 
   function openSessionModal(s) {
-    const modal = document.getElementById('session-modal');
+    const modal = document.getElementById("session-modal");
     if (!modal) return;
     modal.hidden = false;
-    const title = modal.querySelector('#session-title');
-    const content = modal.querySelector('.js-session-content');
+    const title = modal.querySelector("#session-title");
+    const content = modal.querySelector(".js-session-content");
     if (title) title.textContent = s.title;
-    if (content) content.innerHTML = `
+    if (content)
+      content.innerHTML = `
       <div class="u-stack-2">
         <p><strong>Date:</strong> ${s.date} ${s.time}</p>
         <p><strong>Subject:</strong> ${s.subject}</p>
         <p><strong>Type:</strong> ${s.kind}</p>
         <p><strong>Location:</strong> ${s.location}</p>
       </div>`;
-    modal.addEventListener('click', (e) => {
-      if (e.target.matches('[data-close]')) modal.hidden = true;
-    }, { once: true });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') modal.hidden = true;
-    }, { once: true });
+    modal.addEventListener(
+      "click",
+      (e) => {
+        if (e.target.matches("[data-close]")) modal.hidden = true;
+      },
+      { once: true }
+    );
+    document.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === "Escape") modal.hidden = true;
+      },
+      { once: true }
+    );
   }
 
-  prevBtn?.addEventListener('click', () => { viewDate.setMonth(viewDate.getMonth()-1); render(); });
-  nextBtn?.addEventListener('click', () => { viewDate.setMonth(viewDate.getMonth()+1); render(); });
-  todayBtn?.addEventListener('click', () => { viewDate = new Date(); render(); });
+  prevBtn?.addEventListener("click", () => {
+    viewDate.setMonth(viewDate.getMonth() - 1);
+    render();
+  });
+  nextBtn?.addEventListener("click", () => {
+    viewDate.setMonth(viewDate.getMonth() + 1);
+    render();
+  });
+  todayBtn?.addEventListener("click", () => {
+    viewDate = new Date();
+    render();
+  });
 
   render();
 }
 
 /* ================= Community votes (UI only) ================= */
 function initCommunityVotes() {
-  document.addEventListener('click', (e) => {
-    const up = e.target.closest('.js-upvote');
-    const down = e.target.closest('.js-downvote');
+  document.addEventListener("click", (e) => {
+    const up = e.target.closest(".js-upvote");
+    const down = e.target.closest(".js-downvote");
     if (!up && !down) return;
     e.preventDefault();
-    const post = up?.closest('.c-post') || down?.closest('.c-post');
-    const scoreEl = post?.querySelector('.js-score');
+    const post = up?.closest(".c-post") || down?.closest(".c-post");
+    const scoreEl = post?.querySelector(".js-score");
     if (!scoreEl) return;
     let score = parseInt(scoreEl.textContent, 10) || 0;
     if (up) score++;
