@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GPA Calculator • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/gpa.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <!-- Theme toggle -->
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <!-- Sidebar -->
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="progress-analysis.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="community.html" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <!-- Content -->
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Progress &amp; GPA</span>
+          </nav>
+          <div>
+            <h1 class="c-page__title">GPA Calculator</h1>
+            <p class="c-page__subtitle u-text-muted">
+              Track your academic performance and stay on top of your goals.
+            </p>
+          </div>
+        </header>
+
+        <section class="c-panel">
+          <div class="c-panel__header c-toolbar">
+            <div class="c-field" style="margin: 0">
+              <label class="c-field__label">Select Semester/Year</label>
+              <select class="c-input js-gpa-term">
+                <option>Fall 2024</option>
+                <option>Spring 2025</option>
+                <option>Fall 2025</option>
+              </select>
+            </div>
+            <div class="c-toolbar__actions">
+              <button class="c-btn c-btn--ghost js-grade-scale"><i data-lucide="info"></i> Grade scale</button>
+              <button class="c-btn c-btn--ghost js-clear-all"><i data-lucide="eraser"></i> Clear all</button>
+              <button class="c-btn c-btn--secondary js-add-row">
+                <i data-lucide="plus"></i> Add Subject
+              </button>
+            </div>
+          </div>
+
+          <details class="c-disclosure" id="grade-scale" hidden>
+            <summary class="c-disclosure__summary">Grade scale</summary>
+            <div class="c-disclosure__content">
+              <div class="c-table-wrap c-table-wrap--inner">
+                <table class="c-table c-table--soft">
+                  <thead><tr><th>Letter</th><th>Points</th></tr></thead>
+                  <tbody>
+                    <tr><td>A</td><td>4.0</td></tr>
+                    <tr><td>A-</td><td>3.7</td></tr>
+                    <tr><td>B+</td><td>3.3</td></tr>
+                    <tr><td>B</td><td>3.0</td></tr>
+                    <tr><td>B-</td><td>2.7</td></tr>
+                    <tr><td>C+</td><td>2.3</td></tr>
+                    <tr><td>C</td><td>2.0</td></tr>
+                    <tr><td>D</td><td>1.0</td></tr>
+                    <tr><td>F</td><td>0.0</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <div class="c-table-wrap">
+            <table class="c-table c-table--soft" id="gpa-table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Grade</th>
+                  <th>Credits</th>
+                  <th style="width: 1%"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input
+                      class="c-input c-input--table"
+                      value="Calculus I"
+                      aria-label="Subject name"
+                    />
+                  </td>
+                  <td>
+                    <select class="c-input c-input--table js-grade">
+                      <option value="4.0">A</option>
+                      <option value="3.7">A-</option>
+                      <option value="3.3">B+</option>
+                      <option value="3.0" selected>B</option>
+                      <option value="2.7">B-</option>
+                      <option value="2.3">C+</option>
+                      <option value="2.0">C</option>
+                      <option value="1.0">D</option>
+                      <option value="0">F</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.5"
+                      class="c-input c-input--table js-credits"
+                      value="3"
+                    />
+                  </td>
+                  <td>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-remove-row"
+                      aria-label="Remove"
+                    >
+                      <i data-lucide="trash-2"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      class="c-input c-input--table"
+                      value="Introduction to Programming"
+                      aria-label="Subject name"
+                    />
+                  </td>
+                  <td>
+                    <select class="c-input c-input--table js-grade">
+                      <option value="4.0">A</option>
+                      <option value="3.7">A-</option>
+                      <option value="3.3" selected>B+</option>
+                      <option value="3.0">B</option>
+                      <option value="2.7">B-</option>
+                      <option value="2.3">C+</option>
+                      <option value="2.0">C</option>
+                      <option value="1.0">D</option>
+                      <option value="0">F</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.5"
+                      class="c-input c-input--table js-credits"
+                      value="4"
+                    />
+                  </td>
+                  <td>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-remove-row"
+                      aria-label="Remove"
+                    >
+                      <i data-lucide="trash-2"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      class="c-input c-input--table"
+                      value="English Composition"
+                      aria-label="Subject name"
+                    />
+                  </td>
+                  <td>
+                    <select class="c-input c-input--table js-grade">
+                      <option value="4.0">A</option>
+                      <option value="3.7" selected>A-</option>
+                      <option value="3.3">B+</option>
+                      <option value="3.0">B</option>
+                      <option value="2.7">B-</option>
+                      <option value="2.3">C+</option>
+                      <option value="2.0">C</option>
+                      <option value="1.0">D</option>
+                      <option value="0">F</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.5"
+                      class="c-input c-input--table js-credits"
+                      value="3"
+                    />
+                  </td>
+                  <td>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-remove-row"
+                      aria-label="Remove"
+                    >
+                      <i data-lucide="trash-2"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="c-table-meta">
+            <div class="c-inline-note js-gpa-note" role="status" aria-live="polite"></div>
+            <div class="c-table-meta__row">
+              <div><span class="u-text-muted">Total credits</span></div>
+              <div><strong class="js-total-credits">10</strong></div>
+            </div>
+            <div class="c-table-meta__row">
+              <div><span class="u-text-muted">Quality points</span></div>
+              <div><strong class="js-total-qpoints">35.0</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="o-grid o-grid--stats">
+          <div class="c-panel">
+            <h3 class="c-section-title" style="margin-top: 0">Semester GPA</h3>
+            <div class="c-gpa-box"><span class="js-sem-gpa">3.75</span></div>
+          </div>
+          <div class="c-panel">
+            <h3 class="c-section-title" style="margin-top: 0">
+              Cumulative GPA
+            </h3>
+            <div class="c-gpa-box"><span class="js-cum-gpa">3.62</span></div>
+          </div>
+        </section>
+
+        <div class="c-actions">
+          <button class="c-btn js-save-gpa">
+            <i data-lucide="save"></i> Save GPA Record
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+        if (window.UniNest && window.UniNest.gpa)
+          window.UniNest.gpa.initGpaCalculator();
+      });
+    </script>
+  </body>
+</html>

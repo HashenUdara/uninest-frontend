@@ -764,3 +764,102 @@ function initCommunityVotes() {
     scoreEl.textContent = String(score);
   });
 }
+
+/* ================= GPA Calculator (modular) ================= */
+(function () {
+  const ns = (window.UniNest = window.UniNest || {});
+  function calcGpa(rows) {
+    let qp = 0,
+      cr = 0;
+    rows.forEach((r) => {
+      const grade = parseFloat(r.querySelector(".js-grade")?.value || "0");
+      const credits = parseFloat(r.querySelector(".js-credits")?.value || "0");
+      if (!isNaN(grade) && !isNaN(credits)) {
+        qp += grade * credits;
+        cr += credits;
+      }
+    });
+    return { gpa: cr > 0 ? qp / cr : 0, qp, cr };
+  }
+  function updateSummary(root) {
+    const rows = root.querySelectorAll("#gpa-table tbody tr");
+    const { gpa: sem, qp, cr } = calcGpa(Array.from(rows));
+    const semEl = root.querySelector(".js-sem-gpa");
+    if (semEl) semEl.textContent = sem.toFixed(2);
+    const cumEl = root.querySelector(".js-cum-gpa");
+    if (cumEl) {
+      const base = parseFloat(cumEl.textContent || "3.50");
+      const cum = (base * 0.7 + sem * 0.3).toFixed(2);
+      cumEl.textContent = cum;
+    }
+    const tc = root.querySelector('.js-total-credits'); if (tc) tc.textContent = (cr || 0).toString();
+    const tq = root.querySelector('.js-total-qpoints'); if (tq) tq.textContent = qp.toFixed(2);
+    const note = root.querySelector('.js-gpa-note'); if (note) note.textContent = cr > 0 ? 'Live preview. Edit grades or credits to recalculate instantly.' : 'Add subjects to see your GPA.';
+  }
+  function addRow(root) {
+    const tbody = root.querySelector("#gpa-table tbody");
+    if (!tbody) return;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><input class="c-input c-input--table" value="New Subject" aria-label="Subject name" /></td>
+      <td>
+        <select class="c-input c-input--table js-grade">
+          <option value="4.0">A</option>
+          <option value="3.7">A-</option>
+          <option value="3.3">B+</option>
+          <option value="3.0" selected>B</option>
+          <option value="2.7">B-</option>
+          <option value="2.3">C+</option>
+          <option value="2.0">C</option>
+          <option value="1.0">D</option>
+          <option value="0">F</option>
+        </select>
+      </td>
+      <td><input type="number" min="0" step="0.5" class="c-input c-input--table js-credits" value="3" /></td>
+      <td><button class="c-btn c-btn--ghost c-btn--sm js-remove-row" aria-label="Remove"><i data-lucide="trash-2"></i></button></td>
+    `;
+    tbody.appendChild(tr);
+    if (window.lucide) window.lucide.createIcons();
+    updateSummary(root);
+  }
+  function attachHandlers(root) {
+    const table = root.querySelector("#gpa-table");
+    if (!table) return;
+    table.addEventListener("input", (e) => {
+      if (e.target.closest(".js-grade") || e.target.closest(".js-credits"))
+        updateSummary(root);
+    });
+    table.addEventListener("click", (e) => {
+      const btn = e.target.closest(".js-remove-row");
+      if (!btn) return;
+      e.preventDefault();
+      btn.closest("tr")?.remove();
+      updateSummary(root);
+    });
+    document.querySelector(".js-add-row")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      addRow(root);
+    });
+    document.querySelector('.js-grade-scale')?.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const d = document.getElementById('grade-scale');
+      if (d) { d.hidden = false; d.open = !d.open; }
+    });
+    document.querySelector('.js-clear-all')?.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const tbody = document.querySelector('#gpa-table tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      updateSummary(root);
+    });
+  }
+  function initGpaCalculator() {
+    const root = document;
+    attachHandlers(root);
+    updateSummary(root);
+    document.querySelector(".js-save-gpa")?.addEventListener("click", () => {
+      alert("GPA record saved locally (demo)");
+    });
+  }
+  ns.gpa = { initGpaCalculator };
+})();
