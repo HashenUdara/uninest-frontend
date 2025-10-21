@@ -6,7 +6,10 @@
     <title>Performance Analytics • UniNest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles/app.css" />
     <link rel="stylesheet" href="styles/analytics.css" />
     <script src="scripts/vendor/lucide.js"></script>
@@ -14,15 +17,24 @@
   </head>
   <body>
     <!-- Theme toggle -->
-    <button type="button" class="c-theme-toggle js-theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
-      <span class="c-theme-toggle__icon" aria-hidden="true"><i data-lucide="moon"></i></span>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
       <span class="c-theme-toggle__label">Dark</span>
     </button>
 
     <div class="l-app">
       <!-- Sidebar -->
       <aside class="c-sidebar">
-        <div class="c-logo"><img src="img/logo.png" alt="Uninest" class="c-logo__mark" /></div>
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
         <div class="c-user-mini">
           <div class="c-user-mini__avatar" aria-hidden="true"></div>
           <div class="c-user-mini__meta">
@@ -31,15 +43,41 @@
           </div>
         </div>
         <nav class="c-nav" aria-label="Main">
-          <a href="dashboard.html" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="home"></i></span>Dashboard</a>
-          <a href="#" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="book"></i></span>My Subjects</a>
-          <a href="#" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>Kuppi Sessions</a>
-          <a href="resources.html" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My Resources</a>
-          <a href="progress-analysis.html" class="c-nav__item is-active"><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span>Progress Analysis</a>
-          <a href="community.html" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="message-square"></i></span>Community</a>
-          <a href="#" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile Settings</a>
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="progress-analysis.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="community.html" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
         </nav>
-        <a href="#" class="c-nav__item c-logout-button"><span class="c-nav__icon"><i data-lucide="log-out"></i></span>Logout</a>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
       </aside>
 
       <!-- Content -->
@@ -52,7 +90,9 @@
           </nav>
           <div>
             <h1 class="c-page__title">Performance Analytics</h1>
-            <p class="c-page__subtitle u-text-muted">Track your academic progress and identify areas for improvement.</p>
+            <p class="c-page__subtitle u-text-muted">
+              Track your academic progress and identify areas for improvement.
+            </p>
           </div>
         </header>
 
@@ -75,7 +115,7 @@
         <!-- GPA Progression -->
         <section class="c-panel">
           <div class="c-panel__header">
-            <h2 class="c-section-title" style="margin:0;">GPA Progression</h2>
+            <h2 class="c-section-title" style="margin: 0">GPA Progression</h2>
             <button class="c-btn c-btn--secondary">Open GPA Calculator</button>
           </div>
           <div class="c-kpi">
@@ -83,31 +123,140 @@
               <div class="c-kpi__value">3.75</div>
               <div class="c-kpi__label u-text-muted">GPA Trend</div>
             </div>
-            <div class="c-kpi__delta u-text-success">Semesters <span>+0.2%</span></div>
+            <div class="c-kpi__delta u-text-success">
+              Semesters <span>+0.2%</span>
+            </div>
           </div>
           <div class="c-chart">
-            <canvas id="gpaChart" aria-label="GPA Trend over semesters" role="img"></canvas>
+            <canvas
+              id="gpaChart"
+              aria-label="GPA Trend over semesters"
+              role="img"
+            ></canvas>
           </div>
         </section>
 
-        <!-- Subject Progress -->
-        <section class="c-panel">
-          <h2 class="c-section-title" style="margin-top:0;">Subject Progress</h2>
-          <div class="c-progress-list">
-            <div class="c-progress-row"><span>Calculus II</span><span>75%</span></div>
-            <div class="c-meter" style="--pct:75%;"><span class="c-meter__bar"></span></div>
+        <!-- Time by Subject + Milestones -->
+        <section class="o-grid o-grid--panels">
+          <div class="c-panel">
+            <div class="c-panel__header">
+              <h2 class="c-section-title" style="margin: 0">
+                Time Spent by Subject
+              </h2>
+            </div>
+            <div class="c-chart c-chart--sm">
+              <canvas
+                id="timeBySubjectChart"
+                aria-label="Hours by subject"
+                role="img"
+              ></canvas>
+            </div>
+          </div>
 
-            <div class="c-progress-row"><span>Organic Chemistry</span><span>60%</span></div>
-            <div class="c-meter" style="--pct:60%;"><span class="c-meter__bar"></span></div>
+          <div class="c-panel">
+            <div class="c-panel__header">
+              <h2 class="c-section-title" style="margin: 0">
+                Subject Progress
+              </h2>
+            </div>
+            <!-- Subject Progress -->
 
-            <div class="c-progress-row"><span>Data Structures</span><span>85%</span></div>
-            <div class="c-meter" style="--pct:85%;"><span class="c-meter__bar"></span></div>
+            <div class="c-progress-list">
+              <div class="c-progress-row">
+                <span>Calculus II</span><span>75%</span>
+              </div>
+              <div class="c-meter" style="--pct: 75%">
+                <span class="c-meter__bar"></span>
+              </div>
 
-            <div class="c-progress-row"><span>Linear Algebra</span><span>50%</span></div>
-            <div class="c-meter" style="--pct:50%;"><span class="c-meter__bar"></span></div>
+              <div class="c-progress-row">
+                <span>Organic Chemistry</span><span>60%</span>
+              </div>
+              <div class="c-meter" style="--pct: 60%">
+                <span class="c-meter__bar"></span>
+              </div>
 
-            <div class="c-progress-row"><span>Probability and Statistics</span><span>90%</span></div>
-            <div class="c-meter" style="--pct:90%;"><span class="c-meter__bar"></span></div>
+              <div class="c-progress-row">
+                <span>Data Structures</span><span>85%</span>
+              </div>
+              <div class="c-meter" style="--pct: 85%">
+                <span class="c-meter__bar"></span>
+              </div>
+
+              <div class="c-progress-row">
+                <span>Linear Algebra</span><span>50%</span>
+              </div>
+              <div class="c-meter" style="--pct: 50%">
+                <span class="c-meter__bar"></span>
+              </div>
+
+              <div class="c-progress-row">
+                <span>Probability and Statistics</span><span>90%</span>
+              </div>
+              <div class="c-meter" style="--pct: 90%">
+                <span class="c-meter__bar"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Activity + Distribution -->
+        <section class="o-grid o-grid--panels">
+          <div class="c-panel">
+            <div class="c-panel__header">
+              <h2 class="c-section-title" style="margin: 0">Study Activity</h2>
+            </div>
+            <div class="c-chart c-chart--sm">
+              <canvas
+                id="studyActivityChart"
+                aria-label="Study hours per week"
+                role="img"
+              ></canvas>
+            </div>
+          </div>
+
+          <div class="c-panel">
+            <div class="c-panel__header">
+              <h2 class="c-section-title" style="margin: 0">
+                Grade Distribution
+              </h2>
+            </div>
+            <div class="c-chart c-chart--sm">
+              <canvas
+                id="gradeDonutChart"
+                aria-label="Grade distribution"
+                role="img"
+              ></canvas>
+            </div>
+            <ul class="c-legend" aria-label="Grade legend">
+              <li>
+                <span
+                  class="c-bullet"
+                  style="--bullet: var(--color-brand)"
+                ></span
+                >A (40%)
+              </li>
+              <li>
+                <span
+                  class="c-bullet"
+                  style="--bullet: rgba(84, 44, 245, 0.65)"
+                ></span
+                >B (30%)
+              </li>
+              <li>
+                <span
+                  class="c-bullet"
+                  style="--bullet: rgba(84, 44, 245, 0.45)"
+                ></span
+                >C (20%)
+              </li>
+              <li>
+                <span
+                  class="c-bullet"
+                  style="--bullet: rgba(84, 44, 245, 0.25)"
+                ></span
+                >D/F (10%)
+              </li>
+            </ul>
           </div>
         </section>
       </main>
@@ -115,7 +264,7 @@
 
     <script>
       // Initialize icons via global app.js
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener("DOMContentLoaded", function () {
         if (window.lucide) window.lucide.createIcons();
       });
 
@@ -123,25 +272,38 @@
       (function () {
         const root = document.documentElement;
         const cs = getComputedStyle(root);
-        const brand = cs.getPropertyValue('--color-brand').trim() || '#542cf5';
-        const text = cs.getPropertyValue('--color-text').trim() || '#101623';
-        const textMuted = cs.getPropertyValue('--color-text-muted').trim() || '#667085';
-        const grid = cs.getPropertyValue('--color-border').trim() || '#d9dce2';
+        const brand = cs.getPropertyValue("--color-brand").trim() || "#542cf5";
+        const text = cs.getPropertyValue("--color-text").trim() || "#101623";
+        const textMuted =
+          cs.getPropertyValue("--color-text-muted").trim() || "#667085";
+        const grid = cs.getPropertyValue("--color-border").trim() || "#d9dce2";
 
         function hexToRgb(hex) {
-          const m = hex.trim().match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
+          const m = hex
+            .trim()
+            .match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
           if (!m) return { r: 84, g: 44, b: 245 };
-          return { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) };
+          return {
+            r: parseInt(m[1], 16),
+            g: parseInt(m[2], 16),
+            b: parseInt(m[3], 16),
+          };
         }
 
-        const ctxEl = document.getElementById('gpaChart');
+        const ctxEl = document.getElementById("gpaChart");
         if (!ctxEl || !window.Chart) return;
         const rgb = hexToRgb(brand);
 
         const chart = new Chart(ctxEl, {
-          type: 'line',
+          type: "line",
           data: {
-            labels: ["Fall '21", "Spring '22", "Fall '22", "Spring '23", "Fall '23"],
+            labels: [
+              "Fall '21",
+              "Spring '22",
+              "Fall '22",
+              "Spring '23",
+              "Fall '23",
+            ],
             datasets: [
               {
                 data: [3.4, 3.6, 3.1, 3.8, 3.95],
@@ -151,11 +313,16 @@
                 pointHoverRadius: 3,
                 pointHitRadius: 8,
                 tension: 0.35,
-                fill: 'start',
+                fill: "start",
                 backgroundColor: (c) => {
                   const { ctx, chartArea } = c.chart;
-                  if (!chartArea) return 'transparent';
-                  const g = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                  if (!chartArea) return "transparent";
+                  const g = ctx.createLinearGradient(
+                    0,
+                    chartArea.top,
+                    0,
+                    chartArea.bottom
+                  );
                   g.addColorStop(0, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.16)`);
                   g.addColorStop(1, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.00)`);
                   return g;
@@ -177,7 +344,7 @@
               },
             },
             elements: {
-              line: { borderJoinStyle: 'round', capBezierPoints: true },
+              line: { borderJoinStyle: "round", capBezierPoints: true },
               point: { radius: 0 },
             },
             layout: { padding: { top: 8, right: 8, left: 8, bottom: 0 } },
@@ -187,7 +354,8 @@
                 suggestedMax: 4,
                 border: { display: false },
                 grid: {
-                  color: (ctx) => (ctx.tick.value % 1 === 0 ? grid : 'transparent'),
+                  color: (ctx) =>
+                    ctx.tick.value % 1 === 0 ? grid : "transparent",
                 },
                 ticks: {
                   color: textMuted,
@@ -205,7 +373,157 @@
         });
 
         // Recompute gradient on resize
-        window.addEventListener('resize', () => chart.update('none'));
+        window.addEventListener("resize", () => chart.update("none"));
+
+        // Study Activity: minimal line with soft fill
+        const actEl = document.getElementById("studyActivityChart");
+        if (actEl) {
+          const actRgb = hexToRgb(brand);
+          const activity = new Chart(actEl, {
+            type: "line",
+            data: {
+              labels: [
+                "Week 1",
+                "Week 2",
+                "Week 3",
+                "Week 4",
+                "Week 5",
+                "Week 6",
+              ],
+              datasets: [
+                {
+                  data: [8, 12, 10, 13, 14, 18],
+                  borderColor: brand,
+                  borderWidth: 2.5,
+                  pointRadius: 0,
+                  tension: 0.35,
+                  fill: "start",
+                  backgroundColor: (c) => {
+                    const { ctx, chartArea } = c.chart;
+                    if (!chartArea) return "transparent";
+                    const g = ctx.createLinearGradient(
+                      0,
+                      chartArea.top,
+                      0,
+                      chartArea.bottom
+                    );
+                    g.addColorStop(
+                      0,
+                      `rgba(${actRgb.r}, ${actRgb.g}, ${actRgb.b}, 0.14)`
+                    );
+                    g.addColorStop(
+                      1,
+                      `rgba(${actRgb.r}, ${actRgb.g}, ${actRgb.b}, 0.00)`
+                    );
+                    return g;
+                  },
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: { displayColors: false },
+              },
+              scales: {
+                y: {
+                  border: { display: false },
+                  grid: {
+                    color: (c) =>
+                      c.tick.value % 5 === 0 ? grid : "transparent",
+                  },
+                  ticks: { color: textMuted, maxTicksLimit: 4 },
+                },
+                x: {
+                  border: { display: false },
+                  grid: { display: false },
+                  ticks: { color: textMuted },
+                },
+              },
+            },
+          });
+          window.addEventListener("resize", () => activity.update("none"));
+        }
+
+        // Grade Distribution: donut
+        const donutEl = document.getElementById("gradeDonutChart");
+        if (donutEl) {
+          const rgb = hexToRgb(brand);
+          const donut = new Chart(donutEl, {
+            type: "doughnut",
+            data: {
+              labels: ["A", "B", "C", "D/F"],
+              datasets: [
+                {
+                  data: [40, 30, 20, 10],
+                  backgroundColor: [
+                    `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)`,
+                    `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, .65)`,
+                    `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, .45)`,
+                    `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, .25)`,
+                  ],
+                  borderWidth: 0,
+                  hoverOffset: 3,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              cutout: "65%",
+              plugins: { legend: { display: false } },
+            },
+          });
+        }
+
+        // Time spent by subject: horizontal bars
+        const timeEl = document.getElementById("timeBySubjectChart");
+        if (timeEl) {
+          const rgb = hexToRgb(brand);
+          new Chart(timeEl, {
+            type: "bar",
+            data: {
+              labels: [
+                "Calculus II",
+                "Organic Chem",
+                "Data Structures",
+                "Linear Algebra",
+                "Probability",
+              ],
+              datasets: [
+                {
+                  data: [12, 9, 15, 7, 10],
+                  backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, .75)`,
+                  borderRadius: 6,
+                  barThickness: 18,
+                },
+              ],
+            },
+            options: {
+              indexAxis: "y",
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } },
+              scales: {
+                x: {
+                  border: { display: false },
+                  grid: {
+                    color: (c) =>
+                      c.tick.value % 5 === 0 ? grid : "transparent",
+                  },
+                  ticks: { color: textMuted },
+                },
+                y: {
+                  border: { display: false },
+                  grid: { display: false },
+                  ticks: { color: textMuted },
+                },
+              },
+            },
+          });
+        }
       })();
     </script>
     <script src="scripts/app.js"></script>

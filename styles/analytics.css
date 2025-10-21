@@ -7,8 +7,13 @@
   grid-template-columns: repeat(3, minmax(180px, 1fr));
   margin-bottom: var(--space-6);
 }
+.o-grid {
+  margin-top: var(--space-6);
+}
 @media (max-width: 900px) {
-  .o-grid--stats { grid-template-columns: 1fr; }
+  .o-grid--stats {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Stat card */
@@ -18,8 +23,13 @@
   border-radius: var(--radius-lg);
   padding: var(--space-5);
 }
-.c-stat__label { font-size: var(--fs-sm); }
-.c-stat__value { font-size: 1.75rem; font-weight: var(--fw-semibold); }
+.c-stat__label {
+  font-size: var(--fs-sm);
+}
+.c-stat__value {
+  font-size: 1.75rem;
+  font-weight: var(--fw-semibold);
+}
 
 /* Panel header (title + button) */
 .c-panel__header {
@@ -38,15 +48,83 @@
   gap: var(--space-4);
   margin-bottom: var(--space-4);
 }
-.c-kpi__value { font-size: 2rem; font-weight: var(--fw-semibold); }
-.c-kpi__label { font-size: var(--fs-sm); }
-.c-kpi__delta { font-size: var(--fs-sm); color: var(--color-success); }
+.c-kpi__value {
+  font-size: 2rem;
+  font-weight: var(--fw-semibold);
+}
+.c-kpi__label {
+  font-size: var(--fs-sm);
+}
+.c-kpi__delta {
+  font-size: var(--fs-sm);
+  color: var(--color-success);
+}
 
 /* Chart box */
-.c-chart { height: 280px; }
+.c-chart {
+  height: 280px;
+}
+
+/* Compact chart variant */
+.c-chart--sm {
+  height: 220px;
+}
+
+/* Two-up panel grid */
+.o-grid--panels {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+}
+@media (max-width: 1000px) {
+  .o-grid--panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Legend bullets for donut */
+.c-legend {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-3) 0 0;
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+}
+.c-legend .c-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  background: var(--bullet, var(--color-brand));
+}
+
+/* Simple list for milestones */
+.c-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.c-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.c-list__title {
+  font-weight: var(--fw-medium);
+}
 
 /* Subject progress list */
-.c-progress-list { display: grid; gap: var(--space-3); }
+.c-progress-list {
+  display: grid;
+  gap: var(--space-3);
+}
 .c-progress-row {
   display: flex;
   align-items: center;
@@ -62,7 +140,9 @@
 }
 .c-meter__bar {
   position: absolute;
-  left: 0; top: 0; bottom: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
   width: var(--pct, 0%);
   background: var(--color-brand);
 }
