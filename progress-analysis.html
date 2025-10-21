@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Performance Analytics • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/analytics.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <!-- Theme toggle -->
+    <button type="button" class="c-theme-toggle js-theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
+      <span class="c-theme-toggle__icon" aria-hidden="true"><i data-lucide="moon"></i></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <!-- Sidebar -->
+      <aside class="c-sidebar">
+        <div class="c-logo"><img src="img/logo.png" alt="Uninest" class="c-logo__mark" /></div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="home"></i></span>Dashboard</a>
+          <a href="#" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="book"></i></span>My Subjects</a>
+          <a href="#" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>Kuppi Sessions</a>
+          <a href="resources.html" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My Resources</a>
+          <a href="progress-analysis.html" class="c-nav__item is-active"><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span>Progress Analysis</a>
+          <a href="community.html" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="message-square"></i></span>Community</a>
+          <a href="#" class="c-nav__item"><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile Settings</a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"><span class="c-nav__icon"><i data-lucide="log-out"></i></span>Logout</a>
+      </aside>
+
+      <!-- Content -->
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Progress &amp; GPA</span>
+          </nav>
+          <div>
+            <h1 class="c-page__title">Performance Analytics</h1>
+            <p class="c-page__subtitle u-text-muted">Track your academic progress and identify areas for improvement.</p>
+          </div>
+        </header>
+
+        <!-- KPIs -->
+        <section class="o-grid o-grid--stats">
+          <div class="c-stat">
+            <div class="c-stat__label u-text-muted">Enrolled Subjects</div>
+            <div class="c-stat__value">5</div>
+          </div>
+          <div class="c-stat">
+            <div class="c-stat__label u-text-muted">Completed Topics</div>
+            <div class="c-stat__value">32</div>
+          </div>
+          <div class="c-stat">
+            <div class="c-stat__label u-text-muted">Current GPA</div>
+            <div class="c-stat__value">3.7</div>
+          </div>
+        </section>
+
+        <!-- GPA Progression -->
+        <section class="c-panel">
+          <div class="c-panel__header">
+            <h2 class="c-section-title" style="margin:0;">GPA Progression</h2>
+            <button class="c-btn c-btn--secondary">Open GPA Calculator</button>
+          </div>
+          <div class="c-kpi">
+            <div>
+              <div class="c-kpi__value">3.75</div>
+              <div class="c-kpi__label u-text-muted">GPA Trend</div>
+            </div>
+            <div class="c-kpi__delta u-text-success">Semesters <span>+0.2%</span></div>
+          </div>
+          <div class="c-chart">
+            <canvas id="gpaChart" aria-label="GPA Trend over semesters" role="img"></canvas>
+          </div>
+        </section>
+
+        <!-- Subject Progress -->
+        <section class="c-panel">
+          <h2 class="c-section-title" style="margin-top:0;">Subject Progress</h2>
+          <div class="c-progress-list">
+            <div class="c-progress-row"><span>Calculus II</span><span>75%</span></div>
+            <div class="c-meter" style="--pct:75%;"><span class="c-meter__bar"></span></div>
+
+            <div class="c-progress-row"><span>Organic Chemistry</span><span>60%</span></div>
+            <div class="c-meter" style="--pct:60%;"><span class="c-meter__bar"></span></div>
+
+            <div class="c-progress-row"><span>Data Structures</span><span>85%</span></div>
+            <div class="c-meter" style="--pct:85%;"><span class="c-meter__bar"></span></div>
+
+            <div class="c-progress-row"><span>Linear Algebra</span><span>50%</span></div>
+            <div class="c-meter" style="--pct:50%;"><span class="c-meter__bar"></span></div>
+
+            <div class="c-progress-row"><span>Probability and Statistics</span><span>90%</span></div>
+            <div class="c-meter" style="--pct:90%;"><span class="c-meter__bar"></span></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // Initialize icons via global app.js
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.lucide) window.lucide.createIcons();
+      });
+
+      // Chart.js setup: minimal, brand-colored with soft area fill
+      (function () {
+        const root = document.documentElement;
+        const cs = getComputedStyle(root);
+        const brand = cs.getPropertyValue('--color-brand').trim() || '#542cf5';
+        const text = cs.getPropertyValue('--color-text').trim() || '#101623';
+        const textMuted = cs.getPropertyValue('--color-text-muted').trim() || '#667085';
+        const grid = cs.getPropertyValue('--color-border').trim() || '#d9dce2';
+
+        function hexToRgb(hex) {
+          const m = hex.trim().match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
+          if (!m) return { r: 84, g: 44, b: 245 };
+          return { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) };
+        }
+
+        const ctxEl = document.getElementById('gpaChart');
+        if (!ctxEl || !window.Chart) return;
+        const rgb = hexToRgb(brand);
+
+        const chart = new Chart(ctxEl, {
+          type: 'line',
+          data: {
+            labels: ["Fall '21", "Spring '22", "Fall '22", "Spring '23", "Fall '23"],
+            datasets: [
+              {
+                data: [3.4, 3.6, 3.1, 3.8, 3.95],
+                borderColor: brand,
+                borderWidth: 2.5,
+                pointRadius: 0,
+                pointHoverRadius: 3,
+                pointHitRadius: 8,
+                tension: 0.35,
+                fill: 'start',
+                backgroundColor: (c) => {
+                  const { ctx, chartArea } = c.chart;
+                  if (!chartArea) return 'transparent';
+                  const g = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                  g.addColorStop(0, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.16)`);
+                  g.addColorStop(1, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.00)`);
+                  return g;
+                },
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                padding: 10,
+                displayColors: false,
+                callbacks: {
+                  label: (ctx) => `GPA: ${ctx.parsed.y}`,
+                },
+              },
+            },
+            elements: {
+              line: { borderJoinStyle: 'round', capBezierPoints: true },
+              point: { radius: 0 },
+            },
+            layout: { padding: { top: 8, right: 8, left: 8, bottom: 0 } },
+            scales: {
+              y: {
+                suggestedMin: 0,
+                suggestedMax: 4,
+                border: { display: false },
+                grid: {
+                  color: (ctx) => (ctx.tick.value % 1 === 0 ? grid : 'transparent'),
+                },
+                ticks: {
+                  color: textMuted,
+                  maxTicksLimit: 3,
+                  callback: (v) => v,
+                },
+              },
+              x: {
+                border: { display: false },
+                grid: { display: false },
+                ticks: { color: textMuted, maxRotation: 0 },
+              },
+            },
+          },
+        });
+
+        // Recompute gradient on resize
+        window.addEventListener('resize', () => chart.update('none'));
+      })();
+    </script>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>
