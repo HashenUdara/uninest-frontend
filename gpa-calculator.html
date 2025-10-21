@@ -96,7 +96,7 @@
         </header>
 
         <section class="c-panel">
-          <div class="c-panel__header c-toolbar">
+          <div class="c-panel__header">
             <div class="c-field" style="margin: 0">
               <label class="c-field__label">Select Semester/Year</label>
               <select class="c-input js-gpa-term">
@@ -105,36 +105,10 @@
                 <option>Fall 2025</option>
               </select>
             </div>
-            <div class="c-toolbar__actions">
-              <button class="c-btn c-btn--ghost js-grade-scale"><i data-lucide="info"></i> Grade scale</button>
-              <button class="c-btn c-btn--ghost js-clear-all"><i data-lucide="eraser"></i> Clear all</button>
-              <button class="c-btn c-btn--secondary js-add-row">
-                <i data-lucide="plus"></i> Add Subject
-              </button>
-            </div>
+            <button class="c-btn c-btn--secondary js-add-row">
+              <i data-lucide="plus"></i> Add Subject
+            </button>
           </div>
-
-          <details class="c-disclosure" id="grade-scale" hidden>
-            <summary class="c-disclosure__summary">Grade scale</summary>
-            <div class="c-disclosure__content">
-              <div class="c-table-wrap c-table-wrap--inner">
-                <table class="c-table c-table--soft">
-                  <thead><tr><th>Letter</th><th>Points</th></tr></thead>
-                  <tbody>
-                    <tr><td>A</td><td>4.0</td></tr>
-                    <tr><td>A-</td><td>3.7</td></tr>
-                    <tr><td>B+</td><td>3.3</td></tr>
-                    <tr><td>B</td><td>3.0</td></tr>
-                    <tr><td>B-</td><td>2.7</td></tr>
-                    <tr><td>C+</td><td>2.3</td></tr>
-                    <tr><td>C</td><td>2.0</td></tr>
-                    <tr><td>D</td><td>1.0</td></tr>
-                    <tr><td>F</td><td>0.0</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </details>
 
           <div class="c-table-wrap">
             <table class="c-table c-table--soft" id="gpa-table">
@@ -266,18 +240,6 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-
-          <div class="c-table-meta">
-            <div class="c-inline-note js-gpa-note" role="status" aria-live="polite"></div>
-            <div class="c-table-meta__row">
-              <div><span class="u-text-muted">Total credits</span></div>
-              <div><strong class="js-total-credits">10</strong></div>
-            </div>
-            <div class="c-table-meta__row">
-              <div><span class="u-text-muted">Quality points</span></div>
-              <div><strong class="js-total-qpoints">35.0</strong></div>
-            </div>
           </div>
         </section>
 

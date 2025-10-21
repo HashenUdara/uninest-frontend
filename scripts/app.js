@@ -779,11 +779,11 @@ function initCommunityVotes() {
         cr += credits;
       }
     });
-    return { gpa: cr > 0 ? qp / cr : 0, qp, cr };
+    return cr > 0 ? qp / cr : 0;
   }
   function updateSummary(root) {
     const rows = root.querySelectorAll("#gpa-table tbody tr");
-    const { gpa: sem, qp, cr } = calcGpa(Array.from(rows));
+    const sem = calcGpa(Array.from(rows));
     const semEl = root.querySelector(".js-sem-gpa");
     if (semEl) semEl.textContent = sem.toFixed(2);
     const cumEl = root.querySelector(".js-cum-gpa");
@@ -792,9 +792,6 @@ function initCommunityVotes() {
       const cum = (base * 0.7 + sem * 0.3).toFixed(2);
       cumEl.textContent = cum;
     }
-    const tc = root.querySelector('.js-total-credits'); if (tc) tc.textContent = (cr || 0).toString();
-    const tq = root.querySelector('.js-total-qpoints'); if (tq) tq.textContent = qp.toFixed(2);
-    const note = root.querySelector('.js-gpa-note'); if (note) note.textContent = cr > 0 ? 'Live preview. Edit grades or credits to recalculate instantly.' : 'Add subjects to see your GPA.';
   }
   function addRow(root) {
     const tbody = root.querySelector("#gpa-table tbody");
@@ -839,18 +836,6 @@ function initCommunityVotes() {
     document.querySelector(".js-add-row")?.addEventListener("click", (e) => {
       e.preventDefault();
       addRow(root);
-    });
-    document.querySelector('.js-grade-scale')?.addEventListener('click', (e)=>{
-      e.preventDefault();
-      const d = document.getElementById('grade-scale');
-      if (d) { d.hidden = false; d.open = !d.open; }
-    });
-    document.querySelector('.js-clear-all')?.addEventListener('click', (e)=>{
-      e.preventDefault();
-      const tbody = document.querySelector('#gpa-table tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      updateSummary(root);
     });
   }
   function initGpaCalculator() {

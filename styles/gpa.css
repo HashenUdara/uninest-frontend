@@ -17,9 +17,6 @@
   border-radius: var(--radius-md);
 }
 
-/* Even more compact selects inside table on smaller screens */
-@media (max-width: 640px) { .c-input--table { height: 32px; padding: 4px 8px; } }
-
 /* Summary GPA boxes */
 .c-gpa-box {
   background: var(--color-surface);
@@ -44,25 +41,9 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
-.c-table-wrap--inner { margin-top: 0; }
 
 /* Make chips used in milestones usable here if needed */
 .c-chip.is-active {
   background: var(--color-brand-soft);
   color: var(--color-text);
 }
-
-/* Toolbar */
-.c-toolbar { gap: var(--space-4); }
-.c-toolbar__actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
-
-/* Disclosure */
-.c-disclosure { margin-top: var(--space-3); }
-.c-disclosure[open] .c-disclosure__summary { margin-bottom: var(--space-2); }
-.c-disclosure__summary { cursor: pointer; color: var(--color-text-muted); }
-.c-disclosure__content { padding: 0; }
-
-/* Meta rows */
-.c-table-meta { margin-top: var(--space-4); display: grid; gap: var(--space-2); }
-.c-table-meta__row { display: flex; align-items: center; justify-content: space-between; }
-.c-inline-note { font-size: var(--fs-sm); color: var(--color-text-muted); }
