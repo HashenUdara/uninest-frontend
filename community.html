@@ -123,7 +123,12 @@
                 <!-- Post 1: text -->
                 <article class="c-post c-post--text c-post--pinned">
                   <div class="c-post__head">
-                    <div class="c-avatar-sm" aria-hidden="true"></div>
+                    <div class="c-avatar-sm">
+                      <img
+                        alt="Sophia Clark"
+                        src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Crect width='100%25' height='100%25' rx='18' fill='%23E9D8FD'/%3E%3Ctext x='50%25' y='54%25' font-family='Inter, Arial' font-size='14' font-weight='600' fill='%234e35e6' text-anchor='middle' dominant-baseline='middle'%3ESC%3C/text%3E%3C/svg%3E"
+                      />
+                    </div>
                     <div>
                       <strong>Sophia Clark</strong>
                       <div class="c-post__meta">2d ago</div>
@@ -159,7 +164,12 @@
                 <!-- Post 2: image -->
                 <article class="c-post c-post--image c-post--pinned">
                   <div class="c-post__head">
-                    <div class="c-avatar-sm" aria-hidden="true"></div>
+                    <div class="c-avatar-sm">
+                      <img
+                        alt="Noah Thompson"
+                        src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Crect width='100%25' height='100%25' rx='18' fill='%23E6F7EF'/%3E%3Ctext x='50%25' y='54%25' font-family='Inter, Arial' font-size='14' font-weight='600' fill='%2325814b' text-anchor='middle' dominant-baseline='middle'%3ENT%3C/text%3E%3C/svg%3E"
+                      />
+                    </div>
                     <div>
                       <strong>Noah Thompson</strong>
                       <div class="c-post__meta">3d ago</div>
@@ -185,6 +195,138 @@
                       aria-label="Comments"
                     >
                       <i data-lucide="message-square"></i>2
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-downvote"
+                      aria-label="Downvote"
+                    >
+                      <i data-lucide="thumbs-down"></i>
+                    </button>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <!-- Latest posts -->
+            <section class="u-stack-4">
+              <h3 class="c-section-title">Latest Posts</h3>
+              <div class="c-posts">
+                <!-- Post A: text -->
+                <article class="c-post c-post--text">
+                  <div class="c-post__head">
+                    <div class="c-avatar-sm">
+                      <img
+                        alt="Emma Martinez"
+                        src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Crect width='100%25' height='100%25' rx='18' fill='%23E9D8FD'/%3E%3Ctext x='50%25' y='54%25' font-family='Inter, Arial' font-size='14' font-weight='600' fill='%234e35e6' text-anchor='middle' dominant-baseline='middle'%3EEM%3C/text%3E%3C/svg%3E"
+                      />
+                    </div>
+                    <div>
+                      <strong>Emma Martinez</strong>
+                      <div class="c-post__meta">1h ago</div>
+                    </div>
+                  </div>
+                  <p class="u-text-muted">
+                    Anyone has tips for CS204 lab 3? I'm stuck on the stack
+                    implementation edge cases.
+                  </p>
+                  <div class="c-post__actions">
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-upvote"
+                      aria-label="Upvote"
+                    >
+                      <i data-lucide="thumbs-up"></i
+                      ><span class="js-score">5</span>
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm"
+                      aria-label="Comments"
+                    >
+                      <i data-lucide="message-square"></i>4
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-downvote"
+                      aria-label="Downvote"
+                    >
+                      <i data-lucide="thumbs-down"></i>
+                    </button>
+                  </div>
+                </article>
+
+                <!-- Post B: image -->
+                <article class="c-post c-post--image">
+                  <div class="c-post__head">
+                    <div class="c-avatar-sm">
+                      <img
+                        alt="Liam Torres"
+                        src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Crect width='100%25' height='100%25' rx='18' fill='%23E6F7EF'/%3E%3Ctext x='50%25' y='54%25' font-family='Inter, Arial' font-size='14' font-weight='600' fill='%2325814b' text-anchor='middle' dominant-baseline='middle'%3ELT%3C/text%3E%3C/svg%3E"
+                      />
+                    </div>
+                    <div>
+                      <strong>Liam Torres</strong>
+                      <div class="c-post__meta">4h ago</div>
+                    </div>
+                  </div>
+                  <p class="u-text-muted">
+                    Sharing my quick cheatsheet for Big-O and common data
+                    structures.
+                  </p>
+                  <div class="c-post__image">
+                    <img src="img/1.avif" alt="Big-O and DS cheatsheet" />
+                  </div>
+                  <div class="c-post__actions">
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-upvote"
+                      aria-label="Upvote"
+                    >
+                      <i data-lucide="thumbs-up"></i
+                      ><span class="js-score">11</span>
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm"
+                      aria-label="Comments"
+                    >
+                      <i data-lucide="message-square"></i>6
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-downvote"
+                      aria-label="Downvote"
+                    >
+                      <i data-lucide="thumbs-down"></i>
+                    </button>
+                  </div>
+                </article>
+
+                <!-- Post C: question -->
+                <article class="c-post c-post--text">
+                  <div class="c-post__head">
+                    <div class="c-avatar-sm">
+                      <img
+                        alt="Zara Khan"
+                        src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Crect width='100%25' height='100%25' rx='18' fill='%23EAF8E6'/%3E%3Ctext x='50%25' y='54%25' font-family='Inter, Arial' font-size='14' font-weight='600' fill='%23287b2c' text-anchor='middle' dominant-baseline='middle'%3EZK%3C/text%3E%3C/svg%3E"
+                      />
+                    </div>
+                    <div>
+                      <strong>Zara Khan</strong>
+                      <div class="c-post__meta">Yesterday</div>
+                    </div>
+                  </div>
+                  <p class="u-text-muted">
+                    Is the worst-case time for BST search O(n) even if it's
+                    balanced? I get confused with degenerate cases.
+                  </p>
+                  <div class="c-post__actions">
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-upvote"
+                      aria-label="Upvote"
+                    >
+                      <i data-lucide="thumbs-up"></i
+                      ><span class="js-score">3</span>
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm"
+                      aria-label="Comments"
+                    >
+                      <i data-lucide="message-square"></i>1
                     </button>
                     <button
                       class="c-btn c-btn--ghost c-btn--sm js-downvote"
