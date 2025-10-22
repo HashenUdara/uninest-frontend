@@ -80,118 +80,205 @@
 
       <!-- Content -->
       <main class="c-page">
-        <div class="o-feed">
-          <header class="c-page__header">
-            <nav class="c-breadcrumbs" aria-label="Breadcrumb">
-              <a href="dashboard.html">Home</a>
-              <span class="c-breadcrumbs__sep">/</span>
-              <span aria-current="page">Community</span>
-            </nav>
-            <div
-              class="o-inline"
-              style="
-                justify-content: space-between;
-                align-items: center;
-                gap: var(--space-4);
-              "
-            >
-              <div>
-                <h1 class="c-page__title">Community</h1>
-                <p class="c-page__subtitle u-text-muted">
-                  Stay updated with the latest discussions and resources from
-                  your peers.
-                </p>
-              </div>
-              <a href="#" class="c-btn c-btn--secondary"
-                ><i data-lucide="plus"></i> New Post</a
+        <div class="comm-layout">
+          <div class="o-feed">
+            <header class="c-page__header">
+              <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+                <a href="dashboard.html">Home</a>
+                <span class="c-breadcrumbs__sep">/</span>
+                <span aria-current="page">Community</span>
+              </nav>
+              <div
+                class="o-inline"
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: var(--space-4);
+                "
               >
-            </div>
-            <nav class="c-tabs-line" aria-label="Filter">
-              <a href="#" class="is-active">Most Upvoted</a>
-              <a href="#">Most Recent</a>
-              <a href="#">Unanswered</a>
-            </nav>
-          </header>
+                <div>
+                  <h1 class="c-page__title">Community</h1>
+                  <p class="c-page__subtitle u-text-muted">
+                    Stay updated with the latest discussions and resources from
+                    your peers.
+                  </p>
+                </div>
+                <a href="#" class="c-btn c-btn--secondary"
+                  ><i data-lucide="plus"></i> New Post</a
+                >
+              </div>
+              <nav class="c-tabs-line" aria-label="Filter">
+                <a href="#" class="is-active">Most Upvoted</a>
+                <a href="#">Most Recent</a>
+                <a href="#">Unanswered</a>
+              </nav>
+            </header>
 
-          <section class="u-stack-4">
-            <h3 class="c-section-title" style="margin-top: 0">Pinned Posts</h3>
-            <div class="c-posts">
-              <!-- Post 1: text -->
-              <article class="c-post c-post--text c-post--pinned">
-                <div class="c-post__head">
-                  <div class="c-avatar-sm" aria-hidden="true"></div>
-                  <div>
-                    <strong>Sophia Clark</strong>
-                    <div class="c-post__meta">2d ago</div>
+            <section class="u-stack-4">
+              <h3 class="c-section-title" style="margin-top: 0">
+                Pinned Posts
+              </h3>
+              <div class="c-posts">
+                <!-- Post 1: text -->
+                <article class="c-post c-post--text c-post--pinned">
+                  <div class="c-post__head">
+                    <div class="c-avatar-sm" aria-hidden="true"></div>
+                    <div>
+                      <strong>Sophia Clark</strong>
+                      <div class="c-post__meta">2d ago</div>
+                    </div>
                   </div>
-                </div>
-                <p class="u-text-muted">
-                  I'm having trouble understanding recursion in the programming
-                  module. Can anyone explain it in simpler terms?
-                </p>
-                <div class="c-post__actions">
-                  <button
-                    class="c-btn c-btn--ghost c-btn--sm js-upvote"
-                    aria-label="Upvote"
-                  >
-                    <i data-lucide="thumbs-up"></i
-                    ><span class="js-score">12</span>
-                  </button>
-                  <button
-                    class="c-btn c-btn--ghost c-btn--sm"
-                    aria-label="Comments"
-                  >
-                    <i data-lucide="message-square"></i>3
-                  </button>
-                  <button
-                    class="c-btn c-btn--ghost c-btn--sm js-downvote"
-                    aria-label="Downvote"
-                  >
-                    <i data-lucide="thumbs-down"></i>
-                  </button>
-                </div>
-              </article>
+                  <p class="u-text-muted">
+                    I'm having trouble understanding recursion in the
+                    programming module. Can anyone explain it in simpler terms?
+                  </p>
+                  <div class="c-post__actions">
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-upvote"
+                      aria-label="Upvote"
+                    >
+                      <i data-lucide="thumbs-up"></i
+                      ><span class="js-score">12</span>
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm"
+                      aria-label="Comments"
+                    >
+                      <i data-lucide="message-square"></i>3
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-downvote"
+                      aria-label="Downvote"
+                    >
+                      <i data-lucide="thumbs-down"></i>
+                    </button>
+                  </div>
+                </article>
 
-              <!-- Post 2: image -->
-              <article class="c-post c-post--image c-post--pinned">
-                <div class="c-post__head">
-                  <div class="c-avatar-sm" aria-hidden="true"></div>
-                  <div>
-                    <strong>Noah Thompson</strong>
-                    <div class="c-post__meta">3d ago</div>
+                <!-- Post 2: image -->
+                <article class="c-post c-post--image c-post--pinned">
+                  <div class="c-post__head">
+                    <div class="c-avatar-sm" aria-hidden="true"></div>
+                    <div>
+                      <strong>Noah Thompson</strong>
+                      <div class="c-post__meta">3d ago</div>
+                    </div>
                   </div>
-                </div>
-                <p class="u-text-muted">
-                  Has anyone found a good resource for learning about data
-                  structures? I'm struggling with linked lists.
-                </p>
-                <div class="c-post__image">
-                  <img src="img/1.avif" alt="Shared notes image" />
-                </div>
-                <div class="c-post__actions">
-                  <button
-                    class="c-btn c-btn--ghost c-btn--sm js-upvote"
-                    aria-label="Upvote"
-                  >
-                    <i data-lucide="thumbs-up"></i
-                    ><span class="js-score">8</span>
-                  </button>
-                  <button
-                    class="c-btn c-btn--ghost c-btn--sm"
-                    aria-label="Comments"
-                  >
-                    <i data-lucide="message-square"></i>2
-                  </button>
-                  <button
-                    class="c-btn c-btn--ghost c-btn--sm js-downvote"
-                    aria-label="Downvote"
-                  >
-                    <i data-lucide="thumbs-down"></i>
-                  </button>
-                </div>
-              </article>
-            </div>
-          </section>
+                  <p class="u-text-muted">
+                    Has anyone found a good resource for learning about data
+                    structures? I'm struggling with linked lists.
+                  </p>
+                  <div class="c-post__image">
+                    <img src="img/1.avif" alt="Shared notes image" />
+                  </div>
+                  <div class="c-post__actions">
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-upvote"
+                      aria-label="Upvote"
+                    >
+                      <i data-lucide="thumbs-up"></i
+                      ><span class="js-score">8</span>
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm"
+                      aria-label="Comments"
+                    >
+                      <i data-lucide="message-square"></i>2
+                    </button>
+                    <button
+                      class="c-btn c-btn--ghost c-btn--sm js-downvote"
+                      aria-label="Downvote"
+                    >
+                      <i data-lucide="thumbs-down"></i>
+                    </button>
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+
+          <aside class="c-right-panel">
+            <section class="c-right-section">
+              <h3 class="c-section-title" style="margin-top: 0">Subjects</h3>
+              <ul class="c-subjects" role="list">
+                <li>
+                  <a href="#" class="c-subject">
+                    <span class="c-subject__badge is-lavender">CS204</span>
+                    <span class="c-subject__text">
+                      <span class="c-subject__label">Data Structures</span>
+                      <span class="c-subject__sub">CS204</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="c-subject">
+                    <span class="c-subject__badge is-mint">CS301</span>
+                    <span class="c-subject__text">
+                      <span class="c-subject__label">Algorithms</span>
+                      <span class="c-subject__sub">CS301</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="c-subject">
+                    <span class="c-subject__badge is-lime">CS123</span>
+                    <span class="c-subject__text">
+                      <span class="c-subject__label"
+                        >Programming Fundamentals</span
+                      >
+                      <span class="c-subject__sub">CS123</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="c-subject">
+                    <span class="c-subject__badge is-lavender">CS205</span>
+                    <span class="c-subject__text">
+                      <span class="c-subject__label">Operating Systems</span>
+                      <span class="c-subject__sub">CS205</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="c-subject">
+                    <span class="c-subject__badge is-mint">MA201</span>
+                    <span class="c-subject__text">
+                      <span class="c-subject__label">Calculus II</span>
+                      <span class="c-subject__sub">MA201</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="c-subject">
+                    <span class="c-subject__badge is-lime">ENG101</span>
+                    <span class="c-subject__text">
+                      <span class="c-subject__label">English Composition</span>
+                      <span class="c-subject__sub">ENG101</span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="c-subject">
+                    <span class="c-subject__badge is-lavender">PHY110</span>
+                    <span class="c-subject__text">
+                      <span class="c-subject__label">Physics I</span>
+                      <span class="c-subject__sub">PHY110</span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </section>
+            <section class="c-right-section">
+              <h3 class="c-section-title">Trending</h3>
+              <div class="c-tags">
+                <a href="#" class="c-tag">Recursion</a>
+                <a href="#" class="c-tag">Linked Lists</a>
+                <a href="#" class="c-tag">Derivatives</a>
+                <a href="#" class="c-tag">Big-O</a>
+              </div>
+            </section>
+          </aside>
         </div>
       </main>
     </div>

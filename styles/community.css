@@ -86,3 +86,116 @@
   border-radius: var(--radius-2xl);
   padding: clamp(var(--space-6), 2vw, var(--space-8));
 }
+
+/* Two-column layout: feed + right panel */
+.comm-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--space-6);
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .comm-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.c-right-panel {
+  position: sticky;
+  top: var(--space-6);
+  display: grid;
+  gap: var(--space-5);
+  height: fit-content;
+}
+.c-right-section {
+  background: var(--panel-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+}
+.c-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.c-tag {
+  display: inline-block;
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  text-decoration: none;
+  background: var(--color-surface);
+  font-size: var(--fs-sm);
+}
+.c-tag:hover {
+  border-color: var(--color-brand);
+}
+
+/* Subjects list (right panel) */
+.c-subjects {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.c-subject {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: var(--space-3);
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+.c-subject:hover {
+  border-color: var(--color-brand);
+  box-shadow: var(--shadow-elev-1);
+  text-decoration: none;
+}
+.c-subject__badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.2px;
+}
+.c-subject__label {
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+}
+.c-subject__text {
+  display: flex;
+  flex-direction: column;
+}
+.c-subject__sub {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.c-subject__badge {
+  width: 50px;
+  height: 50px;
+}
+/* soft color variants for badge */
+.c-subject__badge.is-lavender {
+  background: rgba(84, 44, 245, 0.12);
+  color: #4e35e6;
+}
+.c-subject__badge.is-mint {
+  background: rgba(47, 157, 91, 0.14);
+  color: #25814b;
+}
+.c-subject__badge.is-lime {
+  background: rgba(152, 233, 141, 0.25);
+  color: #287b2c;
+}
