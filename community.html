@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Community • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <!-- Sidebar -->
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="progress-analysis.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="community.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <!-- Content -->
+      <main class="c-page">
+        <div class="o-feed">
+          <header class="c-page__header">
+            <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+              <a href="dashboard.html">Home</a>
+              <span class="c-breadcrumbs__sep">/</span>
+              <span aria-current="page">Community</span>
+            </nav>
+            <div
+              class="o-inline"
+              style="
+                justify-content: space-between;
+                align-items: center;
+                gap: var(--space-4);
+              "
+            >
+              <div>
+                <h1 class="c-page__title">Community</h1>
+                <p class="c-page__subtitle u-text-muted">
+                  Stay updated with the latest discussions and resources from
+                  your peers.
+                </p>
+              </div>
+              <a href="#" class="c-btn c-btn--secondary"
+                ><i data-lucide="plus"></i> New Post</a
+              >
+            </div>
+            <nav class="c-tabs-line" aria-label="Filter">
+              <a href="#" class="is-active">Most Upvoted</a>
+              <a href="#">Most Recent</a>
+              <a href="#">Unanswered</a>
+            </nav>
+          </header>
+
+          <section class="u-stack-4">
+            <h3 class="c-section-title" style="margin-top: 0">Pinned Posts</h3>
+            <div class="c-posts">
+              <!-- Post 1: text -->
+              <article class="c-post c-post--text c-post--pinned">
+                <div class="c-post__head">
+                  <div class="c-avatar-sm" aria-hidden="true"></div>
+                  <div>
+                    <strong>Sophia Clark</strong>
+                    <div class="c-post__meta">2d ago</div>
+                  </div>
+                </div>
+                <p class="u-text-muted">
+                  I'm having trouble understanding recursion in the programming
+                  module. Can anyone explain it in simpler terms?
+                </p>
+                <div class="c-post__actions">
+                  <button
+                    class="c-btn c-btn--ghost c-btn--sm js-upvote"
+                    aria-label="Upvote"
+                  >
+                    <i data-lucide="thumbs-up"></i
+                    ><span class="js-score">12</span>
+                  </button>
+                  <button
+                    class="c-btn c-btn--ghost c-btn--sm"
+                    aria-label="Comments"
+                  >
+                    <i data-lucide="message-square"></i>3
+                  </button>
+                  <button
+                    class="c-btn c-btn--ghost c-btn--sm js-downvote"
+                    aria-label="Downvote"
+                  >
+                    <i data-lucide="thumbs-down"></i>
+                  </button>
+                </div>
+              </article>
+
+              <!-- Post 2: image -->
+              <article class="c-post c-post--image c-post--pinned">
+                <div class="c-post__head">
+                  <div class="c-avatar-sm" aria-hidden="true"></div>
+                  <div>
+                    <strong>Noah Thompson</strong>
+                    <div class="c-post__meta">3d ago</div>
+                  </div>
+                </div>
+                <p class="u-text-muted">
+                  Has anyone found a good resource for learning about data
+                  structures? I'm struggling with linked lists.
+                </p>
+                <div class="c-post__image">
+                  <img src="img/1.avif" alt="Shared notes image" />
+                </div>
+                <div class="c-post__actions">
+                  <button
+                    class="c-btn c-btn--ghost c-btn--sm js-upvote"
+                    aria-label="Upvote"
+                  >
+                    <i data-lucide="thumbs-up"></i
+                    ><span class="js-score">8</span>
+                  </button>
+                  <button
+                    class="c-btn c-btn--ghost c-btn--sm"
+                    aria-label="Comments"
+                  >
+                    <i data-lucide="message-square"></i>2
+                  </button>
+                  <button
+                    class="c-btn c-btn--ghost c-btn--sm js-downvote"
+                    aria-label="Downvote"
+                  >
+                    <i data-lucide="thumbs-down"></i>
+                  </button>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+        // votes handler is in app.js
+      });
+    </script>
+  </body>
+</html>
