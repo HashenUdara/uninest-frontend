@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>New Post • UniNest Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span
+            ><span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="progress-analysis.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="community.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <div class="comm-layout">
+          <div class="o-feed">
+            <header class="c-page__header">
+              <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+                <a href="dashboard.html">Home</a>
+                <span class="c-breadcrumbs__sep">/</span>
+                <span aria-current="page">Community</span>
+              </nav>
+              <div
+                class="o-inline"
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: var(--space-4);
+                "
+              >
+                <div>
+                  <h1 class="c-page__title">Community</h1>
+                  <p class="c-page__subtitle u-text-muted">
+                    Stay updated with the latest discussions and resources from
+                    your peers.
+                  </p>
+                </div>
+                <a href="community.html" class="c-btn c-btn--secondary"
+                  ><i data-lucide="list"></i> Feed</a
+                >
+              </div>
+              <nav class="c-tabs-line" aria-label="Filter">
+                <a href="#" class="is-active">Create Post</a>
+                <a href="community.html">Most Recent</a>
+                <a href="community.html">Unanswered</a>
+              </nav>
+            </header>
+
+            <section class="u-stack-4">
+              <article aria-label="Create a post">
+                <h2 class="c-section-title" style="margin-top: 0">
+                  Create a Post
+                </h2>
+
+                <div class="c-field">
+                  <label for="post-title" class="c-label">Resource Title</label>
+                  <input
+                    id="post-title"
+                    class="c-input c-input--soft c-input--rect"
+                    type="text"
+                    placeholder="Enter  resource title"
+                  />
+                </div>
+
+                <div class="c-field">
+                  <label for="post-desc" class="c-label">Description</label>
+                  <textarea
+                    id="post-desc"
+                    class="c-textarea c-textarea--soft"
+                    rows="6"
+                    placeholder="Write a short description"
+                  ></textarea>
+                </div>
+
+                <div class="c-field">
+                  <div class="c-dropzone" id="dropzone">
+                    <input
+                      id="upload-input"
+                      type="file"
+                      accept="image/*"
+                      hidden
+                    />
+                    <div class="c-dropzone__inner">
+                      <strong>Upload an image</strong>
+                      <span class="u-text-muted" style="font-size: var(--fs-sm)"
+                        >Browse Files</span
+                      >
+                      <label
+                        for="upload-input"
+                        class="c-btn c-btn--secondary c-dropzone__btn"
+                        >Upload</label
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="c-field" id="progress-wrap" style="display: none">
+                  <div
+                    class="u-text-muted"
+                    style="margin-bottom: var(--space-2)"
+                  >
+                    Uploading...
+                  </div>
+                  <div
+                    class="c-progress"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="50"
+                  >
+                    <div class="c-progress__bar" style="width: 50%"></div>
+                  </div>
+                  <div
+                    class="u-text-muted"
+                    style="font-size: var(--fs-xs); margin-top: var(--space-2)"
+                  >
+                    50%
+                  </div>
+                </div>
+
+                <div class="c-form-actions">
+                  <a
+                    href="community.html"
+                    class="c-btn c-btn--ghost"
+                    role="button"
+                    >Cancel</a
+                  >
+                  <button class="c-btn" type="button">Submit</button>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <aside class="c-right-panel">
+            <section class="c-right-section">
+              <h3 class="c-section-title" style="margin-top: 0">Subjects</h3>
+              <ul class="c-subjects" role="list">
+                <li>
+                  <a href="#" class="c-subject"
+                    ><span class="c-subject__badge is-lavender">CS204</span
+                    ><span class="c-subject__text"
+                      ><span class="c-subject__label">Data Structures</span
+                      ><span class="c-subject__sub">CS204</span></span
+                    ></a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="c-subject"
+                    ><span class="c-subject__badge is-mint">CS301</span
+                    ><span class="c-subject__text"
+                      ><span class="c-subject__label">Algorithms</span
+                      ><span class="c-subject__sub">CS301</span></span
+                    ></a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="c-subject"
+                    ><span class="c-subject__badge is-lime">CS123</span
+                    ><span class="c-subject__text"
+                      ><span class="c-subject__label"
+                        >Programming Fundamentals</span
+                      ><span class="c-subject__sub">CS123</span></span
+                    ></a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="c-subject"
+                    ><span class="c-subject__badge is-lavender">CS205</span
+                    ><span class="c-subject__text"
+                      ><span class="c-subject__label">Operating Systems</span
+                      ><span class="c-subject__sub">CS205</span></span
+                    ></a
+                  >
+                </li>
+              </ul>
+            </section>
+            <section class="c-right-section">
+              <h3 class="c-section-title">Trending</h3>
+              <div class="c-tags">
+                <a href="#" class="c-tag">Public Speaking</a>
+                <a href="#" class="c-tag">Confidence</a>
+                <a href="#" class="c-tag">Delivery</a>
+                <a href="#" class="c-tag">Practice</a>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        const input = document.getElementById("upload-input");
+        const progressWrap = document.getElementById("progress-wrap");
+        const bar = progressWrap?.querySelector(".c-progress__bar");
+        if (input && progressWrap && bar) {
+          input.addEventListener("change", () => {
+            if (!input.files || input.files.length === 0) return;
+            progressWrap.style.display = "block";
+            // Demo: animate to 50%
+            let value = 0;
+            const timer = setInterval(() => {
+              value += 5;
+              if (value >= 50) {
+                value = 50;
+                clearInterval(timer);
+              }
+              bar.style.width = value + "%";
+              progressWrap.setAttribute("aria-valuenow", String(value));
+            }, 50);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
