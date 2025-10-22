@@ -765,86 +765,224 @@ function initCommunityVotes() {
   });
 }
 
-/* ================= GPA Calculator (modular) ================= */
+/* ================= GPA Calculator (letter-grade, admin-config driven) ================= */
 (function () {
   const ns = (window.UniNest = window.UniNest || {});
-  function calcGpa(rows) {
-    let qp = 0,
-      cr = 0;
-    rows.forEach((r) => {
-      const grade = parseFloat(r.querySelector(".js-grade")?.value || "0");
-      const credits = parseFloat(r.querySelector(".js-credits")?.value || "0");
-      if (!isNaN(grade) && !isNaN(credits)) {
-        qp += grade * credits;
-        cr += credits;
-      }
-    });
-    return cr > 0 ? qp / cr : 0;
-  }
-  function updateSummary(root) {
-    const rows = root.querySelectorAll("#gpa-table tbody tr");
-    const sem = calcGpa(Array.from(rows));
-    const semEl = root.querySelector(".js-sem-gpa");
-    if (semEl) semEl.textContent = sem.toFixed(2);
-    const cumEl = root.querySelector(".js-cum-gpa");
-    if (cumEl) {
-      const base = parseFloat(cumEl.textContent || "3.50");
-      const cum = (base * 0.7 + sem * 0.3).toFixed(2);
-      cumEl.textContent = cum;
+
+  // Allow admin to inject config via window.UniNest.gpaData; fallback to demo
+  const demoData = {
+    years: {
+      2024: {
+        "Semester 1": [
+          { name: "Algebra 1", credits: 2, type: "Regular" },
+          { name: "History", credits: 2.5, type: "Honors" },
+          { name: "English", credits: 3, type: "Regular" },
+          { name: "Calculus", credits: 3, type: "AP" },
+        ],
+        "Semester 2": [
+          { name: "Calculus II", credits: 3.5, type: "Regular" },
+          { name: "Physics", credits: 3, type: "Honors" },
+        ],
+      },
+      2025: {
+        "Semester 1": [
+          { name: "Data Structures", credits: 4, type: "Regular" },
+          { name: "Discrete Math", credits: 3, type: "Regular" },
+        ],
+        "Semester 2": [
+          { name: "Algorithms", credits: 4, type: "Regular" },
+          { name: "Operating Systems", credits: 3, type: "Honors" },
+        ],
+      },
+    },
+    scale: {
+      "A+": 4.0,
+      A: 4.0,
+      "A-": 3.7,
+      "B+": 3.3,
+      B: 3.0,
+      "B-": 2.7,
+      "C+": 2.3,
+      C: 2.0,
+      "C-": 1.7,
+      D: 1.0,
+      F: 0,
+    },
+  };
+
+  const cfg = window.UniNest.gpaData || demoData;
+  const SCALE = cfg.scale || demoData.scale;
+  const YEARS = cfg.years || demoData.years;
+
+  const STORAGE_KEY = "uninest-gpa-grades"; // {year:{semester:{subject:"A"}}}
+
+  function loadGrades() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    } catch (e) {
+      return {};
     }
   }
-  function addRow(root) {
-    const tbody = root.querySelector("#gpa-table tbody");
-    if (!tbody) return;
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><input class="c-input c-input--table" value="New Subject" aria-label="Subject name" /></td>
-      <td>
-        <select class="c-input c-input--table js-grade">
-          <option value="4.0">A</option>
-          <option value="3.7">A-</option>
-          <option value="3.3">B+</option>
-          <option value="3.0" selected>B</option>
-          <option value="2.7">B-</option>
-          <option value="2.3">C+</option>
-          <option value="2.0">C</option>
-          <option value="1.0">D</option>
-          <option value="0">F</option>
-        </select>
-      </td>
-      <td><input type="number" min="0" step="0.5" class="c-input c-input--table js-credits" value="3" /></td>
-      <td><button class="c-btn c-btn--ghost c-btn--sm js-remove-row" aria-label="Remove"><i data-lucide="trash-2"></i></button></td>
-    `;
-    tbody.appendChild(tr);
-    if (window.lucide) window.lucide.createIcons();
-    updateSummary(root);
+  function saveGrades(obj) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
   }
+
+  function gradeOptions() {
+    return Object.keys(SCALE)
+      .map((g) => `<option value="${g}">${g}</option>`)
+      .join("");
+  }
+
+  function getSubjects(year, semester) {
+    return YEARS?.[year]?.[semester] || [];
+  }
+
+  function calcGpaForList(list, selectedGrades) {
+    let qp = 0,
+      cr = 0;
+    for (const subj of list) {
+      const letter = selectedGrades?.[subj.name];
+      if (!letter) continue; // not graded yet
+      const pts = SCALE[letter] ?? 0;
+      const c = Number(subj.credits) || 0;
+      qp += pts * c;
+      cr += c;
+    }
+    return cr > 0 ? qp / cr : 0;
+  }
+
+  function renderYearSemesterSelectors(root) {
+    const yearSel = root.querySelector(".js-gpa-year");
+    const semSel = root.querySelector(".js-gpa-semester");
+    if (!yearSel || !semSel) return { yearSel, semSel };
+    // Populate years
+    yearSel.innerHTML = Object.keys(YEARS)
+      .sort()
+      .map((y) => `<option value="${y}">${y}</option>`)
+      .join("");
+    const defaultYear = yearSel.value || Object.keys(YEARS)[0];
+    populateSemesters(defaultYear);
+
+    yearSel.addEventListener("change", () => {
+      populateSemesters(yearSel.value);
+      renderTable(root);
+      updateAllGpa(root);
+    });
+    semSel.addEventListener("change", () => {
+      renderTable(root);
+      updateAllGpa(root);
+    });
+
+    function populateSemesters(year) {
+      const terms = Object.keys(YEARS[year] || {});
+      semSel.innerHTML = terms
+        .map((t) => `<option value="${t}">${t}</option>`)
+        .join("");
+    }
+    return { yearSel, semSel };
+  }
+
+  function renderTable(root) {
+    const rowsEl = root.querySelector("#gpa-rows");
+    if (!rowsEl) return;
+    const year = root.querySelector(".js-gpa-year")?.value;
+    const sem = root.querySelector(".js-gpa-semester")?.value;
+    const subjects = getSubjects(year, sem);
+    const saved = loadGrades();
+    const selected = saved?.[year]?.[sem] || {};
+
+    rowsEl.innerHTML = subjects
+      .map((s, idx) => {
+        const value = selected[s.name] || "";
+        return `
+        <tr data-subject="${encodeURIComponent(s.name)}">
+          <td>${idx + 1}</td>
+          <td>${s.name}</td>
+          <td>
+            <select class="c-input c-input--table js-letter" aria-label="Grade letter">
+              <option value="" ${value === "" ? "selected" : ""}>–</option>
+              ${gradeOptions().replace(
+                `value="${value}"`,
+                `value="${value}" selected`
+              )}
+            </select>
+          </td>
+          <td>${s.credits}</td>
+          <td>${s.type || "Regular"}</td>
+        </tr>`;
+      })
+      .join("");
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
   function attachHandlers(root) {
     const table = root.querySelector("#gpa-table");
     if (!table) return;
-    table.addEventListener("input", (e) => {
-      if (e.target.closest(".js-grade") || e.target.closest(".js-credits"))
-        updateSummary(root);
+    table.addEventListener("change", (e) => {
+      const sel = e.target.closest(".js-letter");
+      if (!sel) return;
+      const tr = sel.closest("tr");
+      const year = root.querySelector(".js-gpa-year")?.value;
+      const sem = root.querySelector(".js-gpa-semester")?.value;
+      const subj = decodeURIComponent(tr?.getAttribute("data-subject") || "");
+      const store = loadGrades();
+      store[year] = store[year] || {};
+      store[year][sem] = store[year][sem] || {};
+      if (sel.value) store[year][sem][subj] = sel.value;
+      else delete store[year][sem][subj];
+      saveGrades(store);
+      updateAllGpa(root);
     });
-    table.addEventListener("click", (e) => {
-      const btn = e.target.closest(".js-remove-row");
-      if (!btn) return;
-      e.preventDefault();
-      btn.closest("tr")?.remove();
-      updateSummary(root);
-    });
-    document.querySelector(".js-add-row")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      addRow(root);
-    });
-  }
-  function initGpaCalculator() {
-    const root = document;
-    attachHandlers(root);
-    updateSummary(root);
+
     document.querySelector(".js-save-gpa")?.addEventListener("click", () => {
       alert("GPA record saved locally (demo)");
     });
   }
+
+  function updateAllGpa(root) {
+    const year = root.querySelector(".js-gpa-year")?.value;
+    const sem = root.querySelector(".js-gpa-semester")?.value;
+    const store = loadGrades();
+    const current = store?.[year] || {};
+
+    const terms = Object.keys(YEARS?.[year] || {});
+    let cumQP = 0,
+      cumCR = 0;
+    terms.forEach((t) => {
+      const list = getSubjects(year, t);
+      const g = calcGpaForList(list, current[t]);
+      const termEl = root.querySelector(`.js-term-gpa[data-term="${t}"]`);
+      if (termEl) termEl.textContent = g.toFixed(2);
+      // accumulate with only graded subjects
+      list.forEach((subj) => {
+        const letter = current[t]?.[subj.name];
+        if (!letter) return;
+        const pts = SCALE[letter] ?? 0;
+        const c = Number(subj.credits) || 0;
+        cumQP += pts * c;
+        cumCR += c;
+      });
+    });
+    const cum = cumCR > 0 ? cumQP / cumCR : 0;
+    root
+      .querySelectorAll(".js-cum-gpa")
+      .forEach((el) => (el.textContent = cum.toFixed(2)));
+
+    // Update gauge
+    const pct = Math.max(0, Math.min(100, (cum / 4) * 100));
+    root
+      .querySelectorAll(".c-gauge")
+      .forEach((g) => g.style.setProperty("--gpa-pct", pct + "%"));
+  }
+
+  function initGpaCalculator() {
+    const root = document;
+    renderYearSemesterSelectors(root);
+    renderTable(root);
+    attachHandlers(root);
+    updateAllGpa(root);
+  }
+
   ns.gpa = { initGpaCalculator };
 })();

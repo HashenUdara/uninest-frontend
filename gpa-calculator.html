@@ -95,171 +95,79 @@
           </div>
         </header>
 
-        <section class="c-panel">
-          <div class="c-panel__header">
-            <div class="c-field" style="margin: 0">
-              <label class="c-field__label">Select Semester/Year</label>
-              <select class="c-input js-gpa-term">
-                <option>Fall 2024</option>
-                <option>Spring 2025</option>
-                <option>Fall 2025</option>
-              </select>
+        <div class="gpa-layout">
+          <!-- Left: Subjects table -->
+          <section class="c-panel">
+            <div class="c-panel__header">
+              <div class="o-inline o-inline--gap-3">
+                <div class="c-field" style="margin: 0">
+                  <label class="c-field__label">Year</label>
+                  <select class="c-input js-gpa-year"></select>
+                </div>
+                <div class="c-field" style="margin: 0">
+                  <label class="c-field__label">Semester</label>
+                  <select class="c-input js-gpa-semester"></select>
+                </div>
+              </div>
             </div>
-            <button class="c-btn c-btn--secondary js-add-row">
-              <i data-lucide="plus"></i> Add Subject
-            </button>
-          </div>
 
-          <div class="c-table-wrap">
-            <table class="c-table c-table--soft" id="gpa-table">
-              <thead>
-                <tr>
-                  <th>Subject</th>
-                  <th>Grade</th>
-                  <th>Credits</th>
-                  <th style="width: 1%"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <input
-                      class="c-input c-input--table"
-                      value="Calculus I"
-                      aria-label="Subject name"
-                    />
-                  </td>
-                  <td>
-                    <select class="c-input c-input--table js-grade">
-                      <option value="4.0">A</option>
-                      <option value="3.7">A-</option>
-                      <option value="3.3">B+</option>
-                      <option value="3.0" selected>B</option>
-                      <option value="2.7">B-</option>
-                      <option value="2.3">C+</option>
-                      <option value="2.0">C</option>
-                      <option value="1.0">D</option>
-                      <option value="0">F</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.5"
-                      class="c-input c-input--table js-credits"
-                      value="3"
-                    />
-                  </td>
-                  <td>
-                    <button
-                      class="c-btn c-btn--ghost c-btn--sm js-remove-row"
-                      aria-label="Remove"
-                    >
-                      <i data-lucide="trash-2"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      class="c-input c-input--table"
-                      value="Introduction to Programming"
-                      aria-label="Subject name"
-                    />
-                  </td>
-                  <td>
-                    <select class="c-input c-input--table js-grade">
-                      <option value="4.0">A</option>
-                      <option value="3.7">A-</option>
-                      <option value="3.3" selected>B+</option>
-                      <option value="3.0">B</option>
-                      <option value="2.7">B-</option>
-                      <option value="2.3">C+</option>
-                      <option value="2.0">C</option>
-                      <option value="1.0">D</option>
-                      <option value="0">F</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.5"
-                      class="c-input c-input--table js-credits"
-                      value="4"
-                    />
-                  </td>
-                  <td>
-                    <button
-                      class="c-btn c-btn--ghost c-btn--sm js-remove-row"
-                      aria-label="Remove"
-                    >
-                      <i data-lucide="trash-2"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      class="c-input c-input--table"
-                      value="English Composition"
-                      aria-label="Subject name"
-                    />
-                  </td>
-                  <td>
-                    <select class="c-input c-input--table js-grade">
-                      <option value="4.0">A</option>
-                      <option value="3.7" selected>A-</option>
-                      <option value="3.3">B+</option>
-                      <option value="3.0">B</option>
-                      <option value="2.7">B-</option>
-                      <option value="2.3">C+</option>
-                      <option value="2.0">C</option>
-                      <option value="1.0">D</option>
-                      <option value="0">F</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.5"
-                      class="c-input c-input--table js-credits"
-                      value="3"
-                    />
-                  </td>
-                  <td>
-                    <button
-                      class="c-btn c-btn--ghost c-btn--sm js-remove-row"
-                      aria-label="Remove"
-                    >
-                      <i data-lucide="trash-2"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+            <div class="c-table-wrap">
+              <table class="c-table c-table--soft" id="gpa-table">
+                <thead>
+                  <tr>
+                    <th style="width: 48px">#</th>
+                    <th>Course Name</th>
+                    <th>Grade</th>
+                    <th>Credits</th>
+                    <th>Course Type</th>
+                  </tr>
+                </thead>
+                <tbody id="gpa-rows">
+                  <!-- Rendered by JS -->
+                </tbody>
+              </table>
+            </div>
+          </section>
 
-        <section class="o-grid o-grid--stats">
-          <div class="c-panel">
-            <h3 class="c-section-title" style="margin-top: 0">Semester GPA</h3>
-            <div class="c-gpa-box"><span class="js-sem-gpa">3.75</span></div>
-          </div>
-          <div class="c-panel">
-            <h3 class="c-section-title" style="margin-top: 0">
-              Cumulative GPA
-            </h3>
-            <div class="c-gpa-box"><span class="js-cum-gpa">3.62</span></div>
-          </div>
-        </section>
-
-        <div class="c-actions">
-          <button class="c-btn js-save-gpa">
-            <i data-lucide="save"></i> Save GPA Record
-          </button>
+          <!-- Right: Summary + gauge -->
+          <aside class="c-panel">
+            <div class="c-panel__header">
+              <h3 class="c-section-title" style="margin: 0">
+                Current GPA (optional)
+              </h3>
+            </div>
+            <div class="u-stack-4">
+              <dl class="c-definition">
+                <div class="c-definition__row">
+                  <dt>Cumulative</dt>
+                  <dd><span class="js-cum-gpa">0.00</span></dd>
+                </div>
+                <div class="c-definition__row">
+                  <dt>Semester 1</dt>
+                  <dd>
+                    <span class="js-term-gpa" data-term="Semester 1">0.00</span>
+                  </dd>
+                </div>
+                <div class="c-definition__row">
+                  <dt>Semester 2</dt>
+                  <dd>
+                    <span class="js-term-gpa" data-term="Semester 2">0.00</span>
+                  </dd>
+                </div>
+              </dl>
+              <div class="c-gauge" role="img" aria-label="Cumulative GPA">
+                <div class="c-gauge__ring"></div>
+                <div class="c-gauge__value">
+                  <span class="js-cum-gpa">0.00</span>
+                </div>
+              </div>
+              <div class="c-actions">
+                <button class="c-btn js-save-gpa">
+                  <i data-lucide="save"></i> Save GPA Record
+                </button>
+              </div>
+            </div>
+          </aside>
         </div>
       </main>
     </div>
