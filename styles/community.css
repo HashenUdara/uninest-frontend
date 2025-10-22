@@ -35,8 +35,9 @@
 .c-post {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  background: var(--panel-bg);
   padding: var(--space-5);
+  box-shadow: rgba(50, 50, 93, 0.08) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.1) 0px 1px 3px -1px;
 }
 .c-post__head {
   display: grid;
@@ -137,6 +138,99 @@
 }
 .c-tag:hover {
   border-color: var(--color-brand);
+}
+
+/* ========== Post detail ========== */
+.c-post-detail {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(var(--space-6), 2vw, var(--space-8));
+}
+.c-post-detail__title {
+  margin-bottom: var(--space-2);
+}
+.c-post-detail__image {
+  margin-top: var(--space-4);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+.c-post-detail__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.c-post__stats {
+  display: flex;
+  gap: var(--space-6);
+  align-items: center;
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+}
+.c-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* Comments */
+.c-comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+.c-comment {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: var(--space-3);
+  align-items: start;
+}
+.c-comment__head {
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
+.c-comment-compose {
+  margin-top: var(--space-4);
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: var(--space-3);
+}
+.c-textarea {
+  min-height: 140px;
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  background: var(--color-white);
+  color: var(--color-text);
+  font: inherit;
+  resize: vertical;
+}
+.c-comment-compose__actions {
+  grid-column: 2;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-3);
+}
+
+/* Nested comments */
+.c-comment__children {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0 0 0 var(--space-4);
+  border-left: 1px solid var(--color-border);
+  display: grid;
+  gap: var(--space-3);
 }
 
 /* Subjects list (right panel) */
