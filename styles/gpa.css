@@ -114,3 +114,40 @@
   font-size: 1.75rem;
   font-weight: var(--fw-semibold);
 }
+
+.c-guide {
+  margin-top: var(--space-6);
+}
+
+.c-guide .c-list {
+  list-style: none;
+  padding: 0;
+  padding-left: 0;
+  margin-left: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+.c-list li {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: var(--space-2);
+  align-items: start;
+}
+.c-guide .c-list i {
+  color: var(--color-brand);
+}
+
+/* Conversion table styling inside guide */
+.c-guide table {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+.c-guide thead th {
+  background: var(--color-surface);
+  font-weight: var(--fw-medium);
+}
+.c-guide tbody tr + tr td {
+  border-top: 1px solid var(--color-border);
+}

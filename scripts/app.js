@@ -976,12 +976,27 @@ function initCommunityVotes() {
       .forEach((g) => g.style.setProperty("--gpa-pct", pct + "%"));
   }
 
+  // Populate the letter grade conversion table using the configured SCALE
+  function renderScaleTable(root) {
+    const body = root.querySelector("#gpa-scale-body");
+    if (!body) return;
+    const entries = Object.entries(SCALE).sort((a, b) => {
+      // Sort by points desc; for equal points, shorter label (A+ before A-) first
+      if (b[1] !== a[1]) return b[1] - a[1];
+      return a[0].length - b[0].length;
+    });
+    body.innerHTML = entries
+      .map(([letter, point]) => `<tr><td>${letter}</td><td>${point}</td></tr>`)
+      .join("");
+  }
+
   function initGpaCalculator() {
     const root = document;
     renderYearSemesterSelectors(root);
     renderTable(root);
     attachHandlers(root);
     updateAllGpa(root);
+    renderScaleTable(root);
   }
 
   ns.gpa = { initGpaCalculator };

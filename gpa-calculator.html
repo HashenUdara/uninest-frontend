@@ -127,10 +127,16 @@
                 </tbody>
               </table>
             </div>
+
+            <div class="c-actions">
+              <button class="c-btn js-save-gpa">
+                <i data-lucide="save"></i> Save GPA Record
+              </button>
+            </div>
           </section>
 
           <!-- Right: Summary + gauge -->
-          <aside class="c-panel">
+          <aside class="c-panel" style="height: fit-content">
             <div class="c-panel__header">
               <h3 class="c-section-title" style="margin: 0">
                 Current GPA (optional)
@@ -161,14 +167,49 @@
                   <span class="js-cum-gpa">0.00</span>
                 </div>
               </div>
-              <div class="c-actions">
-                <button class="c-btn js-save-gpa">
-                  <i data-lucide="save"></i> Save GPA Record
-                </button>
-              </div>
             </div>
           </aside>
         </div>
+
+        <!-- How to use + Letter grade conversion -->
+        <section class="c-panel c-guide">
+          <h2 class="c-section-title" style="margin-top: 0">
+            How to use the GPA Calculator
+          </h2>
+          <div class="o-grid" style="--grid-cols: 2">
+            <div class="u-stack-3">
+              <ul class="c-list">
+                <li>
+                  <i data-lucide="check-circle-2" aria-hidden="true"></i>
+                  Choose a Year and Semester, then select your letter grade for
+                  each subject.
+                </li>
+                <li>
+                  <i data-lucide="check-circle-2" aria-hidden="true"></i>
+                  Your GPA updates automatically; your selections are saved
+                  locally on this device.
+                </li>
+                <li>
+                  <i data-lucide="check-circle-2" aria-hidden="true"></i>
+                  The conversion table uses your institution’s scale.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <table class="c-table c-table--soft">
+                <thead>
+                  <tr>
+                    <th>Letter Grade</th>
+                    <th>Grade Point</th>
+                  </tr>
+                </thead>
+                <tbody id="gpa-scale-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
 
