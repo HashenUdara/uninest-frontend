@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Kuppi Sessions • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      /* Stats Grid */
+      .k-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--space-4);
+        margin-bottom: var(--space-6);
+      }
+
+      .k-stat-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+      }
+
+      .k-stat-card__icon {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .k-stat-card__icon i {
+        width: 24px;
+        height: 24px;
+      }
+
+      .k-stat-card__icon--brand {
+        background: var(--color-brand-soft);
+        color: var(--color-brand);
+      }
+
+      .k-stat-card__icon--success {
+        background: var(--color-success-soft);
+        color: var(--color-success);
+      }
+
+      .k-stat-card__icon--warning {
+        background: #fff4e6;
+        color: #f59e0b;
+      }
+
+      .k-stat-card__icon--info {
+        background: #e0f2fe;
+        color: #0284c7;
+      }
+
+      .k-stat-card__content {
+        flex: 1;
+      }
+
+      .k-stat-card__label {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-stat-card__value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0;
+      }
+
+      /* Tabs */
+      .k-tabs {
+        display: flex;
+        gap: var(--space-2);
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: var(--space-6);
+      }
+
+      .k-tab {
+        padding: var(--space-3) var(--space-4);
+        background: none;
+        border: none;
+        color: var(--color-text-muted);
+        font-size: var(--fs-base);
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        transition: color 0.2s;
+      }
+
+      .k-tab:hover {
+        color: var(--color-text);
+      }
+
+      .k-tab.is-active {
+        color: var(--color-brand);
+      }
+
+      .k-tab.is-active::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--color-brand);
+      }
+
+      /* Session Cards */
+      .k-my-session-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+        margin-bottom: var(--space-4);
+        transition: all 0.2s;
+      }
+
+      .k-my-session-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .k-my-session-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: var(--space-4);
+        gap: var(--space-4);
+      }
+
+      .k-my-session-card__title-section {
+        flex: 1;
+      }
+
+      .k-my-session-card__meta-row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        margin-bottom: var(--space-2);
+      }
+
+      .k-my-session-card__subject {
+        display: inline-flex;
+        background: var(--color-brand-soft);
+        color: var(--color-brand);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-sm);
+        font-weight: 700;
+      }
+
+      .k-my-session-card__date {
+        display: flex;
+        align-items: center;
+        gap: var(--space-1);
+        color: var(--color-text-muted);
+        font-size: var(--fs-sm);
+      }
+
+      .k-my-session-card__date i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .k-my-session-card__title {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+      }
+
+      .k-my-session-card__description {
+        color: var(--color-text-muted);
+        line-height: 1.6;
+        margin: 0 0 var(--space-4) 0;
+      }
+
+      /* Status Badge */
+      .k-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-sm);
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .k-status-badge i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .k-status-badge--pending {
+        background: #fff4e6;
+        color: #f59e0b;
+      }
+
+      .k-status-badge--scheduled {
+        background: var(--color-success-soft);
+        color: var(--color-success);
+      }
+
+      .k-status-badge--completed {
+        background: #e0f2fe;
+        color: #0284c7;
+      }
+
+      .k-status-badge--cancelled {
+        background: #fee;
+        color: var(--color-danger);
+      }
+
+      /* Stats Row */
+      .k-my-session-card__stats {
+        display: flex;
+        gap: var(--space-5);
+        padding: var(--space-4);
+        background: var(--color-surface);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-4);
+      }
+
+      .k-my-session-stat {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-size: var(--fs-sm);
+        color: var(--color-text);
+      }
+
+      .k-my-session-stat i {
+        width: 16px;
+        height: 16px;
+        color: var(--color-text-muted);
+      }
+
+      .k-my-session-stat strong {
+        font-weight: 700;
+      }
+
+      /* Actions */
+      .k-my-session-card__actions {
+        display: flex;
+        gap: var(--space-2);
+        flex-wrap: wrap;
+      }
+
+      /* Empty State */
+      .k-empty-state {
+        text-align: center;
+        padding: var(--space-10) var(--space-4);
+      }
+
+      .k-empty-state__icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto var(--space-4);
+        color: var(--color-text-muted);
+        opacity: 0.5;
+      }
+
+      .k-empty-state__title {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .k-empty-state__text {
+        color: var(--color-text-muted);
+        margin: 0 0 var(--space-5) 0;
+      }
+
+      @media (max-width: 768px) {
+        .k-my-session-card__header {
+          flex-direction: column;
+        }
+
+        .k-my-session-card__stats {
+          flex-direction: column;
+          gap: var(--space-3);
+        }
+
+        .k-my-session-card__actions {
+          flex-direction: column;
+        }
+
+        .k-my-session-card__actions .c-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="kuppi-sessions.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="progress-analysis.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="community.html" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="kuppi-sessions.html">Kuppi Sessions</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">My Sessions</span>
+          </nav>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: var(--space-4);
+              flex-wrap: wrap;
+            "
+          >
+            <div>
+              <h1 class="c-page__title">My Kuppi Sessions</h1>
+              <p class="c-page__lead">
+                Manage all the Kuppi sessions you've requested
+              </p>
+            </div>
+            <a href="kuppi-request.html" class="c-btn">
+              <i data-lucide="plus"></i> Request New Session
+            </a>
+          </div>
+        </header>
+
+        <!-- Stats -->
+        <div class="k-stats-grid">
+          <div class="k-stat-card">
+            <div class="k-stat-card__icon k-stat-card__icon--brand">
+              <i data-lucide="layers"></i>
+            </div>
+            <div class="k-stat-card__content">
+              <p class="k-stat-card__label">Total Requested</p>
+              <p class="k-stat-card__value">8</p>
+            </div>
+          </div>
+
+          <div class="k-stat-card">
+            <div class="k-stat-card__icon k-stat-card__icon--warning">
+              <i data-lucide="clock"></i>
+            </div>
+            <div class="k-stat-card__content">
+              <p class="k-stat-card__label">Pending</p>
+              <p class="k-stat-card__value">3</p>
+            </div>
+          </div>
+
+          <div class="k-stat-card">
+            <div class="k-stat-card__icon k-stat-card__icon--success">
+              <i data-lucide="calendar-check"></i>
+            </div>
+            <div class="k-stat-card__content">
+              <p class="k-stat-card__label">Scheduled</p>
+              <p class="k-stat-card__value">2</p>
+            </div>
+          </div>
+
+          <div class="k-stat-card">
+            <div class="k-stat-card__icon k-stat-card__icon--info">
+              <i data-lucide="check-circle"></i>
+            </div>
+            <div class="k-stat-card__content">
+              <p class="k-stat-card__label">Completed</p>
+              <p class="k-stat-card__value">3</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="k-tabs">
+          <button class="k-tab is-active" data-tab="all">All Sessions</button>
+          <button class="k-tab" data-tab="pending">Pending</button>
+          <button class="k-tab" data-tab="scheduled">Scheduled</button>
+          <button class="k-tab" data-tab="completed">Completed</button>
+        </div>
+
+        <!-- Sessions List -->
+        <div class="k-sessions-list">
+          <!-- Session 1 - Scheduled -->
+          <article class="k-my-session-card" data-status="scheduled">
+            <div class="k-my-session-card__header">
+              <div class="k-my-session-card__title-section">
+                <div class="k-my-session-card__meta-row">
+                  <span class="k-my-session-card__subject">CS204</span>
+                  <span class="k-my-session-card__date">
+                    <i data-lucide="calendar"></i>
+                    Requested on Oct 15, 2025
+                  </span>
+                </div>
+                <h2 class="k-my-session-card__title">
+                  Binary Search Trees and Traversal Techniques
+                </h2>
+                <p class="k-my-session-card__description">
+                  Let's deep dive into Binary Search Trees, covering insertion,
+                  deletion, and various traversal methods. Perfect for midterm prep.
+                </p>
+              </div>
+              <span class="k-status-badge k-status-badge--scheduled">
+                <i data-lucide="calendar-check"></i>
+                Scheduled
+              </span>
+            </div>
+
+            <div class="k-my-session-card__stats">
+              <div class="k-my-session-stat">
+                <i data-lucide="thumbs-up"></i>
+                <span><strong>87</strong> votes</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="users"></i>
+                <span><strong>5</strong> conductors applied</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="user-check"></i>
+                <span><strong>32</strong> students joined</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="calendar"></i>
+                <span>Oct 23, 4:00 PM</span>
+              </div>
+            </div>
+
+            <div class="k-my-session-card__actions">
+              <button class="c-btn c-btn--sm" onclick="window.location.href='kuppi-scheduled-detail.html'">
+                <i data-lucide="eye"></i> View Details
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="edit"></i> Edit Session
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="share-2"></i> Share
+              </button>
+            </div>
+          </article>
+
+          <!-- Session 2 - Pending -->
+          <article class="k-my-session-card" data-status="pending">
+            <div class="k-my-session-card__header">
+              <div class="k-my-session-card__title-section">
+                <div class="k-my-session-card__meta-row">
+                  <span class="k-my-session-card__subject">CS301</span>
+                  <span class="k-my-session-card__date">
+                    <i data-lucide="calendar"></i>
+                    Requested on Oct 20, 2025
+                  </span>
+                </div>
+                <h2 class="k-my-session-card__title">
+                  Graph Algorithms: DFS and BFS Implementation
+                </h2>
+                <p class="k-my-session-card__description">
+                  Looking for help understanding graph traversal algorithms with
+                  practical coding examples and time complexity analysis.
+                </p>
+              </div>
+              <span class="k-status-badge k-status-badge--pending">
+                <i data-lucide="clock"></i>
+                Pending Conductor
+              </span>
+            </div>
+
+            <div class="k-my-session-card__stats">
+              <div class="k-my-session-stat">
+                <i data-lucide="thumbs-up"></i>
+                <span><strong>42</strong> votes</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="users"></i>
+                <span><strong>2</strong> conductors applied</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="eye"></i>
+                <span><strong>18</strong> interested</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="message-circle"></i>
+                <span><strong>7</strong> comments</span>
+              </div>
+            </div>
+
+            <div class="k-my-session-card__actions">
+              <button class="c-btn c-btn--sm" onclick="window.location.href='kuppi-session-detail.html'">
+                <i data-lucide="eye"></i> View Details
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="user-plus"></i> Select Conductor
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="edit"></i> Edit Session
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm" style="color: var(--color-danger);">
+                <i data-lucide="trash-2"></i> Delete
+              </button>
+            </div>
+          </article>
+
+          <!-- Session 3 - Scheduled -->
+          <article class="k-my-session-card" data-status="scheduled">
+            <div class="k-my-session-card__header">
+              <div class="k-my-session-card__title-section">
+                <div class="k-my-session-card__meta-row">
+                  <span class="k-my-session-card__subject">MA201</span>
+                  <span class="k-my-session-card__date">
+                    <i data-lucide="calendar"></i>
+                    Requested on Oct 18, 2025
+                  </span>
+                </div>
+                <h2 class="k-my-session-card__title">
+                  Advanced Integration Techniques
+                </h2>
+                <p class="k-my-session-card__description">
+                  Integration by parts, substitution, and partial fractions with
+                  detailed problem-solving strategies.
+                </p>
+              </div>
+              <span class="k-status-badge k-status-badge--scheduled">
+                <i data-lucide="calendar-check"></i>
+                Scheduled
+              </span>
+            </div>
+
+            <div class="k-my-session-card__stats">
+              <div class="k-my-session-stat">
+                <i data-lucide="thumbs-up"></i>
+                <span><strong>56</strong> votes</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="users"></i>
+                <span><strong>3</strong> conductors applied</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="user-check"></i>
+                <span><strong>18</strong> students joined</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="calendar"></i>
+                <span>Oct 26, 11:00 AM</span>
+              </div>
+            </div>
+
+            <div class="k-my-session-card__actions">
+              <button class="c-btn c-btn--sm" onclick="window.location.href='kuppi-scheduled-detail.html'">
+                <i data-lucide="eye"></i> View Details
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="edit"></i> Edit Session
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="share-2"></i> Share
+              </button>
+            </div>
+          </article>
+
+          <!-- Session 4 - Pending -->
+          <article class="k-my-session-card" data-status="pending">
+            <div class="k-my-session-card__header">
+              <div class="k-my-session-card__title-section">
+                <div class="k-my-session-card__meta-row">
+                  <span class="k-my-session-card__subject">CS205</span>
+                  <span class="k-my-session-card__date">
+                    <i data-lucide="calendar"></i>
+                    Requested on Oct 21, 2025
+                  </span>
+                </div>
+                <h2 class="k-my-session-card__title">
+                  Memory Management and Virtual Memory
+                </h2>
+                <p class="k-my-session-card__description">
+                  Comprehensive review of memory management techniques, paging,
+                  segmentation, and virtual memory concepts.
+                </p>
+              </div>
+              <span class="k-status-badge k-status-badge--pending">
+                <i data-lucide="clock"></i>
+                Pending Conductor
+              </span>
+            </div>
+
+            <div class="k-my-session-card__stats">
+              <div class="k-my-session-stat">
+                <i data-lucide="thumbs-up"></i>
+                <span><strong>38</strong> votes</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="users"></i>
+                <span><strong>1</strong> conductor applied</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="eye"></i>
+                <span><strong>24</strong> interested</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="message-circle"></i>
+                <span><strong>5</strong> comments</span>
+              </div>
+            </div>
+
+            <div class="k-my-session-card__actions">
+              <button class="c-btn c-btn--sm" onclick="window.location.href='kuppi-session-detail.html'">
+                <i data-lucide="eye"></i> View Details
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="user-plus"></i> Select Conductor
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="edit"></i> Edit Session
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm" style="color: var(--color-danger);">
+                <i data-lucide="trash-2"></i> Delete
+              </button>
+            </div>
+          </article>
+
+          <!-- Session 5 - Completed -->
+          <article class="k-my-session-card" data-status="completed">
+            <div class="k-my-session-card__header">
+              <div class="k-my-session-card__title-section">
+                <div class="k-my-session-card__meta-row">
+                  <span class="k-my-session-card__subject">CS123</span>
+                  <span class="k-my-session-card__date">
+                    <i data-lucide="calendar"></i>
+                    Requested on Oct 5, 2025
+                  </span>
+                </div>
+                <h2 class="k-my-session-card__title">
+                  Introduction to Object-Oriented Programming
+                </h2>
+                <p class="k-my-session-card__description">
+                  Basics of OOP: classes, objects, inheritance, polymorphism, and
+                  encapsulation with Java examples.
+                </p>
+              </div>
+              <span class="k-status-badge k-status-badge--completed">
+                <i data-lucide="check-circle"></i>
+                Completed
+              </span>
+            </div>
+
+            <div class="k-my-session-card__stats">
+              <div class="k-my-session-stat">
+                <i data-lucide="thumbs-up"></i>
+                <span><strong>94</strong> votes</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="user-check"></i>
+                <span><strong>48</strong> students attended</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="calendar"></i>
+                <span>Oct 15, 2:00 PM</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="star"></i>
+                <span><strong>4.8</strong> rating</span>
+              </div>
+            </div>
+
+            <div class="k-my-session-card__actions">
+              <button class="c-btn c-btn--sm">
+                <i data-lucide="eye"></i> View Summary
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="download"></i> Download Materials
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="message-circle"></i> Feedback
+              </button>
+            </div>
+          </article>
+
+          <!-- Session 6 - Pending -->
+          <article class="k-my-session-card" data-status="pending">
+            <div class="k-my-session-card__header">
+              <div class="k-my-session-card__title-section">
+                <div class="k-my-session-card__meta-row">
+                  <span class="k-my-session-card__subject">CS302</span>
+                  <span class="k-my-session-card__date">
+                    <i data-lucide="calendar"></i>
+                    Requested on Oct 22, 2025
+                  </span>
+                </div>
+                <h2 class="k-my-session-card__title">
+                  SQL Query Optimization Techniques
+                </h2>
+                <p class="k-my-session-card__description">
+                  Learn how to write efficient SQL queries, understand execution
+                  plans, and optimize database performance.
+                </p>
+              </div>
+              <span class="k-status-badge k-status-badge--pending">
+                <i data-lucide="clock"></i>
+                Pending Conductor
+              </span>
+            </div>
+
+            <div class="k-my-session-card__stats">
+              <div class="k-my-session-stat">
+                <i data-lucide="thumbs-up"></i>
+                <span><strong>29</strong> votes</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="users"></i>
+                <span><strong>0</strong> conductors applied</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="eye"></i>
+                <span><strong>12</strong> interested</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="message-circle"></i>
+                <span><strong>3</strong> comments</span>
+              </div>
+            </div>
+
+            <div class="k-my-session-card__actions">
+              <button class="c-btn c-btn--sm" onclick="window.location.href='kuppi-session-detail.html'">
+                <i data-lucide="eye"></i> View Details
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="edit"></i> Edit Session
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm" style="color: var(--color-danger);">
+                <i data-lucide="trash-2"></i> Delete
+              </button>
+            </div>
+          </article>
+
+          <!-- Session 7 - Completed -->
+          <article class="k-my-session-card" data-status="completed">
+            <div class="k-my-session-card__header">
+              <div class="k-my-session-card__title-section">
+                <div class="k-my-session-card__meta-row">
+                  <span class="k-my-session-card__subject">CS204</span>
+                  <span class="k-my-session-card__date">
+                    <i data-lucide="calendar"></i>
+                    Requested on Sep 28, 2025
+                  </span>
+                </div>
+                <h2 class="k-my-session-card__title">
+                  Linked Lists: Implementation and Applications
+                </h2>
+                <p class="k-my-session-card__description">
+                  Deep dive into singly, doubly, and circular linked lists with
+                  common problems and solutions.
+                </p>
+              </div>
+              <span class="k-status-badge k-status-badge--completed">
+                <i data-lucide="check-circle"></i>
+                Completed
+              </span>
+            </div>
+
+            <div class="k-my-session-card__stats">
+              <div class="k-my-session-stat">
+                <i data-lucide="thumbs-up"></i>
+                <span><strong>72</strong> votes</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="user-check"></i>
+                <span><strong>35</strong> students attended</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="calendar"></i>
+                <span>Oct 8, 3:00 PM</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="star"></i>
+                <span><strong>4.6</strong> rating</span>
+              </div>
+            </div>
+
+            <div class="k-my-session-card__actions">
+              <button class="c-btn c-btn--sm">
+                <i data-lucide="eye"></i> View Summary
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="download"></i> Download Materials
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="message-circle"></i> Feedback
+              </button>
+            </div>
+          </article>
+
+          <!-- Session 8 - Completed -->
+          <article class="k-my-session-card" data-status="completed">
+            <div class="k-my-session-card__header">
+              <div class="k-my-session-card__title-section">
+                <div class="k-my-session-card__meta-row">
+                  <span class="k-my-session-card__subject">MA101</span>
+                  <span class="k-my-session-card__date">
+                    <i data-lucide="calendar"></i>
+                    Requested on Sep 20, 2025
+                  </span>
+                </div>
+                <h2 class="k-my-session-card__title">
+                  Calculus Fundamentals: Limits and Continuity
+                </h2>
+                <p class="k-my-session-card__description">
+                  Understanding limits, continuity, and differentiability with
+                  practical examples and problem-solving.
+                </p>
+              </div>
+              <span class="k-status-badge k-status-badge--completed">
+                <i data-lucide="check-circle"></i>
+                Completed
+              </span>
+            </div>
+
+            <div class="k-my-session-card__stats">
+              <div class="k-my-session-stat">
+                <i data-lucide="thumbs-up"></i>
+                <span><strong>68</strong> votes</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="user-check"></i>
+                <span><strong>42</strong> students attended</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="calendar"></i>
+                <span>Oct 1, 10:00 AM</span>
+              </div>
+              <div class="k-my-session-stat">
+                <i data-lucide="star"></i>
+                <span><strong>4.9</strong> rating</span>
+              </div>
+            </div>
+
+            <div class="k-my-session-card__actions">
+              <button class="c-btn c-btn--sm">
+                <i data-lucide="eye"></i> View Summary
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="download"></i> Download Materials
+              </button>
+              <button class="c-btn c-btn--ghost c-btn--sm">
+                <i data-lucide="message-circle"></i> Feedback
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div class="k-empty-state" style="display: none;">
+          <i data-lucide="inbox" class="k-empty-state__icon"></i>
+          <h2 class="k-empty-state__title">No sessions found</h2>
+          <p class="k-empty-state__text">
+            You haven't requested any Kuppi sessions yet.
+          </p>
+          <a href="kuppi-request.html" class="c-btn">
+            <i data-lucide="plus"></i> Request Your First Session
+          </a>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        const tabs = document.querySelectorAll(".k-tab");
+        const sessionCards = document.querySelectorAll(".k-my-session-card");
+        const sessionsList = document.querySelector(".k-sessions-list");
+        const emptyState = document.querySelector(".k-empty-state");
+        const toasts = document.querySelector(".c-toasts");
+
+        // Tab filtering
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            // Update active tab
+            tabs.forEach((t) => t.classList.remove("is-active"));
+            tab.classList.add("is-active");
+
+            const filter = tab.dataset.tab;
+            let visibleCount = 0;
+
+            // Filter sessions
+            sessionCards.forEach((card) => {
+              const status = card.dataset.status;
+              if (filter === "all" || status === filter) {
+                card.style.display = "";
+                visibleCount++;
+              } else {
+                card.style.display = "none";
+              }
+            });
+
+            // Show/hide empty state
+            if (visibleCount === 0) {
+              sessionsList.style.display = "none";
+              emptyState.style.display = "block";
+            } else {
+              sessionsList.style.display = "";
+              emptyState.style.display = "none";
+            }
+          });
+        });
+
+        // Delete buttons
+        document.querySelectorAll('button:has([data-lucide="trash-2"])').forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (confirm("Are you sure you want to delete this session request?")) {
+              const card = btn.closest(".k-my-session-card");
+              card.style.opacity = "0";
+              card.style.transform = "scale(0.95)";
+              setTimeout(() => {
+                card.remove();
+                showToast("Session deleted successfully");
+              }, 200);
+            }
+          });
+        });
+
+        // Toast notification
+        function showToast(msg) {
+          if (!toasts) return;
+          const item = document.createElement("div");
+          item.className = "c-toast";
+          item.textContent = msg;
+          toasts.appendChild(item);
+          setTimeout(() => {
+            item.remove();
+          }, 3000);
+        }
+      });
+    </script>
+  </body>
+</html>
