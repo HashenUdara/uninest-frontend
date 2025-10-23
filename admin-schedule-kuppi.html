@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Schedule Kuppi Session • UniNest Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      /* Schedule Container */
+      .k-schedule-container {
+        max-width: 850px;
+        margin: 0 auto;
+      }
+
+      /* Progress Indicator */
+      .k-progress-steps {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-8);
+        background: transparent;
+        padding: 0;
+        position: relative;
+      }
+
+      .k-progress-steps::before {
+        content: "";
+        position: absolute;
+        top: 20px;
+        left: 10%;
+        right: 10%;
+        height: 1px;
+        background: var(--color-border);
+        transform: translateY(-50%);
+        z-index: 0;
+      }
+
+      .k-progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-3);
+        position: relative;
+        z-index: 1;
+        flex: 1;
+      }
+
+      .k-progress-step__circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-muted);
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-size: var(--fs-sm);
+      }
+
+      .k-progress-step__circle i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .k-progress-step.is-active .k-progress-step__circle {
+        background: var(--color-brand);
+        border-color: var(--color-brand);
+        color: white;
+        box-shadow: 0 0 0 4px rgba(84, 44, 245, 0.1);
+      }
+
+      .k-progress-step.is-complete .k-progress-step__circle {
+        background: var(--color-white);
+        border-color: var(--color-success);
+        color: var(--color-success);
+      }
+
+      .k-progress-step__label {
+        font-size: var(--fs-xs);
+        font-weight: 500;
+        color: var(--color-text-muted);
+        text-align: center;
+      }
+
+      .k-progress-step.is-active .k-progress-step__label {
+        color: var(--color-text);
+        font-weight: 600;
+      }
+
+      .k-progress-step.is-complete .k-progress-step__label {
+        color: var(--color-text-muted);
+      }
+
+      /* Schedule Card */
+      .k-schedule-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-8);
+        margin-bottom: var(--space-5);
+      }
+
+      .k-schedule-card__header {
+        margin-bottom: var(--space-8);
+      }
+
+      .k-schedule-card__title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-2) 0;
+        letter-spacing: -0.02em;
+      }
+
+      .k-schedule-card__subtitle {
+        font-size: var(--fs-base);
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.6;
+        font-weight: 400;
+      }
+
+      /* Request Card */
+      .k-request-preview {
+        background: var(--color-surface);
+        border-left: 3px solid var(--color-brand);
+        border-radius: var(--radius-md);
+        padding: var(--space-5);
+        margin-bottom: var(--space-8);
+      }
+
+      .k-request-preview__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        background: transparent;
+        color: var(--color-brand);
+        padding: 0;
+        border-radius: 0;
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--space-2);
+      }
+
+      .k-request-preview__badge i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .k-request-preview__title {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+      }
+
+      .k-request-preview__meta {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        flex-wrap: wrap;
+      }
+
+      .k-request-preview__meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .k-request-preview__meta-item i {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* Form Grid */
+      .k-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-5);
+      }
+
+      .k-form-grid--full {
+        grid-column: 1 / -1;
+      }
+
+      /* Date Time Picker */
+      .k-datetime-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-3);
+      }
+
+      /* Conductor Selection */
+      .k-conductor-select {
+        display: grid;
+        gap: var(--space-4);
+        margin-top: var(--space-2);
+      }
+
+      .k-conductor-option {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        padding: var(--space-5);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .k-conductor-option:hover {
+        border-color: var(--color-text-muted);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+
+      .k-conductor-option:has(input[type="radio"]:checked) {
+        border-color: var(--color-brand);
+        background: rgba(84, 44, 245, 0.02);
+        box-shadow: 0 0 0 1px var(--color-brand);
+      }
+
+      .k-conductor-option input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: var(--color-brand);
+        flex-shrink: 0;
+      }
+
+      .k-conductor-option__avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .k-conductor-option__info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .k-conductor-option__name {
+        font-size: var(--fs-base);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .k-conductor-option__stats {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+      }
+
+      .k-conductor-option__stat {
+        display: flex;
+        align-items: center;
+        gap: var(--space-1);
+      }
+
+      .k-conductor-option__stat i {
+        width: 12px;
+        height: 12px;
+      }
+
+      .k-conductor-option__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        background: transparent;
+        color: var(--color-success);
+        padding: 0;
+        border-radius: 0;
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .k-conductor-option__badge i {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* Location Input */
+      .k-location-type {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+      }
+
+      .k-location-type__option {
+        position: relative;
+      }
+
+      .k-location-type__option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+      }
+
+      .k-location-type__label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        padding: var(--space-4);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+        font-size: var(--fs-sm);
+        font-weight: 500;
+        color: var(--color-text-muted);
+      }
+
+      .k-location-type__option
+        input[type="radio"]:checked
+        + .k-location-type__label {
+        background: var(--color-white);
+        border-color: var(--color-brand);
+        color: var(--color-brand);
+        box-shadow: 0 0 0 1px var(--color-brand);
+      }
+
+      .k-location-type__label i {
+        width: 18px;
+        height: 18px;
+      }
+
+      /* Capacity Input */
+      .k-capacity-input {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .k-capacity-input__btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-text);
+      }
+
+      .k-capacity-input__btn:hover {
+        background: var(--color-brand);
+        border-color: var(--color-brand);
+        color: white;
+      }
+
+      .k-capacity-input__btn i {
+        width: 16px;
+        height: 16px;
+      }
+
+      .k-capacity-input__value {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--color-text);
+        min-width: 50px;
+        text-align: center;
+      }
+
+      /* Review Section */
+      .k-review-section {
+        display: grid;
+        gap: var(--space-6);
+      }
+
+      .k-review-item {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .k-review-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .k-review-item__label {
+        font-size: var(--fs-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-text-muted);
+        font-weight: 600;
+        margin-bottom: var(--space-2);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .k-review-item__label i {
+        width: 12px;
+        height: 12px;
+      }
+
+      .k-review-item__value {
+        font-size: var(--fs-base);
+        color: var(--color-text);
+        font-weight: 500;
+      }
+
+      .k-review-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-5);
+      }
+
+      /* Alert Box */
+      .k-alert {
+        display: flex;
+        gap: var(--space-3);
+        padding: var(--space-4);
+        background: rgba(245, 158, 11, 0.05);
+        border-left: 3px solid #f59e0b;
+        border-radius: var(--radius-md);
+        margin-top: var(--space-6);
+      }
+
+      .k-alert--success {
+        background: rgba(47, 157, 91, 0.05);
+        border-left-color: var(--color-success);
+      }
+
+      .k-alert__icon {
+        width: 18px;
+        height: 18px;
+        color: #f59e0b;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .k-alert--success .k-alert__icon {
+        color: var(--color-success);
+      }
+
+      .k-alert__content {
+        flex: 1;
+      }
+
+      .k-alert__title {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        margin: 0 0 var(--space-1) 0;
+        color: var(--color-text);
+      }
+
+      .k-alert__text {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* Form Actions */
+      .k-form-actions {
+        display: flex;
+        gap: var(--space-3);
+        justify-content: flex-end;
+        padding-top: var(--space-6);
+        margin-top: var(--space-8);
+      }
+
+      .k-form-actions--between {
+        justify-content: space-between;
+      }
+
+      /* Step Content */
+      .k-step-content {
+        display: none;
+      }
+
+      .k-step-content.is-active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Success Animation */
+      .k-success-animation {
+        text-align: center;
+        padding: var(--space-10) var(--space-4);
+      }
+
+      .k-success-animation__icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto var(--space-5);
+        color: var(--color-success);
+        animation: scaleIn 0.4s ease;
+      }
+
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .k-success-animation__title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+        letter-spacing: -0.02em;
+      }
+
+      .k-success-animation__text {
+        font-size: var(--fs-base);
+        color: var(--color-text-muted);
+        margin: 0 0 var(--space-8) 0;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      @media (max-width: 768px) {
+        .k-schedule-card {
+          padding: var(--space-6);
+        }
+
+        .k-form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .k-datetime-group {
+          grid-template-columns: 1fr;
+        }
+
+        .k-location-type {
+          grid-template-columns: 1fr;
+        }
+
+        .k-review-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .k-progress-steps {
+          overflow-x: auto;
+          padding-bottom: var(--space-2);
+        }
+
+        .k-progress-step__label {
+          font-size: 0.625rem;
+        }
+
+        .k-form-actions {
+          flex-direction: column-reverse;
+        }
+
+        .k-form-actions--between {
+          flex-direction: column-reverse;
+        }
+
+        .k-conductor-option {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Admin</span>
+            <span class="c-user-mini__role">Administrator</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span
+            >Subjects</a
+          >
+          <a href="kuppi-sessions.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span
+            >Resources</a
+          >
+          <a href="users.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="users"></i></span
+            >Users</a
+          >
+          <a href="community.html" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="settings"></i></span
+            >Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="kuppi-sessions.html">Kuppi Sessions</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Schedule Session</span>
+          </nav>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: var(--space-4);
+            "
+          >
+            <div>
+              <h1 class="c-page__title">Schedule Kuppi Session</h1>
+              <p class="c-page__subtitle u-text-muted">
+                Review requests and schedule kuppi sessions with conductors.
+              </p>
+            </div>
+            <a href="kuppi-sessions.html" class="c-btn c-btn--ghost"
+              ><i data-lucide="arrow-left"></i> Back to Sessions</a
+            >
+          </div>
+        </header>
+
+        <div class="k-schedule-container">
+          <!-- Progress Steps -->
+          <div class="k-progress-steps">
+            <div class="k-progress-step is-active" data-step="1">
+              <div class="k-progress-step__circle">
+                <i data-lucide="file-check"></i>
+              </div>
+              <span class="k-progress-step__label">Select Request</span>
+            </div>
+            <div class="k-progress-step" data-step="2">
+              <div class="k-progress-step__circle">
+                <i data-lucide="calendar"></i>
+              </div>
+              <span class="k-progress-step__label">Set Schedule</span>
+            </div>
+            <div class="k-progress-step" data-step="3">
+              <div class="k-progress-step__circle">
+                <i data-lucide="user-check"></i>
+              </div>
+              <span class="k-progress-step__label">Assign Conductor</span>
+            </div>
+            <div class="k-progress-step" data-step="4">
+              <div class="k-progress-step__circle">
+                <i data-lucide="check-circle"></i>
+              </div>
+              <span class="k-progress-step__label">Review & Confirm</span>
+            </div>
+          </div>
+
+          <!-- Step 1: Select Request -->
+          <div class="k-step-content is-active" id="step-1">
+            <div class="k-schedule-card">
+              <div class="k-schedule-card__header">
+                <h2 class="k-schedule-card__title">Select Kuppi Request</h2>
+                <p class="k-schedule-card__subtitle">
+                  Choose a pending kuppi session request to schedule.
+                </p>
+              </div>
+
+              <!-- Search & Filter -->
+              <div class="c-field" style="margin-bottom: var(--space-5)">
+                <label for="search-request" class="c-label"
+                  >Search Requests</label
+                >
+                <input
+                  type="text"
+                  id="search-request"
+                  class="c-input c-input--soft c-input--rect"
+                  placeholder="Search by topic, subject, or requester..."
+                />
+              </div>
+
+              <!-- Request List -->
+              <div style="display: grid; gap: var(--space-4)">
+                <!-- Request Option 1 -->
+                <label class="k-conductor-option" style="cursor: pointer">
+                  <input type="radio" name="request" value="req1" checked />
+                  <div style="flex: 1">
+                    <div class="k-request-preview__badge">
+                      <i data-lucide="book"></i>
+                      CS204 - Data Structures
+                    </div>
+                    <h3 class="k-conductor-option__name">
+                      Binary Search Trees Implementation
+                    </h3>
+                    <div class="k-request-preview__meta">
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="user"></i>
+                        <span>Requested by <strong>John Doe</strong></span>
+                      </div>
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="clock"></i>
+                        <span>2 hours ago</span>
+                      </div>
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="arrow-up"></i>
+                        <span><strong>24</strong> votes</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Request Option 2 -->
+                <label class="k-conductor-option" style="cursor: pointer">
+                  <input type="radio" name="request" value="req2" />
+                  <div style="flex: 1">
+                    <div class="k-request-preview__badge">
+                      <i data-lucide="book"></i>
+                      CS305 - Database Systems
+                    </div>
+                    <h3 class="k-conductor-option__name">
+                      SQL Joins and Query Optimization
+                    </h3>
+                    <div class="k-request-preview__meta">
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="user"></i>
+                        <span>Requested by <strong>Sarah Smith</strong></span>
+                      </div>
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="clock"></i>
+                        <span>5 hours ago</span>
+                      </div>
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="arrow-up"></i>
+                        <span><strong>18</strong> votes</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+
+                <!-- Request Option 3 -->
+                <label class="k-conductor-option" style="cursor: pointer">
+                  <input type="radio" name="request" value="req3" />
+                  <div style="flex: 1">
+                    <div class="k-request-preview__badge">
+                      <i data-lucide="book"></i>
+                      MA101 - Calculus I
+                    </div>
+                    <h3 class="k-conductor-option__name">
+                      Integration Techniques and Applications
+                    </h3>
+                    <div class="k-request-preview__meta">
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="user"></i>
+                        <span>Requested by <strong>Mike Wilson</strong></span>
+                      </div>
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="clock"></i>
+                        <span>1 day ago</span>
+                      </div>
+                      <div class="k-request-preview__meta-item">
+                        <i data-lucide="arrow-up"></i>
+                        <span><strong>15</strong> votes</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="k-form-actions">
+                <a href="kuppi-sessions.html" class="c-btn c-btn--ghost"
+                  >Cancel</a
+                >
+                <button type="button" class="c-btn" onclick="nextStep(2)">
+                  Continue <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Set Schedule -->
+          <div class="k-step-content" id="step-2">
+            <div class="k-schedule-card">
+              <div class="k-schedule-card__header">
+                <h2 class="k-schedule-card__title">Set Session Schedule</h2>
+                <p class="k-schedule-card__subtitle">
+                  Define the date, time, and location for the kuppi session.
+                </p>
+              </div>
+
+              <!-- Selected Request Preview -->
+              <div class="k-request-preview">
+                <div class="k-request-preview__badge">
+                  <i data-lucide="book"></i>
+                  CS204 - Data Structures
+                </div>
+                <h3 class="k-request-preview__title">
+                  Binary Search Trees Implementation
+                </h3>
+                <div class="k-request-preview__meta">
+                  <div class="k-request-preview__meta-item">
+                    <i data-lucide="user"></i>
+                    <span>Requested by <strong>John Doe</strong></span>
+                  </div>
+                  <div class="k-request-preview__meta-item">
+                    <i data-lucide="arrow-up"></i>
+                    <span><strong>24</strong> votes</span>
+                  </div>
+                </div>
+              </div>
+
+              <form class="k-form-grid">
+                <!-- Date -->
+                <div class="c-field">
+                  <label for="session-date" class="c-label"
+                    >Session Date <span class="u-text-danger">*</span></label
+                  >
+                  <input
+                    type="date"
+                    id="session-date"
+                    class="c-input c-input--soft c-input--rect"
+                    required
+                  />
+                </div>
+
+                <!-- Time Range -->
+                <div class="c-field">
+                  <label class="c-label"
+                    >Time <span class="u-text-danger">*</span></label
+                  >
+                  <div class="k-datetime-group">
+                    <input
+                      type="time"
+                      id="session-start-time"
+                      class="c-input c-input--soft c-input--rect"
+                      required
+                    />
+                    <input
+                      type="time"
+                      id="session-end-time"
+                      class="c-input c-input--soft c-input--rect"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- Duration (calculated) -->
+                <div class="c-field">
+                  <label for="duration" class="c-label">Duration</label>
+                  <input
+                    type="text"
+                    id="duration"
+                    class="c-input c-input--soft c-input--rect"
+                    value="2 hours"
+                    readonly
+                    style="background: var(--color-surface)"
+                  />
+                  <small
+                    class="u-text-muted"
+                    style="display: block; margin-top: var(--space-2)"
+                  >
+                    Automatically calculated from start and end time
+                  </small>
+                </div>
+
+                <!-- Capacity -->
+                <div class="c-field">
+                  <label class="c-label"
+                    >Maximum Attendees
+                    <span class="u-text-danger">*</span></label
+                  >
+                  <div class="k-capacity-input">
+                    <button
+                      type="button"
+                      class="k-capacity-input__btn"
+                      onclick="decrementCapacity()"
+                    >
+                      <i data-lucide="minus"></i>
+                    </button>
+                    <div class="k-capacity-input__value" id="capacity-value">
+                      25
+                    </div>
+                    <button
+                      type="button"
+                      class="k-capacity-input__btn"
+                      onclick="incrementCapacity()"
+                    >
+                      <i data-lucide="plus"></i>
+                    </button>
+                  </div>
+                  <input type="hidden" id="max-attendees" value="25" />
+                </div>
+
+                <!-- Location Type -->
+                <div class="c-field k-form-grid--full">
+                  <label class="c-label"
+                    >Location Type <span class="u-text-danger">*</span></label
+                  >
+                  <div class="k-location-type">
+                    <div class="k-location-type__option">
+                      <input
+                        type="radio"
+                        name="location-type"
+                        id="location-physical"
+                        value="physical"
+                        checked
+                      />
+                      <label
+                        for="location-physical"
+                        class="k-location-type__label"
+                      >
+                        <i data-lucide="map-pin"></i>
+                        Physical Location
+                      </label>
+                    </div>
+                    <div class="k-location-type__option">
+                      <input
+                        type="radio"
+                        name="location-type"
+                        id="location-online"
+                        value="online"
+                      />
+                      <label
+                        for="location-online"
+                        class="k-location-type__label"
+                      >
+                        <i data-lucide="video"></i>
+                        Online Session
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Location Details -->
+                <div class="c-field k-form-grid--full" id="physical-location">
+                  <label for="location" class="c-label"
+                    >Location <span class="u-text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="location"
+                    class="c-input c-input--soft c-input--rect"
+                    placeholder="e.g., Main Library, Room 204"
+                    required
+                  />
+                </div>
+
+                <div
+                  class="c-field k-form-grid--full"
+                  id="online-link"
+                  style="display: none"
+                >
+                  <label for="meeting-link" class="c-label"
+                    >Meeting Link <span class="u-text-danger">*</span></label
+                  >
+                  <input
+                    type="url"
+                    id="meeting-link"
+                    class="c-input c-input--soft c-input--rect"
+                    placeholder="https://zoom.us/j/..."
+                  />
+                </div>
+
+                <!-- Additional Notes -->
+                <div class="c-field k-form-grid--full">
+                  <label for="schedule-notes" class="c-label"
+                    >Additional Notes</label
+                  >
+                  <textarea
+                    id="schedule-notes"
+                    class="c-input c-input--soft c-input--rect"
+                    rows="3"
+                    placeholder="Any special instructions or requirements for attendees..."
+                  ></textarea>
+                </div>
+              </form>
+
+              <div class="k-form-actions k-form-actions--between">
+                <button
+                  type="button"
+                  class="c-btn c-btn--ghost"
+                  onclick="prevStep(1)"
+                >
+                  <i data-lucide="arrow-left"></i> Back
+                </button>
+                <button type="button" class="c-btn" onclick="nextStep(3)">
+                  Continue <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Assign Conductor -->
+          <div class="k-step-content" id="step-3">
+            <div class="k-schedule-card">
+              <div class="k-schedule-card__header">
+                <h2 class="k-schedule-card__title">Assign Session Conductor</h2>
+                <p class="k-schedule-card__subtitle">
+                  Select a qualified conductor to lead this kuppi session.
+                </p>
+              </div>
+
+              <!-- Selected Request Preview -->
+              <div class="k-request-preview">
+                <div class="k-request-preview__badge">
+                  <i data-lucide="book"></i>
+                  CS204 - Data Structures
+                </div>
+                <h3 class="k-request-preview__title">
+                  Binary Search Trees Implementation
+                </h3>
+                <div class="k-request-preview__meta">
+                  <div class="k-request-preview__meta-item">
+                    <i data-lucide="calendar"></i>
+                    <span
+                      ><strong>March 25, 2024</strong> at 2:00 PM - 4:00
+                      PM</span
+                    >
+                  </div>
+                  <div class="k-request-preview__meta-item">
+                    <i data-lucide="map-pin"></i>
+                    <span>Main Library, Room 204</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Search Conductors -->
+              <div class="c-field" style="margin-bottom: var(--space-5)">
+                <label for="search-conductor" class="c-label"
+                  >Search Conductors</label
+                >
+                <input
+                  type="text"
+                  id="search-conductor"
+                  class="c-input c-input--soft c-input--rect"
+                  placeholder="Search by name, subject expertise..."
+                />
+              </div>
+
+              <!-- Conductor Options -->
+              <div class="k-conductor-select">
+                <!-- Conductor 1 -->
+                <label class="k-conductor-option">
+                  <input
+                    type="radio"
+                    name="conductor"
+                    value="conductor1"
+                    checked
+                  />
+                  <img
+                    src="https://i.pravatar.cc/150?img=12"
+                    alt="Alex Johnson"
+                    class="k-conductor-option__avatar"
+                  />
+                  <div class="k-conductor-option__info">
+                    <h3 class="k-conductor-option__name">Alex Johnson</h3>
+                    <div class="k-conductor-option__stats">
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="graduation-cap"></i>
+                        32 sessions
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="star"></i>
+                        4.9 rating
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="users"></i>
+                        450+ students
+                      </span>
+                    </div>
+                  </div>
+                  <div class="k-conductor-option__badge">
+                    <i data-lucide="award"></i>
+                    Top Rated
+                  </div>
+                </label>
+
+                <!-- Conductor 2 -->
+                <label class="k-conductor-option">
+                  <input type="radio" name="conductor" value="conductor2" />
+                  <img
+                    src="https://i.pravatar.cc/150?img=15"
+                    alt="Maria Garcia"
+                    class="k-conductor-option__avatar"
+                  />
+                  <div class="k-conductor-option__info">
+                    <h3 class="k-conductor-option__name">Maria Garcia</h3>
+                    <div class="k-conductor-option__stats">
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="graduation-cap"></i>
+                        28 sessions
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="star"></i>
+                        4.8 rating
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="users"></i>
+                        380+ students
+                      </span>
+                    </div>
+                  </div>
+                  <div class="k-conductor-option__badge">
+                    <i data-lucide="check-circle"></i>
+                    Verified
+                  </div>
+                </label>
+
+                <!-- Conductor 3 -->
+                <label class="k-conductor-option">
+                  <input type="radio" name="conductor" value="conductor3" />
+                  <img
+                    src="https://i.pravatar.cc/150?img=33"
+                    alt="David Chen"
+                    class="k-conductor-option__avatar"
+                  />
+                  <div class="k-conductor-option__info">
+                    <h3 class="k-conductor-option__name">David Chen</h3>
+                    <div class="k-conductor-option__stats">
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="graduation-cap"></i>
+                        25 sessions
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="star"></i>
+                        4.7 rating
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="users"></i>
+                        320+ students
+                      </span>
+                    </div>
+                  </div>
+                  <div class="k-conductor-option__badge">
+                    <i data-lucide="check-circle"></i>
+                    Verified
+                  </div>
+                </label>
+              </div>
+
+              <!-- Conductor Notes -->
+              <div class="c-field" style="margin-top: var(--space-5)">
+                <label for="conductor-notes" class="c-label"
+                  >Notes for Conductor (Optional)</label
+                >
+                <textarea
+                  id="conductor-notes"
+                  class="c-input c-input--soft c-input--rect"
+                  rows="3"
+                  placeholder="Any special instructions or expectations for the conductor..."
+                ></textarea>
+              </div>
+
+              <div class="k-alert">
+                <i data-lucide="info" class="k-alert__icon"></i>
+                <div class="k-alert__content">
+                  <h4 class="k-alert__title">Conductor Notification</h4>
+                  <p class="k-alert__text">
+                    The selected conductor will receive an email notification
+                    with session details and confirmation link.
+                  </p>
+                </div>
+              </div>
+
+              <div class="k-form-actions k-form-actions--between">
+                <button
+                  type="button"
+                  class="c-btn c-btn--ghost"
+                  onclick="prevStep(2)"
+                >
+                  <i data-lucide="arrow-left"></i> Back
+                </button>
+                <button type="button" class="c-btn" onclick="nextStep(4)">
+                  Continue <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Review & Confirm -->
+          <div class="k-step-content" id="step-4">
+            <div class="k-schedule-card">
+              <div class="k-schedule-card__header">
+                <h2 class="k-schedule-card__title">Review & Confirm</h2>
+                <p class="k-schedule-card__subtitle">
+                  Please review all details before scheduling the session.
+                </p>
+              </div>
+
+              <div class="k-review-section">
+                <!-- Session Information -->
+                <div>
+                  <h3
+                    style="
+                      font-size: var(--fs-base);
+                      font-weight: 600;
+                      margin-bottom: var(--space-5);
+                      color: var(--color-text);
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                      font-size: var(--fs-xs);
+                    "
+                  >
+                    Session Information
+                  </h3>
+                  <div class="k-review-item">
+                    <div class="k-review-item__label">Subject</div>
+                    <div class="k-review-item__value">
+                      CS204 - Data Structures
+                    </div>
+                  </div>
+                  <div class="k-review-item">
+                    <div class="k-review-item__label">Topic</div>
+                    <div class="k-review-item__value">
+                      Binary Search Trees Implementation
+                    </div>
+                  </div>
+                  <div class="k-review-item">
+                    <div class="k-review-item__label">Requested By</div>
+                    <div class="k-review-item__value">John Doe</div>
+                  </div>
+                </div>
+
+                <!-- Schedule Details -->
+                <div>
+                  <h3
+                    style="
+                      font-size: var(--fs-base);
+                      font-weight: 600;
+                      margin-bottom: var(--space-5);
+                      color: var(--color-text);
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                      font-size: var(--fs-xs);
+                    "
+                  >
+                    Schedule Details
+                  </h3>
+                  <div class="k-review-grid">
+                    <div class="k-review-item">
+                      <div class="k-review-item__label">Date</div>
+                      <div class="k-review-item__value">March 25, 2024</div>
+                    </div>
+                    <div class="k-review-item">
+                      <div class="k-review-item__label">Time</div>
+                      <div class="k-review-item__value">2:00 PM - 4:00 PM</div>
+                    </div>
+                    <div class="k-review-item">
+                      <div class="k-review-item__label">Duration</div>
+                      <div class="k-review-item__value">2 hours</div>
+                    </div>
+                    <div class="k-review-item">
+                      <div class="k-review-item__label">Max Attendees</div>
+                      <div class="k-review-item__value">25 students</div>
+                    </div>
+                  </div>
+                  <div class="k-review-item">
+                    <div class="k-review-item__label">Location</div>
+                    <div class="k-review-item__value">
+                      Main Library, Room 204
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Conductor Information -->
+                <div>
+                  <h3
+                    style="
+                      font-size: var(--fs-base);
+                      font-weight: 600;
+                      margin-bottom: var(--space-5);
+                      color: var(--color-text);
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                      font-size: var(--fs-xs);
+                    "
+                  >
+                    Assigned Conductor
+                  </h3>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: var(--space-4);
+                      padding: var(--space-5);
+                      background: var(--color-surface);
+                      border-radius: var(--radius-md);
+                    "
+                  >
+                    <img
+                      src="https://i.pravatar.cc/150?img=12"
+                      alt="Alex Johnson"
+                      style="
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                      "
+                    />
+                    <div style="flex: 1">
+                      <h4
+                        style="
+                          font-size: var(--fs-base);
+                          font-weight: 600;
+                          margin: 0 0 var(--space-2) 0;
+                        "
+                      >
+                        Alex Johnson
+                      </h4>
+                      <div
+                        style="
+                          display: flex;
+                          gap: var(--space-4);
+                          font-size: var(--fs-xs);
+                          color: var(--color-text-muted);
+                        "
+                      >
+                        <span
+                          style="
+                            display: flex;
+                            align-items: center;
+                            gap: var(--space-1);
+                          "
+                        >
+                          <i
+                            data-lucide="graduation-cap"
+                            style="width: 12px; height: 12px"
+                          ></i>
+                          32 sessions
+                        </span>
+                        <span
+                          style="
+                            display: flex;
+                            align-items: center;
+                            gap: var(--space-1);
+                          "
+                        >
+                          <i
+                            data-lucide="star"
+                            style="width: 12px; height: 12px"
+                          ></i>
+                          4.9 rating
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="k-alert k-alert--success">
+                <i data-lucide="check-circle" class="k-alert__icon"></i>
+                <div class="k-alert__content">
+                  <h4 class="k-alert__title">Ready to Schedule</h4>
+                  <p class="k-alert__text">
+                    All participants and the conductor will receive email
+                    notifications with session details and calendar invites.
+                  </p>
+                </div>
+              </div>
+
+              <div class="k-form-actions k-form-actions--between">
+                <button
+                  type="button"
+                  class="c-btn c-btn--ghost"
+                  onclick="prevStep(3)"
+                >
+                  <i data-lucide="arrow-left"></i> Back
+                </button>
+                <button type="button" class="c-btn" onclick="scheduleSession()">
+                  <i data-lucide="check"></i> Schedule Session
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success State (Hidden initially) -->
+          <div class="k-step-content" id="step-success" style="display: none">
+            <div class="k-schedule-card">
+              <div class="k-success-animation">
+                <div class="k-success-animation__icon">
+                  <i data-lucide="check-circle-2"></i>
+                </div>
+                <h2 class="k-success-animation__title">
+                  Session Successfully Scheduled!
+                </h2>
+                <p class="k-success-animation__text">
+                  The kuppi session has been scheduled. All participants and the
+                  conductor have been notified via email.
+                </p>
+                <div
+                  style="
+                    display: flex;
+                    gap: var(--space-3);
+                    justify-content: center;
+                  "
+                >
+                  <a href="kuppi-scheduled.html" class="c-btn">
+                    <i data-lucide="calendar"></i> View Scheduled Sessions
+                  </a>
+                  <button
+                    type="button"
+                    class="c-btn c-btn--ghost"
+                    onclick="resetForm()"
+                  >
+                    Schedule Another
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        // Location type toggle
+        const locationRadios = document.querySelectorAll(
+          'input[name="location-type"]'
+        );
+        const physicalLocation = document.getElementById("physical-location");
+        const onlineLink = document.getElementById("online-link");
+
+        locationRadios.forEach((radio) => {
+          radio.addEventListener("change", function () {
+            if (this.value === "physical") {
+              physicalLocation.style.display = "block";
+              onlineLink.style.display = "none";
+            } else {
+              physicalLocation.style.display = "none";
+              onlineLink.style.display = "block";
+            }
+          });
+        });
+      });
+
+      // Capacity controls
+      let capacity = 25;
+
+      function incrementCapacity() {
+        if (capacity < 100) {
+          capacity++;
+          updateCapacity();
+        }
+      }
+
+      function decrementCapacity() {
+        if (capacity > 5) {
+          capacity--;
+          updateCapacity();
+        }
+      }
+
+      function updateCapacity() {
+        document.getElementById("capacity-value").textContent = capacity;
+        document.getElementById("max-attendees").value = capacity;
+      }
+
+      // Step navigation
+      function nextStep(stepNumber) {
+        // Hide all steps
+        document.querySelectorAll(".k-step-content").forEach((step) => {
+          step.classList.remove("is-active");
+        });
+
+        // Show target step
+        document
+          .getElementById(`step-${stepNumber}`)
+          .classList.add("is-active");
+
+        // Update progress indicators
+        document.querySelectorAll(".k-progress-step").forEach((step) => {
+          const stepNum = parseInt(step.dataset.step);
+          step.classList.remove("is-active", "is-complete");
+
+          if (stepNum < stepNumber) {
+            step.classList.add("is-complete");
+          } else if (stepNum === stepNumber) {
+            step.classList.add("is-active");
+          }
+        });
+
+        // Re-render icons
+        if (window.lucide) window.lucide.createIcons();
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function prevStep(stepNumber) {
+        nextStep(stepNumber);
+      }
+
+      function scheduleSession() {
+        // Hide step 4
+        document.getElementById("step-4").classList.remove("is-active");
+
+        // Show success
+        document.getElementById("step-success").style.display = "block";
+        document.getElementById("step-success").classList.add("is-active");
+
+        // Mark all steps as complete
+        document.querySelectorAll(".k-progress-step").forEach((step) => {
+          step.classList.remove("is-active");
+          step.classList.add("is-complete");
+        });
+
+        // Re-render icons
+        if (window.lucide) window.lucide.createIcons();
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        // Show toast
+        showToast("Kuppi session scheduled successfully!");
+      }
+
+      function resetForm() {
+        // Reset to step 1
+        document.querySelectorAll(".k-step-content").forEach((step) => {
+          step.classList.remove("is-active");
+        });
+        document.getElementById("step-1").classList.add("is-active");
+        document.getElementById("step-success").style.display = "none";
+
+        // Reset progress
+        document.querySelectorAll(".k-progress-step").forEach((step) => {
+          step.classList.remove("is-active", "is-complete");
+        });
+        document.querySelector('[data-step="1"]').classList.add("is-active");
+
+        // Reset capacity
+        capacity = 25;
+        updateCapacity();
+
+        // Re-render icons
+        if (window.lucide) window.lucide.createIcons();
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function showToast(msg) {
+        const toasts = document.querySelector(".c-toasts");
+        if (!toasts) return;
+        const item = document.createElement("div");
+        item.className = "c-toast";
+        item.textContent = msg;
+        toasts.appendChild(item);
+        setTimeout(() => {
+          item.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
