@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Request Kuppi Session • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="#" class="c-nav__item is-active"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="progress-analysis.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="community.html" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="#">Kuppi Sessions</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Request Session</span>
+          </nav>
+          <div
+            class="o-inline"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: var(--space-4);
+            "
+          >
+            <div>
+              <h1 class="c-page__title">Request Kuppi Session</h1>
+              <p class="c-page__subtitle u-text-muted">
+                Organize a study session and invite your peers to join.
+              </p>
+            </div>
+            <a href="#" class="c-btn c-btn--ghost"
+              ><i data-lucide="arrow-left"></i> Back to Sessions</a
+            >
+          </div>
+          <nav class="c-tabs-line" aria-label="Navigation">
+            <a href="#" class="is-active">Request Session</a>
+            <a href="#">My Sessions</a>
+            <a href="#">Joined Sessions</a>
+          </nav>
+        </header>
+
+        <section class="u-stack-4">
+          <form
+            id="kuppi-form"
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: var(--space-5);
+            "
+          >
+            <h2
+              class="c-section-title"
+              style="margin-top: 0; grid-column: 1 / -1"
+            >
+              Session Details
+            </h2>
+
+            <!-- Subject -->
+            <div class="c-field">
+              <label for="subject" class="c-label"
+                >Subject <span class="u-text-danger">*</span></label
+              >
+              <select
+                id="subject"
+                name="subject"
+                class="c-input c-input--soft c-input--rect"
+                required
+              >
+                <option value="">Select a subject</option>
+                <option value="CS204">CS204 - Data Structures</option>
+                <option value="CS301">CS301 - Algorithms</option>
+                <option value="CS123">CS123 - Programming Fundamentals</option>
+                <option value="CS205">CS205 - Operating Systems</option>
+                <option value="MA201">MA201 - Calculus II</option>
+                <option value="ENG101">ENG101 - English Composition</option>
+                <option value="PHY110">PHY110 - Physics I</option>
+              </select>
+            </div>
+
+            <!-- Topic -->
+            <div class="c-field">
+              <label for="topic" class="c-label"
+                >Session Topic <span class="u-text-danger">*</span></label
+              >
+              <input
+                id="topic"
+                name="topic"
+                class="c-input c-input--soft c-input--rect"
+                type="text"
+                placeholder="e.g., Binary Search Trees and Traversal"
+                required
+              />
+            </div>
+
+            <!-- Description -->
+            <div class="c-field" style="grid-column: 1 / -1">
+              <label for="description" class="c-label"
+                >Description <span class="u-text-danger">*</span></label
+              >
+              <textarea
+                id="description"
+                name="description"
+                class="c-textarea c-textarea--soft"
+                rows="6"
+                placeholder="Describe what will be covered in this session, any prerequisites, and what participants should prepare..."
+                required
+              ></textarea>
+            </div>
+
+            <!-- Tags -->
+            <div class="c-field" style="grid-column: 1 / -1">
+              <label for="tags" class="c-label"
+                >Tags <span class="u-text-danger">*</span></label
+              >
+              <input
+                id="tags"
+                name="tags"
+                class="c-input c-input--soft c-input--rect"
+                type="text"
+                placeholder="e.g., exam-prep, beginner-friendly, group-study"
+                required
+              />
+              <small
+                class="u-text-muted"
+                style="display: block; margin-top: var(--space-2)"
+              >
+                Separate tags with commas
+              </small>
+            </div>
+
+            <!-- Actions -->
+            <div class="c-form-actions" style="grid-column: 1 / -1">
+              <a href="#" class="c-btn c-btn--ghost" role="button">Cancel</a>
+              <button class="c-btn" type="submit">
+                <i data-lucide="check"></i> Submit Request
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        const form = document.getElementById("kuppi-form");
+        const toasts = document.querySelector(".c-toasts");
+
+        // Form submission
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          // Basic validation
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+
+          // Get form data
+          const formData = new FormData(form);
+          const data = Object.fromEntries(formData.entries());
+
+          console.log("Kuppi Session Request:", data);
+
+          showToast("Kuppi session request submitted successfully!");
+
+          // Reset form and redirect after delay
+          setTimeout(() => {
+            form.reset();
+            // In real app, redirect to sessions list
+            // window.location.href = "kuppi-sessions.html";
+          }, 1500);
+        });
+
+        function showToast(msg) {
+          if (!toasts) return;
+          const item = document.createElement("div");
+          item.className = "c-toast";
+          item.textContent = msg;
+          toasts.appendChild(item);
+          setTimeout(() => {
+            item.remove();
+          }, 2500);
+        }
+      });
+    </script>
+  </body>
+</html>
