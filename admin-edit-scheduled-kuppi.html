@@ -661,58 +661,97 @@
                 <div class="k-form-section">
                   <h3 class="k-form-section__title">Date & Time</h3>
                   <div class="k-form-grid">
-                  <div class="c-field">
-                    <label for="session-date" class="c-label">
-                      Session Date <span class="u-text-danger">*</span>
-                    </label>
-                    <input
-                      type="date"
-                      id="session-date"
-                      class="c-input c-input--soft c-input--rect"
-                      value="2024-03-25"
-                      required
-                      onchange="checkBlockedTime()"
-                    />
-                  </div>
-
-                  <div class="c-field">
-                    <label class="c-label">
-                      Time <span class="u-text-danger">*</span>
-                    </label>
-                    <div class="k-datetime-group">
+                    <div class="c-field">
+                      <label for="session-date" class="c-label">
+                        Session Date <span class="u-text-danger">*</span>
+                      </label>
                       <input
-                        type="time"
-                        id="session-start-time"
+                        type="date"
+                        id="session-date"
                         class="c-input c-input--soft c-input--rect"
-                        value="14:00"
-                        required
-                        onchange="checkBlockedTime()"
-                      />
-                      <input
-                        type="time"
-                        id="session-end-time"
-                        class="c-input c-input--soft c-input--rect"
-                        value="16:00"
+                        value="2024-03-25"
                         required
                         onchange="checkBlockedTime()"
                       />
                     </div>
-                  </div>
 
-                  <!-- Time Conflict Warning -->
-                  <div class="c-field" id="time-conflict-warning" style="display: none; grid-column: 1 / -1;">
-                    <div style="display: flex; gap: var(--space-3); padding: var(--space-4); background: rgba(239, 68, 68, 0.05); border: 2px solid var(--color-danger); border-radius: var(--radius-md);">
-                      <i data-lucide="alert-triangle" style="width: 20px; height: 20px; color: var(--color-danger); flex-shrink: 0; margin-top: 2px;"></i>
-                      <div style="flex: 1;">
-                        <h4 style="font-size: var(--fs-sm); font-weight: 600; margin: 0 0 var(--space-1) 0; color: var(--color-text);">
-                          Time Conflict Detected
-                        </h4>
-                        <p style="font-size: var(--fs-sm); color: var(--color-text-muted); margin: 0; line-height: 1.5;" id="conflict-message">
-                          This time conflicts with official university lectures.
-                        </p>
+                    <div class="c-field">
+                      <label class="c-label">
+                        Time <span class="u-text-danger">*</span>
+                      </label>
+                      <div class="k-datetime-group">
+                        <input
+                          type="time"
+                          id="session-start-time"
+                          class="c-input c-input--soft c-input--rect"
+                          value="14:00"
+                          required
+                          onchange="checkBlockedTime()"
+                        />
+                        <input
+                          type="time"
+                          id="session-end-time"
+                          class="c-input c-input--soft c-input--rect"
+                          value="16:00"
+                          required
+                          onchange="checkBlockedTime()"
+                        />
                       </div>
                     </div>
-                  </div>                    <div class="c-field">
+
+                    <!-- Time Conflict Warning -->
+                    <div
+                      class="c-field"
+                      id="time-conflict-warning"
+                      style="display: none; grid-column: 1 / -1"
+                    >
+                      <div
+                        style="
+                          display: flex;
+                          gap: var(--space-3);
+                          padding: var(--space-4);
+                          background: rgba(239, 68, 68, 0.05);
+                          border: 2px solid var(--color-danger);
+                          border-radius: var(--radius-md);
+                        "
+                      >
+                        <i
+                          data-lucide="alert-triangle"
+                          style="
+                            width: 20px;
+                            height: 20px;
+                            color: var(--color-danger);
+                            flex-shrink: 0;
+                            margin-top: 2px;
+                          "
+                        ></i>
+                        <div style="flex: 1">
+                          <h4
+                            style="
+                              font-size: var(--fs-sm);
+                              font-weight: 600;
+                              margin: 0 0 var(--space-1) 0;
+                              color: var(--color-text);
+                            "
+                          >
+                            Time Conflict Detected
+                          </h4>
+                          <p
+                            style="
+                              font-size: var(--fs-sm);
+                              color: var(--color-text-muted);
+                              margin: 0;
+                              line-height: 1.5;
+                            "
+                            id="conflict-message"
+                          >
+                            This time conflicts with official university
+                            lectures.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="c-field">
                       <label for="duration" class="c-label">Duration</label>
                       <input
                         type="text"
@@ -1301,10 +1340,12 @@ Please bring your laptops and the course textbook.</textarea
       function saveChanges() {
         const conflict = checkBlockedTime();
         if (conflict) {
-          showToast("Please select a different time. The selected time conflicts with university lectures.");
+          showToast(
+            "Please select a different time. The selected time conflicts with university lectures."
+          );
           return;
         }
-        
+
         showToast("Session updated successfully!");
         setTimeout(() => {
           window.location.href = "kuppi-scheduled.html";
@@ -1372,7 +1413,9 @@ Please bring your laptops and the course textbook.</textarea
 
         // Get day of week from selected date
         const selectedDate = new Date(dateInput.value + "T00:00:00");
-        const dayOfWeek = selectedDate.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
+        const dayOfWeek = selectedDate
+          .toLocaleDateString("en-US", { weekday: "long" })
+          .toLowerCase();
 
         const startTime = startTimeInput.value;
         const endTime = endTimeInput.value;
@@ -1394,12 +1437,16 @@ Please bring your laptops and the course textbook.</textarea
 
         if (conflict) {
           warningDiv.style.display = "block";
-          conflictMessage.textContent = `This time conflicts with: ${conflict.reason || "University Lecture"} (${conflict.startTime} - ${conflict.endTime} on ${conflict.day.charAt(0).toUpperCase() + conflict.day.slice(1)})`;
-          
+          conflictMessage.textContent = `This time conflicts with: ${
+            conflict.reason || "University Lecture"
+          } (${conflict.startTime} - ${conflict.endTime} on ${
+            conflict.day.charAt(0).toUpperCase() + conflict.day.slice(1)
+          })`;
+
           // Add red border to time inputs
           startTimeInput.style.borderColor = "var(--color-danger)";
           endTimeInput.style.borderColor = "var(--color-danger)";
-          
+
           if (window.lucide) window.lucide.createIcons();
           return true;
         } else {

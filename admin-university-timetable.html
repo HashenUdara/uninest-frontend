@@ -92,7 +92,11 @@
       }
 
       .k-timetable-cell--blocked {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(239, 68, 68, 0.12) 100%);
+        background: linear-gradient(
+          135deg,
+          rgba(239, 68, 68, 0.08) 0%,
+          rgba(239, 68, 68, 0.12) 100%
+        );
         border: 2px solid rgba(239, 68, 68, 0.3);
         cursor: pointer;
         transition: all 0.2s ease;
@@ -101,7 +105,11 @@
       }
 
       .k-timetable-cell--blocked:hover {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.16) 100%);
+        background: linear-gradient(
+          135deg,
+          rgba(239, 68, 68, 0.12) 0%,
+          rgba(239, 68, 68, 0.16) 100%
+        );
         border-color: rgba(239, 68, 68, 0.5);
         transform: scale(1.02);
       }
@@ -171,7 +179,11 @@
         width: 48px;
         height: 48px;
         border-radius: var(--radius-lg);
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.15) 100%);
+        background: linear-gradient(
+          135deg,
+          rgba(239, 68, 68, 0.1) 0%,
+          rgba(239, 68, 68, 0.15) 100%
+        );
         display: flex;
         align-items: center;
         justify-content: center;
@@ -215,7 +227,11 @@
         display: flex;
         gap: var(--space-4);
         padding: var(--space-6);
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.04) 0%, rgba(59, 130, 246, 0.08) 100%);
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.04) 0%,
+          rgba(59, 130, 246, 0.08) 100%
+        );
         border: 1px solid rgba(59, 130, 246, 0.2);
         border-radius: var(--radius-lg);
         margin-bottom: var(--space-6);
@@ -274,7 +290,11 @@
         width: 56px;
         height: 56px;
         border-radius: var(--radius-lg);
-        background: linear-gradient(135deg, rgba(84, 44, 245, 0.1) 0%, rgba(84, 44, 245, 0.15) 100%);
+        background: linear-gradient(
+          135deg,
+          rgba(84, 44, 245, 0.1) 0%,
+          rgba(84, 44, 245, 0.15) 100%
+        );
         display: flex;
         align-items: center;
         justify-content: center;
@@ -381,7 +401,9 @@
             Subjects
           </a>
           <a href="kuppi-sessions.html" class="c-nav__item">
-            <span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>
+            <span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i
+            ></span>
             Kuppi Sessions
           </a>
           <a href="resources.html" class="c-nav__item">
@@ -393,7 +415,9 @@
             Users
           </a>
           <a href="community.html" class="c-nav__item">
-            <span class="c-nav__icon"><i data-lucide="message-square"></i></span>
+            <span class="c-nav__icon"
+              ><i data-lucide="message-square"></i
+            ></span>
             Community
           </a>
           <a href="#" class="c-nav__item is-active">
@@ -419,7 +443,8 @@
           <div>
             <h1 class="c-page__title">University Lecture Timetable</h1>
             <p class="c-page__subtitle u-text-muted">
-              Define official lecture times to prevent kuppi session scheduling conflicts.
+              Define official lecture times to prevent kuppi session scheduling
+              conflicts.
             </p>
           </div>
         </header>
@@ -436,7 +461,7 @@
                 <p class="k-stat-card__value" id="stat-blocked-count">0</p>
               </div>
             </div>
-            
+
             <div class="k-stat-card">
               <div class="k-stat-card__icon">
                 <i data-lucide="clock"></i>
@@ -446,7 +471,7 @@
                 <p class="k-stat-card__value" id="stat-total-hours">0</p>
               </div>
             </div>
-            
+
             <div class="k-stat-card">
               <div class="k-stat-card__icon">
                 <i data-lucide="calendar-check"></i>
@@ -464,7 +489,10 @@
             <div class="k-alert-info__content">
               <h4 class="k-alert-info__title">How It Works</h4>
               <p class="k-alert-info__text">
-                Add blocked time slots for official university lectures. These times will be automatically unavailable when scheduling kuppi sessions. Students and conductors will not be able to book sessions during these hours.
+                Add blocked time slots for official university lectures. These
+                times will be automatically unavailable when scheduling kuppi
+                sessions. Students and conductors will not be able to book
+                sessions during these hours.
               </p>
             </div>
           </div>
@@ -475,7 +503,8 @@
               <div>
                 <h2 class="k-timetable-card__title">Add Blocked Time Slot</h2>
                 <p class="k-timetable-card__subtitle">
-                  Define a new time period when kuppi sessions cannot be scheduled.
+                  Define a new time period when kuppi sessions cannot be
+                  scheduled.
                 </p>
               </div>
             </div>
@@ -534,7 +563,11 @@
               </div>
 
               <div class="c-field" style="display: flex; align-items: flex-end">
-                <button type="submit" class="c-btn" style="width: 100%; height: 48px; font-weight: 600;">
+                <button
+                  type="submit"
+                  class="c-btn"
+                  style="width: 100%; height: 48px; font-weight: 600"
+                >
                   <i data-lucide="plus"></i> Add Blocked Slot
                 </button>
               </div>
@@ -545,9 +578,12 @@
           <div class="k-timetable-card">
             <div class="k-timetable-card__header">
               <div>
-                <h2 class="k-timetable-card__title">Weekly Timetable Overview</h2>
+                <h2 class="k-timetable-card__title">
+                  Weekly Timetable Overview
+                </h2>
                 <p class="k-timetable-card__subtitle">
-                  Visual representation of blocked lecture times (red cells indicate blocked slots).
+                  Visual representation of blocked lecture times (red cells
+                  indicate blocked slots).
                 </p>
               </div>
             </div>
@@ -555,11 +591,21 @@
             <div class="k-timetable-grid" id="timetable-grid">
               <!-- Header Row -->
               <div class="k-timetable-cell k-timetable-cell--header">Time</div>
-              <div class="k-timetable-cell k-timetable-cell--header">Monday</div>
-              <div class="k-timetable-cell k-timetable-cell--header">Tuesday</div>
-              <div class="k-timetable-cell k-timetable-cell--header">Wednesday</div>
-              <div class="k-timetable-cell k-timetable-cell--header">Thursday</div>
-              <div class="k-timetable-cell k-timetable-cell--header">Friday</div>
+              <div class="k-timetable-cell k-timetable-cell--header">
+                Monday
+              </div>
+              <div class="k-timetable-cell k-timetable-cell--header">
+                Tuesday
+              </div>
+              <div class="k-timetable-cell k-timetable-cell--header">
+                Wednesday
+              </div>
+              <div class="k-timetable-cell k-timetable-cell--header">
+                Thursday
+              </div>
+              <div class="k-timetable-cell k-timetable-cell--header">
+                Friday
+              </div>
 
               <!-- Time slots will be generated by JavaScript -->
             </div>
@@ -638,7 +684,13 @@
         "20:00",
       ];
 
-      const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+      const daysOfWeek = [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+      ];
 
       document.addEventListener("DOMContentLoaded", function () {
         if (window.lucide) window.lucide.createIcons();
@@ -674,12 +726,17 @@
               content.className = "k-slot-content";
               content.innerHTML = `
                 <span class="k-slot-label">Blocked</span>
-                <span class="k-slot-detail">${blocked.reason ? blocked.reason.split('-')[0].trim() : "Lecture"}</span>
+                <span class="k-slot-detail">${
+                  blocked.reason
+                    ? blocked.reason.split("-")[0].trim()
+                    : "Lecture"
+                }</span>
               `;
               cell.appendChild(content);
             } else {
               cell.className = "k-timetable-cell k-timetable-cell--available";
-              cell.innerHTML = '<span style="color: var(--color-text-muted); font-size: 10px; opacity: 0.4;">—</span>';
+              cell.innerHTML =
+                '<span style="color: var(--color-text-muted); font-size: 10px; opacity: 0.4;">—</span>';
             }
 
             grid.appendChild(cell);
@@ -698,14 +755,14 @@
 
       function renderBlockedSlots() {
         const container = document.getElementById("blocked-slots-list");
-        
+
         // Update stats
         const statBlockedCount = document.getElementById("stat-blocked-count");
         const statTotalHours = document.getElementById("stat-total-hours");
         const statAvailable = document.getElementById("stat-available");
-        
+
         statBlockedCount.textContent = blockedSlots.length;
-        
+
         // Calculate total hours
         let totalHours = 0;
         blockedSlots.forEach((slot) => {
@@ -714,7 +771,7 @@
           totalHours += end - start;
         });
         statTotalHours.textContent = totalHours;
-        
+
         // Calculate available slots (total 65 slots - blocked)
         const totalSlots = timeSlots.length * daysOfWeek.length;
         statAvailable.textContent = totalSlots - blockedSlots.length;
@@ -741,7 +798,9 @@
               <i data-lucide="calendar-x"></i>
             </div>
             <div class="k-slot-item__content">
-              <h3 class="k-slot-item__title">${slot.reason || "Blocked Time"}</h3>
+              <h3 class="k-slot-item__title">${
+                slot.reason || "Blocked Time"
+              }</h3>
               <div class="k-slot-item__meta">
                 <span style="text-transform: capitalize;">${slot.day}</span>
                 <span>•</span>
