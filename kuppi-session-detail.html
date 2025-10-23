@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Binary Search Trees Session • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      /* Layout */
+      .k-detail-layout {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: var(--space-6);
+        align-items: start;
+      }
+
+      /* Main Content */
+      .k-detail-main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+      }
+
+      /* Session Header */
+      .k-detail-header {
+        background: var(--color-white);
+        border: 2px solid var(--color-brand);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+      }
+
+      .k-detail-header__top {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+      }
+
+      .k-detail-header__subject {
+        display: inline-flex;
+        align-items: center;
+        background: var(--color-brand-soft);
+        color: var(--color-brand);
+        padding: var(--space-2) var(--space-4);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-sm);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .k-detail-header__subject-name {
+        display: block;
+        font-size: var(--fs-xs);
+        font-weight: 400;
+        margin-top: 2px;
+        opacity: 0.9;
+      }
+
+      .k-detail-header__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        background: var(--color-success-soft);
+        color: var(--color-success);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-xs);
+        font-weight: 600;
+      }
+
+      .k-detail-header__title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-4) 0;
+        line-height: 1.3;
+      }
+
+      .k-detail-header__meta {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: var(--space-4);
+      }
+
+      .k-detail-header__author {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .k-detail-header__avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .k-detail-header__author-name {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .k-detail-header__author-name strong {
+        color: var(--color-text);
+        font-weight: 600;
+      }
+
+      .k-detail-header__stat {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .k-detail-header__stat i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .k-detail-header__description {
+        color: var(--color-text);
+        line-height: 1.7;
+        font-size: var(--fs-base);
+        margin-bottom: var(--space-4);
+      }
+
+      .k-detail-header__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+      }
+
+      .k-detail-header__tag {
+        background: var(--color-surface);
+        color: var(--color-text-muted);
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-sm);
+        font-weight: 500;
+        border: 1px solid var(--color-border);
+      }
+
+      /* Conductors Section */
+      .k-conductors {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+      }
+
+      .k-conductors__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-5);
+      }
+
+      .k-conductors__title {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .k-conductors__count {
+        background: var(--color-brand-soft);
+        color: var(--color-brand);
+        padding: var(--space-1) var(--space-2);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-xs);
+        font-weight: 700;
+      }
+
+      .k-conductors__list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+
+      .k-conductor-card {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: var(--space-4);
+        align-items: center;
+        padding: var(--space-4);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        transition: all 0.2s;
+      }
+
+      .k-conductor-card:hover {
+        border-color: var(--color-text-muted);
+        background: var(--color-white);
+      }
+
+      .k-conductor-card--top {
+        border: 2px solid var(--color-brand);
+        background: var(--color-white);
+      }
+
+      .k-conductor-card__vote {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-1);
+      }
+
+      .k-conductor-card__vote-btn {
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-text-muted);
+      }
+
+      .k-conductor-card__vote-btn:hover {
+        background: var(--color-surface);
+        border-color: var(--color-text-muted);
+        transform: scale(1.05);
+      }
+
+      .k-conductor-card__vote-btn.is-active {
+        background: var(--color-brand-soft);
+        border-color: var(--color-brand);
+        color: var(--color-brand);
+      }
+
+      .k-conductor-card__vote-count {
+        font-weight: 700;
+        font-size: var(--fs-base);
+        color: var(--color-text);
+      }
+
+      .k-conductor-card__info {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .k-conductor-card__avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--color-white);
+      }
+
+      .k-conductor-card__details {
+        flex: 1;
+      }
+
+      .k-conductor-card__name {
+        font-size: var(--fs-base);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-conductor-card__bio {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+
+      .k-conductor-card__badge {
+        background: var(--color-brand-soft);
+        color: var(--color-brand);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-xs);
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: var(--space-1);
+      }
+
+      /* Comments Section */
+      .k-comments {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+      }
+
+      .k-comments__header {
+        margin-bottom: var(--space-5);
+      }
+
+      .k-comments__title {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-comments__subtitle {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+
+      .k-comments__form {
+        margin-bottom: var(--space-6);
+      }
+
+      .k-comments__textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: var(--space-3);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        font-family: var(--font-sans);
+        font-size: var(--fs-base);
+        resize: vertical;
+        margin-bottom: var(--space-3);
+      }
+
+      .k-comments__textarea:focus {
+        outline: none;
+        border-color: var(--color-brand);
+        box-shadow: var(--shadow-focus);
+      }
+
+      .k-comments__list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+
+      .k-comment {
+        display: flex;
+        gap: var(--space-3);
+      }
+
+      .k-comment__avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .k-comment__content {
+        flex: 1;
+      }
+
+      .k-comment__header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-bottom: var(--space-2);
+      }
+
+      .k-comment__author {
+        font-weight: 600;
+        color: var(--color-text);
+        font-size: var(--fs-sm);
+      }
+
+      .k-comment__time {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .k-comment__text {
+        color: var(--color-text);
+        line-height: 1.6;
+        font-size: var(--fs-base);
+        margin: 0;
+      }
+
+      /* Sidebar */
+      .k-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+        position: sticky;
+        top: var(--space-6);
+      }
+
+      .k-sidebar-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+      }
+
+      .k-sidebar-card__title {
+        font-size: var(--fs-base);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-4) 0;
+      }
+
+      .k-sidebar-card__actions {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .k-sidebar-card__stat {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-3);
+        background: var(--color-surface);
+        border-radius: var(--radius-md);
+      }
+
+      .k-sidebar-card__stat-label {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .k-sidebar-card__stat-label i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .k-sidebar-card__stat-value {
+        font-size: var(--fs-base);
+        font-weight: 700;
+        color: var(--color-text);
+      }
+
+      .k-vote-widget {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-4);
+        padding: var(--space-4);
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+      }
+
+      .k-vote-widget__btn {
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-text-muted);
+      }
+
+      .k-vote-widget__btn:hover {
+        background: var(--color-surface);
+        border-color: var(--color-text-muted);
+        transform: scale(1.05);
+      }
+
+      .k-vote-widget__btn.is-active-up {
+        background: var(--color-success-soft);
+        border-color: var(--color-success);
+        color: var(--color-success);
+      }
+
+      .k-vote-widget__btn.is-active-down {
+        background: rgba(217, 44, 32, 0.1);
+        border-color: var(--color-danger);
+        color: var(--color-danger);
+      }
+
+      .k-vote-widget__count {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .k-vote-widget__number {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--color-text);
+      }
+
+      .k-vote-widget__label {
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      @media (max-width: 968px) {
+        .k-detail-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .k-sidebar {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="kuppi-sessions.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="progress-analysis.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="community.html" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="kuppi-sessions.html">Kuppi Sessions</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Session Details</span>
+          </nav>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: var(--space-4);
+            "
+          >
+            <div>
+              <h1 class="c-page__title">Session Request Details</h1>
+            </div>
+            <a href="kuppi-sessions.html" class="c-btn c-btn--ghost"
+              ><i data-lucide="arrow-left"></i> Back to All Sessions</a
+            >
+          </div>
+        </header>
+
+        <div class="k-detail-layout">
+          <!-- Main Content -->
+          <div class="k-detail-main">
+            <!-- Session Header -->
+            <div class="k-detail-header">
+              <div class="k-detail-header__top">
+                <span class="k-detail-header__subject">
+                  CS204
+                  <span class="k-detail-header__subject-name"
+                    >Data Structures</span
+                  >
+                </span>
+                <span class="k-detail-header__badge">
+                  <i
+                    data-lucide="trending-up"
+                    style="width: 14px; height: 14px"
+                  ></i>
+                  Trending
+                </span>
+              </div>
+
+              <h2 class="k-detail-header__title">
+                Binary Search Trees and Traversal Techniques
+              </h2>
+
+              <div class="k-detail-header__meta">
+                <div class="k-detail-header__author">
+                  <img
+                    src="https://i.pravatar.cc/150?img=12"
+                    alt="Alex Kumar"
+                    class="k-detail-header__avatar"
+                  />
+                  <span class="k-detail-header__author-name"
+                    >Requested by <strong>Alex Kumar</strong></span
+                  >
+                </div>
+                <div class="k-detail-header__stat">
+                  <i data-lucide="clock"></i>
+                  <span>2 days ago</span>
+                </div>
+                <div class="k-detail-header__stat">
+                  <i data-lucide="users"></i>
+                  <span>12 interested</span>
+                </div>
+                <div class="k-detail-header__stat">
+                  <i data-lucide="message-circle"></i>
+                  <span>8 comments</span>
+                </div>
+              </div>
+
+              <p class="k-detail-header__description">
+                Let's deep dive into Binary Search Trees, covering insertion,
+                deletion, and various traversal methods (inorder, preorder,
+                postorder). Perfect for anyone preparing for the midterm exam.
+                We'll work through practice problems together and discuss common
+                interview questions related to BST implementations.
+              </p>
+
+              <div class="k-detail-header__tags">
+                <span class="k-detail-header__tag">exam-prep</span>
+                <span class="k-detail-header__tag">data-structures</span>
+                <span class="k-detail-header__tag">intermediate</span>
+              </div>
+            </div>
+
+            <!-- Conductors Section -->
+            <div class="k-conductors">
+              <div class="k-conductors__header">
+                <h3 class="k-conductors__title">
+                  Applied Conductors
+                  <span class="k-conductors__count">3</span>
+                </h3>
+                <button class="c-btn c-btn--sm">
+                  <i data-lucide="hand"></i> Apply to Conduct
+                </button>
+              </div>
+
+              <div class="k-conductors__list">
+                <!-- Top Conductor -->
+                <div class="k-conductor-card k-conductor-card--top">
+                  <div class="k-conductor-card__vote">
+                    <button
+                      class="k-conductor-card__vote-btn js-conductor-vote"
+                      data-conductor-id="1"
+                    >
+                      <i
+                        data-lucide="arrow-up"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </button>
+                    <span class="k-conductor-card__vote-count">24</span>
+                  </div>
+
+                  <div class="k-conductor-card__info">
+                    <img
+                      src="https://i.pravatar.cc/150?img=56"
+                      alt="Priya Sharma"
+                      class="k-conductor-card__avatar"
+                    />
+                    <div class="k-conductor-card__details">
+                      <h4 class="k-conductor-card__name">Priya Sharma</h4>
+                      <p class="k-conductor-card__bio">
+                        3rd year CS student. TA for Data Structures. Love
+                        teaching algorithms!
+                      </p>
+                    </div>
+                  </div>
+
+                  <span class="k-conductor-card__badge">
+                    <i
+                      data-lucide="crown"
+                      style="width: 12px; height: 12px"
+                    ></i>
+                    Top Vote
+                  </span>
+                </div>
+
+                <!-- Conductor 2 -->
+                <div class="k-conductor-card">
+                  <div class="k-conductor-card__vote">
+                    <button
+                      class="k-conductor-card__vote-btn js-conductor-vote"
+                      data-conductor-id="2"
+                    >
+                      <i
+                        data-lucide="arrow-up"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </button>
+                    <span class="k-conductor-card__vote-count">18</span>
+                  </div>
+
+                  <div class="k-conductor-card__info">
+                    <img
+                      src="https://i.pravatar.cc/150?img=33"
+                      alt="David Chen"
+                      class="k-conductor-card__avatar"
+                    />
+                    <div class="k-conductor-card__details">
+                      <h4 class="k-conductor-card__name">David Chen</h4>
+                      <p class="k-conductor-card__bio">
+                        Senior student with experience in competitive
+                        programming. Happy to help!
+                      </p>
+                    </div>
+                  </div>
+
+                  <span class="k-conductor-card__badge">
+                    <i data-lucide="star" style="width: 12px; height: 12px"></i>
+                    4.8 Rating
+                  </span>
+                </div>
+
+                <!-- Conductor 3 -->
+                <div class="k-conductor-card">
+                  <div class="k-conductor-card__vote">
+                    <button
+                      class="k-conductor-card__vote-btn js-conductor-vote"
+                      data-conductor-id="3"
+                    >
+                      <i
+                        data-lucide="arrow-up"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </button>
+                    <span class="k-conductor-card__vote-count">12</span>
+                  </div>
+
+                  <div class="k-conductor-card__info">
+                    <img
+                      src="https://i.pravatar.cc/150?img=47"
+                      alt="Lisa Wang"
+                      class="k-conductor-card__avatar"
+                    />
+                    <div class="k-conductor-card__details">
+                      <h4 class="k-conductor-card__name">Lisa Wang</h4>
+                      <p class="k-conductor-card__bio">
+                        Masters student specializing in algorithms. Conducted 5
+                        sessions before.
+                      </p>
+                    </div>
+                  </div>
+
+                  <span class="k-conductor-card__badge">
+                    <i
+                      data-lucide="award"
+                      style="width: 12px; height: 12px"
+                    ></i>
+                    Experienced
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="k-comments">
+              <div class="k-comments__header">
+                <h3 class="k-comments__title">Discussion</h3>
+                <p class="k-comments__subtitle">
+                  Share your thoughts or ask questions about this session
+                </p>
+              </div>
+
+              <div class="k-comments__form">
+                <textarea
+                  class="k-comments__textarea"
+                  placeholder="Write a comment..."
+                  id="comment-input"
+                ></textarea>
+                <button class="c-btn" id="submit-comment">
+                  <i data-lucide="send"></i> Post Comment
+                </button>
+              </div>
+
+              <div class="k-comments__list">
+                <!-- Comment 1 -->
+                <div class="k-comment">
+                  <img
+                    src="https://i.pravatar.cc/150?img=25"
+                    alt="Sarah Lee"
+                    class="k-comment__avatar"
+                  />
+                  <div class="k-comment__content">
+                    <div class="k-comment__header">
+                      <span class="k-comment__author">Sarah Lee</span>
+                      <span>•</span>
+                      <span class="k-comment__time">1 day ago</span>
+                    </div>
+                    <p class="k-comment__text">
+                      Really excited for this session! Could we also cover AVL
+                      trees if time permits?
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Comment 2 -->
+                <div class="k-comment">
+                  <img
+                    src="https://i.pravatar.cc/150?img=12"
+                    alt="Alex Kumar"
+                    class="k-comment__avatar"
+                  />
+                  <div class="k-comment__content">
+                    <div class="k-comment__header">
+                      <span class="k-comment__author">Alex Kumar</span>
+                      <span>•</span>
+                      <span class="k-comment__time">1 day ago</span>
+                    </div>
+                    <p class="k-comment__text">
+                      @Sarah That's a great idea! I'll add AVL trees to the
+                      topics list if we have time.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Comment 3 -->
+                <div class="k-comment">
+                  <img
+                    src="https://i.pravatar.cc/150?img=68"
+                    alt="Mike Johnson"
+                    class="k-comment__avatar"
+                  />
+                  <div class="k-comment__content">
+                    <div class="k-comment__header">
+                      <span class="k-comment__author">Mike Johnson</span>
+                      <span>•</span>
+                      <span class="k-comment__time">12 hours ago</span>
+                    </div>
+                    <p class="k-comment__text">
+                      Priya would be an excellent conductor for this. She
+                      explained it so well in class!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="k-sidebar">
+            <!-- Vote Widget -->
+            <div class="k-sidebar-card">
+              <h3 class="k-sidebar-card__title">Vote on this Request</h3>
+              <div class="k-vote-widget">
+                <button
+                  class="k-vote-widget__btn js-session-vote-up"
+                  aria-label="Upvote session"
+                >
+                  <i
+                    data-lucide="arrow-up"
+                    style="width: 24px; height: 24px"
+                  ></i>
+                </button>
+                <div class="k-vote-widget__count">
+                  <span class="k-vote-widget__number" id="session-votes"
+                    >24</span
+                  >
+                  <span class="k-vote-widget__label">Votes</span>
+                </div>
+                <button
+                  class="k-vote-widget__btn js-session-vote-down"
+                  aria-label="Downvote session"
+                >
+                  <i
+                    data-lucide="arrow-down"
+                    style="width: 24px; height: 24px"
+                  ></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Session Stats -->
+            <div class="k-sidebar-card">
+              <h3 class="k-sidebar-card__title">Session Statistics</h3>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: var(--space-3);
+                "
+              >
+                <div class="k-sidebar-card__stat">
+                  <span class="k-sidebar-card__stat-label">
+                    <i data-lucide="users"></i>
+                    Interested
+                  </span>
+                  <span class="k-sidebar-card__stat-value">12</span>
+                </div>
+                <div class="k-sidebar-card__stat">
+                  <span class="k-sidebar-card__stat-label">
+                    <i data-lucide="user-check"></i>
+                    Conductors
+                  </span>
+                  <span class="k-sidebar-card__stat-value">3</span>
+                </div>
+                <div class="k-sidebar-card__stat">
+                  <span class="k-sidebar-card__stat-label">
+                    <i data-lucide="message-circle"></i>
+                    Comments
+                  </span>
+                  <span class="k-sidebar-card__stat-value">8</span>
+                </div>
+                <div class="k-sidebar-card__stat">
+                  <span class="k-sidebar-card__stat-label">
+                    <i data-lucide="eye"></i>
+                    Views
+                  </span>
+                  <span class="k-sidebar-card__stat-value">156</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="k-sidebar-card">
+              <h3 class="k-sidebar-card__title">Actions</h3>
+              <div class="k-sidebar-card__actions">
+                <button class="c-btn">
+                  <i data-lucide="bell"></i> Get Notified
+                </button>
+                <button class="c-btn c-btn--ghost">
+                  <i data-lucide="share-2"></i> Share Session
+                </button>
+                <button class="c-btn c-btn--ghost">
+                  <i data-lucide="flag"></i> Report Issue
+                </button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        const toasts = document.querySelector(".c-toasts");
+        const sessionVotesElement = document.getElementById("session-votes");
+        let sessionVotes = 24;
+        let userSessionVote = null;
+
+        // Conductor votes (in real app, this would be in backend)
+        const conductorVotes = {};
+
+        // Session voting
+        document
+          .querySelector(".js-session-vote-up")
+          .addEventListener("click", () => handleSessionVote("up"));
+        document
+          .querySelector(".js-session-vote-down")
+          .addEventListener("click", () => handleSessionVote("down"));
+
+        function handleSessionVote(type) {
+          const upBtn = document.querySelector(".js-session-vote-up");
+          const downBtn = document.querySelector(".js-session-vote-down");
+
+          // Remove previous vote styling
+          upBtn.classList.remove("is-active-up");
+          downBtn.classList.remove("is-active-down");
+
+          if (userSessionVote === type) {
+            // Remove vote
+            if (type === "up") sessionVotes--;
+            else sessionVotes++;
+            userSessionVote = null;
+            showToast("Vote removed");
+          } else {
+            // New or change vote
+            if (userSessionVote) {
+              // Changing vote
+              if (type === "up") {
+                sessionVotes += 2;
+                upBtn.classList.add("is-active-up");
+              } else {
+                sessionVotes -= 2;
+                downBtn.classList.add("is-active-down");
+              }
+              showToast("Vote changed");
+            } else {
+              // New vote
+              if (type === "up") {
+                sessionVotes++;
+                upBtn.classList.add("is-active-up");
+              } else {
+                sessionVotes--;
+                downBtn.classList.add("is-active-down");
+              }
+              showToast(type === "up" ? "Upvoted!" : "Downvoted");
+            }
+            userSessionVote = type;
+          }
+
+          sessionVotesElement.textContent = sessionVotes;
+        }
+
+        // Conductor voting
+        document.querySelectorAll(".js-conductor-vote").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const conductorId = btn.dataset.conductorId;
+            const voteCountEl = btn.nextElementSibling;
+            let currentVotes = parseInt(voteCountEl.textContent);
+
+            if (conductorVotes[conductorId]) {
+              // Remove vote
+              currentVotes--;
+              delete conductorVotes[conductorId];
+              btn.classList.remove("is-active");
+              showToast("Vote removed");
+            } else {
+              // Add vote
+              currentVotes++;
+              conductorVotes[conductorId] = true;
+              btn.classList.add("is-active");
+              showToast("Voted for conductor!");
+            }
+
+            voteCountEl.textContent = currentVotes;
+          });
+        });
+
+        // Comment submission
+        document
+          .getElementById("submit-comment")
+          .addEventListener("click", () => {
+            const commentInput = document.getElementById("comment-input");
+            const commentText = commentInput.value.trim();
+
+            if (commentText) {
+              showToast("Comment posted successfully!");
+              commentInput.value = "";
+              // In real app, append comment to list
+            } else {
+              showToast("Please write a comment first");
+            }
+          });
+
+        // Toast notification
+        function showToast(msg) {
+          if (!toasts) return;
+          const item = document.createElement("div");
+          item.className = "c-toast";
+          item.textContent = msg;
+          toasts.appendChild(item);
+          setTimeout(() => {
+            item.remove();
+          }, 2000);
+        }
+      });
+    </script>
+  </body>
+</html>

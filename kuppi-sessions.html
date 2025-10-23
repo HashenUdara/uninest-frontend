@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kuppi Sessions • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      /* Layout */
+      .k-sessions {
+        display: grid;
+        gap: var(--space-5);
+      }
+
+      /* Session Card */
+      .k-session {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: var(--space-5);
+        align-items: start;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+
+      .k-session:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border-color: var(--color-text-muted);
+      }
+
+      .k-session:hover .k-session__title {
+        color: var(--color-brand);
+      }
+
+      .k-session--featured {
+        border: 2px solid var(--color-brand);
+        box-shadow: 0 4px 12px rgba(84, 44, 245, 0.1);
+      }
+
+      .k-session--featured:hover {
+        box-shadow: 0 6px 16px rgba(84, 44, 245, 0.15);
+      }
+
+      /* Vote Section */
+      .k-session__vote {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: var(--space-2);
+        padding: var(--space-5) var(--space-3);
+        background: var(--color-surface);
+        border-right: 1px solid var(--color-border);
+        height: 100%;
+        border-top-left-radius: var(--space-5);
+        border-bottom-left-radius: var(--space-5);
+      }
+
+      .k-session__vote-btn {
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-text-muted);
+      }
+
+      .k-session__vote-btn:hover {
+        background: var(--color-surface);
+        border-color: var(--color-text-muted);
+        border-width: 2px;
+        transform: scale(1.05);
+      }
+
+      .k-session__vote-btn:active {
+        transform: scale(0.95);
+      }
+
+      .k-session__vote-btn.is-active-up {
+        background: var(--color-success-soft);
+        border-color: var(--color-success);
+        border-width: 2px;
+        color: var(--color-success);
+      }
+
+      .k-session__vote-btn.is-active-down {
+        background: rgba(217, 44, 32, 0.1);
+        border-color: var(--color-danger);
+        border-width: 2px;
+        color: var(--color-danger);
+      }
+
+      .k-session__vote-count {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--color-text);
+        min-width: 40px;
+        text-align: center;
+        padding: var(--space-1) 0;
+      }
+
+      /* Content Section */
+      .k-session__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+        padding: var(--space-5);
+      }
+
+      .k-session__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--space-4);
+      }
+
+      .k-session__meta {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .k-session__subject {
+        display: inline-flex;
+        align-items: center;
+        background: var(--color-brand-soft);
+        color: var(--color-brand);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-xs);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--space-3);
+      }
+
+      .k-session__title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+        line-height: 1.4;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .k-session__title:hover {
+        color: var(--color-brand);
+      }
+
+      .k-session__author {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .k-session__avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--color-brand), #8b7cf5);
+        flex-shrink: 0;
+        object-fit: cover;
+        border: 2px solid var(--color-white);
+      }
+
+      .k-session__subject-name {
+        display: block;
+        font-size: var(--fs-xs);
+        font-weight: 400;
+        margin-top: 2px;
+        opacity: 0.9;
+      }
+
+      .k-session__author strong {
+        color: var(--color-text);
+        font-weight: 600;
+      }
+
+      .k-session__description {
+        color: var(--color-text-muted);
+        line-height: 1.6;
+        font-size: var(--fs-base);
+        margin: 0;
+      }
+
+      .k-session__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+      }
+
+      .k-session__tag {
+        background: var(--color-surface);
+        color: var(--color-text-muted);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-xs);
+        font-weight: 500;
+        border: 1px solid var(--color-border);
+        transition: all 0.2s;
+      }
+
+      .k-session__tag:hover {
+        background: var(--panel-bg);
+        border-color: var(--color-text-muted);
+      }
+
+      .k-session__footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding-top: var(--space-4);
+        border-top: 1px solid var(--color-border);
+        flex-wrap: wrap;
+      }
+
+      .k-session__stats {
+        display: flex;
+        align-items: center;
+        gap: var(--space-5);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .k-session__stat {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-weight: 500;
+      }
+
+      .k-session__stat i {
+        width: 18px;
+        height: 18px;
+        color: var(--color-text-muted);
+      }
+
+      .k-session__actions {
+        display: flex;
+        gap: var(--space-2);
+      }
+
+      /* Filter Bar */
+      .k-filter-bar {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+        display: flex;
+        gap: var(--space-4);
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-6);
+      }
+
+      .k-filter-bar__item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .k-filter-bar__label {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text);
+        white-space: nowrap;
+      }
+
+      .k-filter-bar__select,
+      .k-filter-bar__input {
+        min-width: 180px;
+      }
+
+      /* Results Header */
+      .k-results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-5);
+        padding: 0 var(--space-2);
+      }
+
+      .k-results-count {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text-muted);
+      }
+
+      /* Empty State */
+      .k-empty {
+        text-align: center;
+        padding: var(--space-8) var(--space-4);
+        color: var(--color-text-muted);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        margin-top: var(--space-5);
+      }
+
+      .k-empty i {
+        width: 64px;
+        height: 64px;
+        color: var(--color-text-muted);
+        opacity: 0.4;
+        margin-bottom: var(--space-4);
+      }
+
+      .k-empty h3 {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .k-empty p {
+        font-size: var(--fs-base);
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true"
+        ><i data-lucide="moon"></i
+      ></span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Sophia</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="home"></i></span
+            >Dashboard</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="book"></i></span>My
+            Subjects</a
+          >
+          <a href="kuppi-sessions.html" class="c-nav__item is-active"
+            ><span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i></span
+            >Kuppi Sessions</a
+          >
+          <a href="resources.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="file-text"></i></span>My
+            Resources</a
+          >
+          <a href="progress-analysis.html" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="bar-chart-3"></i></span
+            >Progress Analysis</a
+          >
+          <a href="community.html" class="c-nav__item"
+            ><span class="c-nav__icon"
+              ><i data-lucide="message-square"></i></span
+            >Community</a
+          >
+          <a href="#" class="c-nav__item"
+            ><span class="c-nav__icon"><i data-lucide="user"></i></span>Profile
+            Settings</a
+          >
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button"
+          ><span class="c-nav__icon"><i data-lucide="log-out"></i></span
+          >Logout</a
+        >
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Kuppi Sessions</span>
+          </nav>
+          <div
+            class="o-inline"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: var(--space-4);
+            "
+          >
+            <div>
+              <h1 class="c-page__title">Kuppi Sessions</h1>
+              <p class="c-page__subtitle u-text-muted">
+                Vote on session requests and volunteer to be a conductor.
+                Students with most votes will host the session.
+              </p>
+            </div>
+            <a href="kuppi-request.html" class="c-btn"
+              ><i data-lucide="plus"></i> Request Session</a
+            >
+          </div>
+          <nav class="c-tabs-line" aria-label="Navigation">
+            <a href="kuppi-sessions.html" class="is-active">All Sessions</a>
+            <a href="kuppi-request.html">Request Session</a>
+            <a href="#">My Sessions</a>
+            <a href="#">Joined Sessions</a>
+          </nav>
+        </header>
+
+        <!-- Filter Bar -->
+        <div class="k-filter-bar">
+          <div class="k-filter-bar__item" style="flex: 1; min-width: 300px">
+            <i
+              data-lucide="search"
+              style="
+                width: 18px;
+                height: 18px;
+                color: var(--text-muted);
+                flex-shrink: 0;
+              "
+            ></i>
+            <input
+              type="text"
+              id="search-input"
+              class="c-input c-input--soft c-input--rect"
+              placeholder="Search by title, topic, or description..."
+              style="flex: 1; min-width: 0"
+            />
+          </div>
+          <div class="k-filter-bar__item">
+            <span class="k-filter-bar__label">Subject:</span>
+            <select
+              id="subject-filter"
+              class="c-input c-input--soft c-input--rect k-filter-bar__select"
+            >
+              <option value="">All Subjects</option>
+              <option value="CS204">CS204 - Data Structures</option>
+              <option value="CS301">CS301 - Algorithms</option>
+              <option value="CS123">CS123 - Programming</option>
+              <option value="CS205">CS205 - Operating Systems</option>
+              <option value="MA201">MA201 - Calculus II</option>
+            </select>
+          </div>
+          <div class="k-filter-bar__item">
+            <span class="k-filter-bar__label">Sort by:</span>
+            <select
+              id="sort-select"
+              class="c-input c-input--soft c-input--rect k-filter-bar__select"
+            >
+              <option value="votes">Most Votes</option>
+              <option value="recent">Most Recent</option>
+              <option value="oldest">Oldest First</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Results Header -->
+        <div class="k-results-header">
+          <span class="k-results-count" id="results-count"
+            ><strong>5</strong> sessions found</span
+          >
+        </div>
+
+        <!-- Sessions List -->
+        <div class="k-sessions" id="sessions-container">
+          <!-- Session Card 1 - Featured -->
+          <article
+            class="k-session k-session--featured"
+            data-subject="CS204"
+            data-topic="binary search trees"
+            data-votes="24"
+            data-timestamp="1729680000"
+          >
+            <div class="k-session__vote">
+              <button
+                class="k-session__vote-btn js-vote-up"
+                aria-label="Upvote"
+                data-session-id="1"
+              >
+                <i data-lucide="arrow-up" style="width: 20px; height: 20px"></i>
+              </button>
+              <span class="k-session__vote-count js-vote-count">24</span>
+              <button
+                class="k-session__vote-btn js-vote-down"
+                aria-label="Downvote"
+                data-session-id="1"
+              >
+                <i
+                  data-lucide="arrow-down"
+                  style="width: 20px; height: 20px"
+                ></i>
+              </button>
+            </div>
+
+            <div class="k-session__content">
+              <div class="k-session__header">
+                <div class="k-session__meta">
+                  <span class="k-session__subject">
+                    CS204
+                    <span class="k-session__subject-name">Data Structures</span>
+                  </span>
+                  <h2 class="k-session__title">
+                    Binary Search Trees and Traversal Techniques
+                  </h2>
+                  <div class="k-session__author">
+                    <img
+                      src="https://i.pravatar.cc/150?img=12"
+                      alt="Kasun Perera"
+                      class="k-session__avatar"
+                    />
+                    <span>Requested by <strong>Kasun Perera</strong></span>
+                    <span>•</span>
+                    <span>2 days ago</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="k-session__description">
+                Let's deep dive into Binary Search Trees, covering insertion,
+                deletion, and various traversal methods (inorder, preorder,
+                postorder). Perfect for anyone preparing for the midterm exam.
+                We'll work through practice problems together.
+              </p>
+
+              <div class="k-session__tags">
+                <span class="k-session__tag">exam-prep</span>
+                <span class="k-session__tag">data-structures</span>
+                <span class="k-session__tag">intermediate</span>
+              </div>
+
+              <div class="k-session__footer">
+                <div class="k-session__stats">
+                  <div class="k-session__stat">
+                    <i data-lucide="message-circle"></i>
+                    <span>8 comments</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="users"></i>
+                    <span>12 interested</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="user-check"></i>
+                    <span>3 conductors</span>
+                  </div>
+                </div>
+                <div class="k-session__actions">
+                  <button class="c-btn c-btn--ghost c-btn--sm">
+                    <i data-lucide="message-circle"></i> Comment
+                  </button>
+                  <button class="c-btn c-btn--sm">
+                    <i data-lucide="hand"></i> Be a Conductor
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Session Card 2 -->
+          <article
+            class="k-session"
+            data-subject="CS301"
+            data-topic="dynamic programming"
+            data-votes="18"
+            data-timestamp="1729593600"
+          >
+            <div class="k-session__vote">
+              <button
+                class="k-session__vote-btn js-vote-up"
+                aria-label="Upvote"
+                data-session-id="2"
+              >
+                <i data-lucide="arrow-up" style="width: 20px; height: 20px"></i>
+              </button>
+              <span class="k-session__vote-count js-vote-count">18</span>
+              <button
+                class="k-session__vote-btn js-vote-down"
+                aria-label="Downvote"
+                data-session-id="2"
+              >
+                <i
+                  data-lucide="arrow-down"
+                  style="width: 20px; height: 20px"
+                ></i>
+              </button>
+            </div>
+
+            <div class="k-session__content">
+              <div class="k-session__header">
+                <div class="k-session__meta">
+                  <span class="k-session__subject">
+                    CS301
+                    <span class="k-session__subject-name">Algorithms</span>
+                  </span>
+                  <h2 class="k-session__title">
+                    Dynamic Programming Fundamentals
+                  </h2>
+                  <div class="k-session__author">
+                    <img
+                      src="https://i.pravatar.cc/150?img=45"
+                      alt="Nimali Fernando"
+                      class="k-session__avatar"
+                    />
+                    <span>Requested by <strong>Nimali Fernando</strong></span>
+                    <span>•</span>
+                    <span>3 days ago</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="k-session__description">
+                Learn the basics of dynamic programming with classic problems
+                like Fibonacci, knapsack, and longest common subsequence. We'll
+                start from scratch and build up to more complex problems.
+                Beginner-friendly!
+              </p>
+
+              <div class="k-session__tags">
+                <span class="k-session__tag">beginner-friendly</span>
+                <span class="k-session__tag">algorithms</span>
+                <span class="k-session__tag">problem-solving</span>
+              </div>
+
+              <div class="k-session__footer">
+                <div class="k-session__stats">
+                  <div class="k-session__stat">
+                    <i data-lucide="message-circle"></i>
+                    <span>5 comments</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="users"></i>
+                    <span>15 interested</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="user-check"></i>
+                    <span>2 conductors</span>
+                  </div>
+                </div>
+                <div class="k-session__actions">
+                  <button class="c-btn c-btn--ghost c-btn--sm">
+                    <i data-lucide="message-circle"></i> Comment
+                  </button>
+                  <button class="c-btn c-btn--sm">
+                    <i data-lucide="hand"></i> Be a Conductor
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Session Card 3 -->
+          <article
+            class="k-session"
+            data-subject="CS205"
+            data-topic="process scheduling"
+            data-votes="15"
+            data-timestamp="1729507200"
+          >
+            <div class="k-session__vote">
+              <button
+                class="k-session__vote-btn js-vote-up"
+                aria-label="Upvote"
+                data-session-id="3"
+              >
+                <i data-lucide="arrow-up" style="width: 20px; height: 20px"></i>
+              </button>
+              <span class="k-session__vote-count js-vote-count">15</span>
+              <button
+                class="k-session__vote-btn js-vote-down"
+                aria-label="Downvote"
+                data-session-id="3"
+              >
+                <i
+                  data-lucide="arrow-down"
+                  style="width: 20px; height: 20px"
+                ></i>
+              </button>
+            </div>
+
+            <div class="k-session__content">
+              <div class="k-session__header">
+                <div class="k-session__meta">
+                  <span class="k-session__subject">
+                    CS205
+                    <span class="k-session__subject-name"
+                      >Operating Systems</span
+                    >
+                  </span>
+                  <h2 class="k-session__title">
+                    Process Scheduling Algorithms in Operating Systems
+                  </h2>
+                  <div class="k-session__author">
+                    <img
+                      src="https://i.pravatar.cc/150?img=33"
+                      alt="Tharindu Silva"
+                      class="k-session__avatar"
+                    />
+                    <span>Requested by <strong>Tharindu Silva</strong></span>
+                    <span>•</span>
+                    <span>4 days ago</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="k-session__description">
+                Comprehensive review of CPU scheduling algorithms including
+                FCFS, SJF, Round Robin, and Priority Scheduling. We'll compare
+                their performance and work through calculation problems for the
+                upcoming quiz.
+              </p>
+
+              <div class="k-session__tags">
+                <span class="k-session__tag">operating-systems</span>
+                <span class="k-session__tag">quiz-prep</span>
+                <span class="k-session__tag">group-study</span>
+              </div>
+
+              <div class="k-session__footer">
+                <div class="k-session__stats">
+                  <div class="k-session__stat">
+                    <i data-lucide="message-circle"></i>
+                    <span>12 comments</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="users"></i>
+                    <span>20 interested</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="user-check"></i>
+                    <span>5 conductors</span>
+                  </div>
+                </div>
+                <div class="k-session__actions">
+                  <button class="c-btn c-btn--ghost c-btn--sm">
+                    <i data-lucide="message-circle"></i> Comment
+                  </button>
+                  <button class="c-btn c-btn--sm">
+                    <i data-lucide="hand"></i> Be a Conductor
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Session Card 4 -->
+          <article
+            class="k-session"
+            data-subject="MA201"
+            data-topic="integration techniques"
+            data-votes="11"
+            data-timestamp="1729420800"
+          >
+            <div class="k-session__vote">
+              <button
+                class="k-session__vote-btn js-vote-up"
+                aria-label="Upvote"
+                data-session-id="4"
+              >
+                <i data-lucide="arrow-up" style="width: 20px; height: 20px"></i>
+              </button>
+              <span class="k-session__vote-count js-vote-count">11</span>
+              <button
+                class="k-session__vote-btn js-vote-down"
+                aria-label="Downvote"
+                data-session-id="4"
+              >
+                <i
+                  data-lucide="arrow-down"
+                  style="width: 20px; height: 20px"
+                ></i>
+              </button>
+            </div>
+
+            <div class="k-session__content">
+              <div class="k-session__header">
+                <div class="k-session__meta">
+                  <span class="k-session__subject">
+                    MA201
+                    <span class="k-session__subject-name">Calculus II</span>
+                  </span>
+                  <h2 class="k-session__title">
+                    Advanced Integration Techniques
+                  </h2>
+                  <div class="k-session__author">
+                    <img
+                      src="https://i.pravatar.cc/150?img=23"
+                      alt="Dilini Jayasinghe"
+                      class="k-session__avatar"
+                    />
+                    <span>Requested by <strong>Dilini Jayasinghe</strong></span>
+                    <span>•</span>
+                    <span>5 days ago</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="k-session__description">
+                Master integration by parts, substitution, and partial
+                fractions. We'll solve practice problems step-by-step and
+                discuss common mistakes to avoid. Bring your questions!
+              </p>
+
+              <div class="k-session__tags">
+                <span class="k-session__tag">calculus</span>
+                <span class="k-session__tag">exam-prep</span>
+                <span class="k-session__tag">practice</span>
+              </div>
+
+              <div class="k-session__footer">
+                <div class="k-session__stats">
+                  <div class="k-session__stat">
+                    <i data-lucide="message-circle"></i>
+                    <span>4 comments</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="users"></i>
+                    <span>9 interested</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="user-check"></i>
+                    <span>1 conductor</span>
+                  </div>
+                </div>
+                <div class="k-session__actions">
+                  <button class="c-btn c-btn--ghost c-btn--sm">
+                    <i data-lucide="message-circle"></i> Comment
+                  </button>
+                  <button class="c-btn c-btn--sm">
+                    <i data-lucide="hand"></i> Be a Conductor
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Session Card 5 -->
+          <article
+            class="k-session"
+            data-subject="CS123"
+            data-topic="object-oriented programming"
+            data-votes="9"
+            data-timestamp="1729334400"
+          >
+            <div class="k-session__vote">
+              <button
+                class="k-session__vote-btn js-vote-up"
+                aria-label="Upvote"
+                data-session-id="5"
+              >
+                <i data-lucide="arrow-up" style="width: 20px; height: 20px"></i>
+              </button>
+              <span class="k-session__vote-count js-vote-count">9</span>
+              <button
+                class="k-session__vote-btn js-vote-down"
+                aria-label="Downvote"
+                data-session-id="5"
+              >
+                <i
+                  data-lucide="arrow-down"
+                  style="width: 20px; height: 20px"
+                ></i>
+              </button>
+            </div>
+
+            <div class="k-session__content">
+              <div class="k-session__header">
+                <div class="k-session__meta">
+                  <span class="k-session__subject">
+                    CS123
+                    <span class="k-session__subject-name"
+                      >Programming Fundamentals</span
+                    >
+                  </span>
+                  <h2 class="k-session__title">
+                    Introduction to Object-Oriented Programming
+                  </h2>
+                  <div class="k-session__author">
+                    <img
+                      src="https://i.pravatar.cc/150?img=68"
+                      alt="Ravindu Wickramasinghe"
+                      class="k-session__avatar"
+                    />
+                    <span
+                      >Requested by
+                      <strong>Ravindu Wickramasinghe</strong></span
+                    >
+                    <span>•</span>
+                    <span>1 week ago</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="k-session__description">
+                Learn the fundamentals of OOP including classes, objects,
+                inheritance, and polymorphism. Perfect for beginners who want to
+                understand these core concepts with practical examples in Java.
+              </p>
+
+              <div class="k-session__tags">
+                <span class="k-session__tag">beginner-friendly</span>
+                <span class="k-session__tag">java</span>
+                <span class="k-session__tag">oop</span>
+              </div>
+
+              <div class="k-session__footer">
+                <div class="k-session__stats">
+                  <div class="k-session__stat">
+                    <i data-lucide="message-circle"></i>
+                    <span>6 comments</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="users"></i>
+                    <span>11 interested</span>
+                  </div>
+                  <div class="k-session__stat">
+                    <i data-lucide="user-check"></i>
+                    <span>4 conductors</span>
+                  </div>
+                </div>
+                <div class="k-session__actions">
+                  <button class="c-btn c-btn--ghost c-btn--sm">
+                    <i data-lucide="message-circle"></i> Comment
+                  </button>
+                  <button class="c-btn c-btn--sm">
+                    <i data-lucide="hand"></i> Be a Conductor
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div class="k-empty" id="empty-state" style="display: none">
+          <i data-lucide="inbox"></i>
+          <h3>No sessions found</h3>
+          <p>
+            Try adjusting your filters or be the first to request a session!
+          </p>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        const sessionsContainer = document.getElementById("sessions-container");
+        const emptyState = document.getElementById("empty-state");
+        const resultsCount = document.getElementById("results-count");
+        const searchInput = document.getElementById("search-input");
+        const subjectFilter = document.getElementById("subject-filter");
+        const sortSelect = document.getElementById("sort-select");
+        const toasts = document.querySelector(".c-toasts");
+
+        // Track user votes (in real app, this would be in backend/localStorage)
+        const userVotes = {};
+
+        // Vote functionality
+        function handleVote(sessionId, voteType) {
+          const session = document
+            .querySelector(`[data-session-id="${sessionId}"]`)
+            .closest(".k-session");
+          const voteCount = session.querySelector(".js-vote-count");
+          const upBtn = session.querySelector(".js-vote-up");
+          const downBtn = session.querySelector(".js-vote-down");
+
+          let currentVotes = parseInt(voteCount.textContent);
+          const previousVote = userVotes[sessionId];
+
+          // Remove previous vote styling
+          upBtn.classList.remove("is-active-up");
+          downBtn.classList.remove("is-active-down");
+
+          // Handle vote logic
+          if (previousVote === voteType) {
+            // User is removing their vote
+            if (voteType === "up") currentVotes--;
+            else currentVotes++;
+            delete userVotes[sessionId];
+            showToast("Vote removed");
+          } else {
+            // User is changing or adding vote
+            if (previousVote) {
+              // Changing vote
+              if (voteType === "up") {
+                currentVotes += 2; // Remove downvote, add upvote
+                upBtn.classList.add("is-active-up");
+              } else {
+                currentVotes -= 2; // Remove upvote, add downvote
+                downBtn.classList.add("is-active-down");
+              }
+              showToast("Vote changed");
+            } else {
+              // New vote
+              if (voteType === "up") {
+                currentVotes++;
+                upBtn.classList.add("is-active-up");
+              } else {
+                currentVotes--;
+                downBtn.classList.add("is-active-down");
+              }
+              showToast(voteType === "up" ? "Upvoted!" : "Downvoted");
+            }
+            userVotes[sessionId] = voteType;
+          }
+
+          voteCount.textContent = currentVotes;
+          session.dataset.votes = currentVotes;
+
+          // Re-sort if sorting by votes
+          if (sortSelect.value === "votes") {
+            sortSessions();
+          }
+        }
+
+        // Attach vote button listeners
+        document.addEventListener("click", (e) => {
+          const upBtn = e.target.closest(".js-vote-up");
+          const downBtn = e.target.closest(".js-vote-down");
+
+          if (upBtn) {
+            e.preventDefault();
+            const sessionId = upBtn.dataset.sessionId;
+            handleVote(sessionId, "up");
+          } else if (downBtn) {
+            e.preventDefault();
+            const sessionId = downBtn.dataset.sessionId;
+            handleVote(sessionId, "down");
+          }
+        });
+
+        // Filter and search functionality
+        function filterSessions() {
+          const searchTerm = searchInput.value.toLowerCase().trim();
+          const selectedSubject = subjectFilter.value;
+          const sessions = Array.from(
+            sessionsContainer.querySelectorAll(".k-session")
+          );
+
+          let visibleCount = 0;
+
+          sessions.forEach((session) => {
+            const subject = session.dataset.subject;
+            const topic = session.dataset.topic;
+            const title = session
+              .querySelector(".k-session__title")
+              .textContent.toLowerCase();
+            const description = session
+              .querySelector(".k-session__description")
+              .textContent.toLowerCase();
+
+            const matchesSearch =
+              !searchTerm ||
+              topic.includes(searchTerm) ||
+              title.includes(searchTerm) ||
+              description.includes(searchTerm);
+
+            const matchesSubject =
+              !selectedSubject || subject === selectedSubject;
+
+            if (matchesSearch && matchesSubject) {
+              session.style.display = "";
+              visibleCount++;
+            } else {
+              session.style.display = "none";
+            }
+          });
+
+          // Update results count and empty state
+          resultsCount.innerHTML = `<strong>${visibleCount}</strong> session${
+            visibleCount !== 1 ? "s" : ""
+          } found`;
+
+          if (visibleCount === 0) {
+            sessionsContainer.style.display = "none";
+            emptyState.style.display = "block";
+          } else {
+            sessionsContainer.style.display = "";
+            emptyState.style.display = "none";
+          }
+        }
+
+        // Sort functionality
+        function sortSessions() {
+          const sessions = Array.from(
+            sessionsContainer.querySelectorAll(".k-session")
+          );
+          const sortType = sortSelect.value;
+
+          sessions.sort((a, b) => {
+            if (sortType === "votes") {
+              return parseInt(b.dataset.votes) - parseInt(a.dataset.votes);
+            } else if (sortType === "recent") {
+              return (
+                parseInt(b.dataset.timestamp) - parseInt(a.dataset.timestamp)
+              );
+            } else {
+              // oldest
+              return (
+                parseInt(a.dataset.timestamp) - parseInt(b.dataset.timestamp)
+              );
+            }
+          });
+
+          sessions.forEach((session) => sessionsContainer.appendChild(session));
+        }
+
+        // Event listeners for filters
+        searchInput.addEventListener("input", filterSessions);
+        subjectFilter.addEventListener("change", filterSessions);
+        sortSelect.addEventListener("change", sortSessions);
+
+        // Session card click to navigate to detail page
+        document.querySelectorAll(".k-session").forEach((card) => {
+          card.addEventListener("click", (e) => {
+            // Don't navigate if clicking on buttons or interactive elements
+            if (
+              e.target.closest("button") ||
+              e.target.closest(".k-session__vote-btn") ||
+              e.target.closest(".c-btn")
+            ) {
+              return;
+            }
+
+            // Navigate to detail page
+            window.location.href = "kuppi-session-detail.html";
+          });
+        });
+
+        // Toast notification
+        function showToast(msg) {
+          if (!toasts) return;
+          const item = document.createElement("div");
+          item.className = "c-toast";
+          item.textContent = msg;
+          toasts.appendChild(item);
+          setTimeout(() => {
+            item.remove();
+          }, 2000);
+        }
+
+        // Initialize count
+        filterSessions();
+      });
+    </script>
+  </body>
+</html>
