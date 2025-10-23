@@ -285,6 +285,8 @@
     initCalendar();
     // Community votes
     initCommunityVotes();
+    // Community filters (search + subject/type/unanswered)
+    initCommunityFilters();
   });
 })();
 
@@ -763,6 +765,85 @@ function initCommunityVotes() {
     if (down) score = Math.max(0, score - 1);
     scoreEl.textContent = String(score);
   });
+}
+
+/* ================= Community search & filters ================= */
+function initCommunityFilters() {
+  const search = document.querySelector(".js-post-search");
+  const subjSel = document.querySelector(".js-post-subject");
+  const typeSel = document.querySelector(".js-post-type");
+  const unansweredOnly = document.querySelector(".js-post-unanswered");
+  const anyControl = search || subjSel || typeSel || unansweredOnly;
+  if (!anyControl) return; // not on this page
+
+  // Gather posts
+  const posts = Array.from(document.querySelectorAll(".c-post"));
+  if (!posts.length) return;
+
+  // Populate subjects dropdown from right sidebar subjects if empty
+  if (subjSel && subjSel.options.length <= 1) {
+    const codes = Array.from(
+      document.querySelectorAll(".c-subjects .c-subject__badge")
+    )
+      .map((el) => el.textContent.trim())
+      .filter(Boolean);
+    const unique = Array.from(new Set(codes));
+    unique.forEach((code) => {
+      const opt = document.createElement("option");
+      opt.value = code;
+      opt.textContent = code;
+      subjSel.appendChild(opt);
+    });
+  }
+
+  function getCommentsCount(post) {
+    const btn = post.querySelector('.c-post__actions [aria-label="Comments"]');
+    if (!btn) return 0;
+    const m = (btn.textContent || "").match(/(\d+)/);
+    return m ? parseInt(m[1], 10) : 0;
+  }
+
+  function matches(post) {
+    const q = (search?.value || "").trim().toLowerCase();
+    if (q) {
+      const text = (post.textContent || "").toLowerCase();
+      if (!text.includes(q)) return false;
+    }
+
+    if (subjSel && subjSel.value) {
+      const ds = (post.getAttribute("data-subject") || "").trim();
+      if (ds !== subjSel.value) return false;
+    }
+
+    if (typeSel && typeSel.value) {
+      const isImg = post.classList.contains("c-post--image");
+      const isTxt = post.classList.contains("c-post--text");
+      if (typeSel.value === "image" && !isImg) return false;
+      if (typeSel.value === "text" && !isTxt) return false;
+    }
+
+    if (unansweredOnly && unansweredOnly.checked) {
+      const c = getCommentsCount(post);
+      if (c > 0) return false;
+    }
+
+    return true;
+  }
+
+  function applyFilters() {
+    posts.forEach((post) => {
+      post.style.display = matches(post) ? "" : "none";
+    });
+  }
+
+  // Wire controls
+  search?.addEventListener("input", applyFilters);
+  subjSel?.addEventListener("change", applyFilters);
+  typeSel?.addEventListener("change", applyFilters);
+  unansweredOnly?.addEventListener("change", applyFilters);
+
+  // Initial pass
+  applyFilters();
 }
 
 /* ================= GPA Calculator (letter-grade, admin-config driven) ================= */

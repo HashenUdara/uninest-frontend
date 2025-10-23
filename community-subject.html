@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Community • UniNest</title>
+    <title>Subject • UniNest Community</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -86,7 +86,9 @@
               <nav class="c-breadcrumbs" aria-label="Breadcrumb">
                 <a href="dashboard.html">Home</a>
                 <span class="c-breadcrumbs__sep">/</span>
-                <span aria-current="page">Community</span>
+                <a href="community.html">Community</a>
+                <span class="c-breadcrumbs__sep">/</span>
+                <span aria-current="page" class="js-subject-code">Subject</span>
               </nav>
               <div
                 class="o-inline"
@@ -98,15 +100,24 @@
                 "
               >
                 <div>
-                  <h1 class="c-page__title">Community</h1>
+                  <h1 class="c-page__title">
+                    <span class="js-subject-name">Subject Community</span>
+                  </h1>
                   <p class="c-page__subtitle u-text-muted">
-                    Stay updated with the latest discussions and resources from
-                    your peers.
+                    Discussions and resources for
+                    <strong class="js-subject-code">this subject</strong>.
                   </p>
                 </div>
-                <a href="community-new-post.html" class="c-btn c-btn--secondary"
-                  ><i data-lucide="plus"></i> New Post</a
-                >
+                <div style="display: flex; gap: var(--space-2)">
+                  <a href="community.html" class="c-btn c-btn--ghost"
+                    ><i data-lucide="arrow-left"></i> All Posts</a
+                  >
+                  <a
+                    href="community-new-post.html"
+                    class="c-btn c-btn--secondary"
+                    ><i data-lucide="plus"></i> New Post</a
+                  >
+                </div>
               </div>
               <nav class="c-tabs-line" aria-label="Filter">
                 <a href="#" class="is-active">Most Upvoted</a>
@@ -130,6 +141,25 @@
                     aria-label="Search posts"
                     style="min-width: 220px"
                   />
+                  <select
+                    class="c-input c-input--soft js-post-type"
+                    aria-label="Filter by type"
+                  >
+                    <option value="">All types</option>
+                    <option value="text">Text</option>
+                    <option value="image">Image</option>
+                  </select>
+                  <label
+                    class="c-check c-check--inline"
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: var(--space-1);
+                    "
+                  >
+                    <input type="checkbox" class="js-post-unanswered" />
+                    <span>Unanswered only</span>
+                  </label>
                 </div>
               </div>
             </header>
@@ -494,7 +524,73 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         if (window.lucide) window.lucide.createIcons();
-        // votes handler is in app.js
+
+        // Read subject from query string
+        const params = new URLSearchParams(window.location.search);
+        const subjectCode = params.get("subject") || "";
+
+        // Subject metadata map (code -> {name, label})
+        const subjectMap = {
+          CS204: { name: "Data Structures", label: "Data Structures" },
+          CS301: { name: "Algorithms", label: "Algorithms" },
+          CS123: {
+            name: "Programming Fundamentals",
+            label: "Programming Fundamentals",
+          },
+          CS205: { name: "Operating Systems", label: "Operating Systems" },
+          MA201: { name: "Calculus II", label: "Calculus II" },
+          ENG101: { name: "English Composition", label: "English Composition" },
+          PHY110: { name: "Physics I", label: "Physics I" },
+        };
+
+        const meta = subjectMap[subjectCode] || {
+          name: subjectCode,
+          label: subjectCode,
+        };
+
+        // Update page title/subtitle
+        document.querySelectorAll(".js-subject-code").forEach((el) => {
+          el.textContent = subjectCode;
+        });
+        document.querySelectorAll(".js-subject-name").forEach((el) => {
+          el.textContent = meta.label;
+        });
+        document.title = `${subjectCode} • UniNest Community`;
+
+        // Filter posts by subject
+        const posts = Array.from(document.querySelectorAll(".c-post"));
+        posts.forEach((post) => {
+          const ds = (post.getAttribute("data-subject") || "").trim();
+          if (ds !== subjectCode) {
+            post.style.display = "none";
+          }
+        });
+
+        // Hide sections if empty
+        const pinnedSection = document.querySelector(
+          ".u-stack-4:first-of-type"
+        );
+        const latestSection = document.querySelector(".u-stack-4:last-of-type");
+        const pinnedContainer = pinnedSection?.querySelector(".c-posts");
+        const latestContainer = latestSection?.querySelector(".c-posts");
+
+        if (pinnedContainer) {
+          const visiblePinned = Array.from(
+            pinnedContainer.querySelectorAll(".c-post")
+          ).filter((p) => p.style.display !== "none");
+          if (visiblePinned.length === 0 && pinnedSection) {
+            pinnedSection.style.display = "none";
+          }
+        }
+
+        if (latestContainer) {
+          const visibleLatest = Array.from(
+            latestContainer.querySelectorAll(".c-post")
+          ).filter((p) => p.style.display !== "none");
+          if (visibleLatest.length === 0 && latestSection) {
+            latestSection.style.display = "none";
+          }
+        }
       });
     </script>
   </body>
