@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Quiz • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      .quiz-container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .quiz-form-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-8);
+        margin-bottom: var(--space-6);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      }
+
+      .quiz-form-header {
+        margin-bottom: var(--space-8);
+        padding-bottom: var(--space-6);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .quiz-form-header h2 {
+        font-size: var(--fs-xl);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+        letter-spacing: -0.02em;
+      }
+
+      .quiz-form-header p {
+        font-size: var(--fs-base);
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .question-card {
+        background: var(--color-white);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        padding: var(--space-8);
+        margin-bottom: var(--space-6);
+        transition: all 0.3s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      }
+
+      .question-card:hover {
+        border-color: var(--color-brand);
+        box-shadow: 0 4px 20px rgba(84, 44, 245, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .question-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-6);
+        padding-bottom: var(--space-5);
+        border-bottom: 2px solid var(--color-surface);
+      }
+
+      .question-number {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: var(--color-text);
+        letter-spacing: -0.01em;
+      }
+
+      .question-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, var(--color-brand) 0%, #6d4ef7 100%);
+        color: white;
+        border-radius: var(--radius-lg);
+        font-weight: 700;
+        font-size: var(--fs-base);
+        box-shadow: 0 2px 8px rgba(84, 44, 245, 0.2);
+      }
+
+      .question-actions {
+        display: flex;
+        gap: var(--space-2);
+      }
+
+      .btn-icon {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1.5px solid var(--color-border);
+        background: var(--color-white);
+        border-radius: var(--radius-lg);
+        color: var(--color-text-muted);
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .btn-icon:hover {
+        background: #ef4444;
+        border-color: #ef4444;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      }
+
+      .btn-icon i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .answer-option {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
+        padding: var(--space-5);
+        background: var(--color-surface);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        transition: all 0.25s ease;
+      }
+
+      .answer-option:hover {
+        background: rgba(84, 44, 245, 0.04);
+        border-color: rgba(84, 44, 245, 0.2);
+        transform: translateX(4px);
+      }
+
+      .answer-option input[type="text"] {
+        flex: 1;
+        padding: var(--space-3) var(--space-4);
+        border: 1.5px solid transparent;
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        font-size: var(--fs-base);
+        transition: all 0.2s ease;
+      }
+
+      .answer-option input[type="text"]:focus {
+        outline: none;
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 4px rgba(84, 44, 245, 0.08);
+      }
+
+      .answer-option input[type="radio"] {
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        accent-color: var(--color-brand);
+        flex-shrink: 0;
+      }
+
+      .answer-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: var(--fs-base);
+        color: var(--color-text);
+        flex-shrink: 0;
+      }
+
+      .btn-add-option {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-4) var(--space-5);
+        border: 2px dashed var(--color-border);
+        background: transparent;
+        border-radius: var(--radius-lg);
+        font-size: var(--fs-base);
+        font-weight: 600;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        transition: all 0.25s ease;
+        width: 100%;
+        justify-content: center;
+        margin-top: var(--space-2);
+      }
+
+      .btn-add-option:hover {
+        border-color: var(--color-brand);
+        border-style: solid;
+        background: rgba(84, 44, 245, 0.05);
+        color: var(--color-brand);
+        transform: translateY(-2px);
+      }
+
+      .btn-add-option i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .btn-add-question {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        padding: var(--space-6);
+        border: 2px dashed var(--color-border);
+        background: var(--color-white);
+        border-radius: var(--radius-xl);
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: var(--color-text);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        justify-content: center;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      }
+
+      .btn-add-question:hover {
+        border-color: var(--color-brand);
+        border-style: solid;
+        background: var(--color-brand);
+        color: white;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(84, 44, 245, 0.25);
+      }
+
+      .btn-add-question i {
+        width: 24px;
+        height: 24px;
+      }
+
+      .quiz-actions {
+        display: flex;
+        gap: var(--space-4);
+        justify-content: flex-end;
+        margin-top: var(--space-8);
+        padding-top: var(--space-8);
+        border-top: 2px solid var(--color-surface);
+      }
+
+      .quiz-actions .c-btn {
+        padding: var(--space-4) var(--space-8);
+        font-size: var(--fs-base);
+        font-weight: 600;
+        border-radius: var(--radius-lg);
+        transition: all 0.25s ease;
+      }
+
+      .quiz-actions .c-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .correct-answer-hint {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin-top: var(--space-5);
+        padding: var(--space-4) var(--space-5);
+        background: linear-gradient(135deg, rgba(84, 44, 245, 0.06) 0%, rgba(84, 44, 245, 0.02) 100%);
+        border-left: 3px solid var(--color-brand);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        line-height: 1.6;
+      }
+
+      .correct-answer-hint i {
+        width: 16px;
+        height: 16px;
+        color: var(--color-brand);
+        flex-shrink: 0;
+      }
+
+      .c-field {
+        margin-bottom: var(--space-6);
+      }
+
+      .c-field .c-label {
+        font-weight: 600;
+        font-size: var(--fs-base);
+        margin-bottom: var(--space-3);
+        color: var(--color-text);
+      }
+
+      .c-field .c-input,
+      .c-field textarea {
+        font-size: var(--fs-base);
+        padding: var(--space-4);
+        border: 1.5px solid var(--color-border);
+        transition: all 0.2s ease;
+      }
+
+      .c-field .c-input:focus,
+      .c-field textarea:focus {
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 4px rgba(84, 44, 245, 0.08);
+      }
+
+      @media (max-width: 768px) {
+        .quiz-form-card {
+          padding: var(--space-6);
+        }
+
+        .question-card {
+          padding: var(--space-6);
+        }
+
+        .question-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: var(--space-4);
+        }
+
+        .quiz-actions {
+          flex-direction: column;
+          padding-top: var(--space-6);
+          margin-top: var(--space-6);
+        }
+
+        .quiz-actions .c-btn {
+          width: 100%;
+        }
+
+        .answer-option {
+          padding: var(--space-4);
+        }
+
+        .btn-add-question {
+          padding: var(--space-5);
+          font-size: var(--fs-base);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">
+        <i data-lucide="moon"></i>
+      </span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Tharindu Fernando</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="home"></i></span>
+            Dashboard
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="book"></i></span>
+            Subjects
+          </a>
+          <a href="kuppi-sessions.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>
+            Kuppi Sessions
+          </a>
+          <a href="resources.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="file-text"></i></span>
+            Resources
+          </a>
+          <a href="create-quiz.html" class="c-nav__item is-active">
+            <span class="c-nav__icon"><i data-lucide="clipboard-list"></i></span>
+            Quizzes
+          </a>
+          <a href="community.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="message-square"></i></span>
+            Community
+          </a>
+          <a href="profile-settings.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="settings"></i></span>
+            Settings
+          </a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button">
+          <span class="c-nav__icon"><i data-lucide="log-out"></i></span>
+          Logout
+        </a>
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="#">Quizzes</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Create Quiz</span>
+          </nav>
+          <div>
+            <h1 class="c-page__title">Create Quiz</h1>
+            <p class="c-page__subtitle u-text-muted">
+              Create interactive quizzes to help your peers practice and learn.
+            </p>
+          </div>
+        </header>
+
+        <div class="quiz-container">
+          <!-- Quiz Details -->
+          <div class="quiz-form-card">
+            <div class="quiz-form-header">
+              <h2>Quiz Details</h2>
+              <p>Provide essential information about your quiz to help students understand its purpose and scope</p>
+            </div>
+
+            <form id="quiz-details-form">
+              <div class="c-field">
+                <label for="quiz-title" class="c-label">
+                  Quiz Title <span class="u-text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="quiz-title"
+                  class="c-input c-input--soft c-input--rect"
+                  placeholder="e.g., Data Structures & Algorithms - Mid-Term Practice"
+                  required
+                />
+              </div>
+
+              <div class="c-field">
+                <label for="quiz-description" class="c-label">Description</label>
+                <textarea
+                  id="quiz-description"
+                  class="c-input c-input--soft c-input--rect"
+                  rows="4"
+                  placeholder="Provide a brief overview of what this quiz covers, difficulty level, and any prerequisites..."
+                ></textarea>
+              </div>
+
+              <div class="o-grid" style="--grid-cols: 2">
+                <div class="c-field">
+                  <label for="quiz-subject" class="c-label">
+                    Subject <span class="u-text-danger">*</span>
+                  </label>
+                  <select
+                    id="quiz-subject"
+                    class="c-input c-input--soft c-input--rect"
+                    required
+                  >
+                    <option value="">Select subject</option>
+                    <option value="cs">Computer Science</option>
+                    <option value="math">Mathematics</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="english">English</option>
+                  </select>
+                </div>
+
+                <div class="c-field">
+                  <label for="quiz-duration" class="c-label">
+                    Duration (minutes)
+                  </label>
+                  <input
+                    type="number"
+                    id="quiz-duration"
+                    class="c-input c-input--soft c-input--rect"
+                    placeholder="30"
+                    min="1"
+                    max="180"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Questions -->
+          <div id="questions-container">
+            <!-- Questions will be added here -->
+          </div>
+
+          <!-- Add Question Button -->
+          <button type="button" class="btn-add-question" onclick="addQuestion()">
+            <i data-lucide="plus-circle"></i>
+            Add Question
+          </button>
+
+          <!-- Actions -->
+          <div class="quiz-actions">
+            <button type="button" class="c-btn c-btn--ghost" onclick="saveDraft()">
+              Save as Draft
+            </button>
+            <button type="button" class="c-btn" onclick="publishQuiz()">
+              <i data-lucide="send"></i> Publish Quiz
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      let questions = [];
+      let questionIdCounter = 1;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+        // Add first question by default
+        addQuestion();
+      });
+
+      function addQuestion() {
+        const question = {
+          id: questionIdCounter++,
+          text: "",
+          options: [
+            { id: 1, text: "", isCorrect: false },
+            { id: 2, text: "", isCorrect: false },
+            { id: 3, text: "", isCorrect: false },
+            { id: 4, text: "", isCorrect: false },
+          ],
+        };
+        questions.push(question);
+        renderQuestions();
+      }
+
+      function removeQuestion(id) {
+        if (questions.length === 1) {
+          alert("You must have at least one question!");
+          return;
+        }
+        questions = questions.filter((q) => q.id !== id);
+        renderQuestions();
+      }
+
+      function addOption(questionId) {
+        const question = questions.find((q) => q.id === questionId);
+        if (question.options.length >= 6) {
+          alert("Maximum 6 options per question");
+          return;
+        }
+        const newId = Math.max(...question.options.map((o) => o.id)) + 1;
+        question.options.push({ id: newId, text: "", isCorrect: false });
+        renderQuestions();
+      }
+
+      function removeOption(questionId, optionId) {
+        const question = questions.find((q) => q.id === questionId);
+        if (question.options.length <= 2) {
+          alert("You must have at least 2 options!");
+          return;
+        }
+        question.options = question.options.filter((o) => o.id !== optionId);
+        renderQuestions();
+      }
+
+      function updateQuestionText(questionId, text) {
+        const question = questions.find((q) => q.id === questionId);
+        question.text = text;
+      }
+
+      function updateOptionText(questionId, optionId, text) {
+        const question = questions.find((q) => q.id === questionId);
+        const option = question.options.find((o) => o.id === optionId);
+        option.text = text;
+      }
+
+      function setCorrectAnswer(questionId, optionId) {
+        const question = questions.find((q) => q.id === questionId);
+        question.options.forEach((o) => {
+          o.isCorrect = o.id === optionId;
+        });
+      }
+
+      function renderQuestions() {
+        const container = document.getElementById("questions-container");
+        container.innerHTML = questions
+          .map(
+            (question, index) => `
+          <div class="question-card">
+            <div class="question-header">
+              <div class="question-number">
+                <span class="question-badge">${index + 1}</span>
+                <span>Question ${index + 1}</span>
+              </div>
+              <div class="question-actions">
+                <button 
+                  type="button" 
+                  class="btn-icon" 
+                  onclick="removeQuestion(${question.id})"
+                  title="Delete question"
+                >
+                  <i data-lucide="trash-2"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="c-field">
+              <label class="c-label">Question <span class="u-text-danger">*</span></label>
+              <textarea
+                class="c-input c-input--soft c-input--rect"
+                rows="3"
+                placeholder="Write a clear and concise question that tests student understanding..."
+                onchange="updateQuestionText(${question.id}, this.value)"
+                required
+              >${question.text}</textarea>
+            </div>
+
+            <div class="c-field">
+              <label class="c-label">Answer Options <span class="u-text-danger">*</span></label>
+              ${question.options
+                .map(
+                  (option, optIdx) => `
+                <div class="answer-option">
+                  <span class="answer-label">${String.fromCharCode(65 + optIdx)}</span>
+                  <input
+                    type="text"
+                    placeholder="Enter option ${String.fromCharCode(65 + optIdx)}"
+                    value="${option.text}"
+                    onchange="updateOptionText(${question.id}, ${option.id}, this.value)"
+                  />
+                  <input
+                    type="radio"
+                    name="correct-${question.id}"
+                    ${option.isCorrect ? "checked" : ""}
+                    onchange="setCorrectAnswer(${question.id}, ${option.id})"
+                    title="Mark as correct answer"
+                  />
+                  ${
+                    question.options.length > 2
+                      ? `<button 
+                      type="button" 
+                      class="btn-icon" 
+                      onclick="removeOption(${question.id}, ${option.id})"
+                      style="margin-left: auto"
+                    >
+                      <i data-lucide="x"></i>
+                    </button>`
+                      : ""
+                  }
+                </div>
+              `
+                )
+                .join("")}
+              
+              ${
+                question.options.length < 6
+                  ? `<button type="button" class="btn-add-option" onclick="addOption(${question.id})">
+                  <i data-lucide="plus"></i>
+                  Add Option
+                </button>`
+                  : ""
+              }
+
+              <div class="correct-answer-hint">
+                <i data-lucide="info"></i>
+                <span>Select the radio button next to the correct answer option. Each question must have exactly one correct answer.</span>
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function saveDraft() {
+        const quizData = {
+          title: document.getElementById("quiz-title").value,
+          description: document.getElementById("quiz-description").value,
+          subject: document.getElementById("quiz-subject").value,
+          duration: document.getElementById("quiz-duration").value,
+          questions: questions,
+          status: "draft",
+          createdAt: new Date().toISOString(),
+        };
+
+        localStorage.setItem("quiz-draft", JSON.stringify(quizData));
+        showToast("Draft saved successfully!", "success");
+      }
+
+      function publishQuiz() {
+        const title = document.getElementById("quiz-title").value;
+        const subject = document.getElementById("quiz-subject").value;
+
+        if (!title || !subject) {
+          showToast("Please fill in all required fields!", "error");
+          return;
+        }
+
+        if (questions.length === 0) {
+          showToast("Please add at least one question!", "error");
+          return;
+        }
+
+        // Validate all questions
+        for (let i = 0; i < questions.length; i++) {
+          const q = questions[i];
+          if (!q.text) {
+            showToast(`Question ${i + 1} is empty!`, "error");
+            return;
+          }
+          if (q.options.some((o) => !o.text)) {
+            showToast(`Question ${i + 1} has empty options!`, "error");
+            return;
+          }
+          if (!q.options.some((o) => o.isCorrect)) {
+            showToast(`Question ${i + 1} has no correct answer selected!`, "error");
+            return;
+          }
+        }
+
+        const quizData = {
+          title: title,
+          description: document.getElementById("quiz-description").value,
+          subject: subject,
+          duration: document.getElementById("quiz-duration").value || 30,
+          questions: questions,
+          status: "published",
+          createdAt: new Date().toISOString(),
+        };
+
+        // Save to localStorage (in real app, would POST to API)
+        const quizzes = JSON.parse(localStorage.getItem("quizzes") || "[]");
+        quizzes.push(quizData);
+        localStorage.setItem("quizzes", JSON.stringify(quizzes));
+
+        showToast("Quiz published successfully!", "success");
+        
+        // Redirect after 1 second
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 1500);
+      }
+
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = "c-toast";
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          background: ${type === "success" ? "#10b981" : "#ef4444"};
+          color: white;
+          padding: 16px 24px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+        `;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
