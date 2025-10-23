@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>University Timetable • UniNest Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      .k-timetable-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .k-timetable-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        margin-bottom: var(--space-6);
+      }
+
+      .k-timetable-card__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-5);
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .k-timetable-card__title {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0;
+      }
+
+      .k-timetable-card__subtitle {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: var(--space-2) 0 0 0;
+      }
+
+      .k-timetable-grid {
+        display: grid;
+        grid-template-columns: 100px repeat(5, 1fr);
+        gap: 1px;
+        background: var(--color-border);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+      }
+
+      .k-timetable-cell {
+        background: var(--color-white);
+        padding: var(--space-4);
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .k-timetable-cell--header {
+        background: var(--color-surface);
+        font-weight: 600;
+        font-size: var(--fs-sm);
+        color: var(--color-text);
+      }
+
+      .k-timetable-cell--time {
+        background: var(--color-surface);
+        font-size: var(--fs-xs);
+        font-weight: 500;
+        color: var(--color-text-muted);
+      }
+
+      .k-timetable-cell--blocked {
+        background: rgba(239, 68, 68, 0.1);
+        border: 2px solid var(--color-danger);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .k-timetable-cell--blocked:hover {
+        background: rgba(239, 68, 68, 0.2);
+      }
+
+      .k-timetable-cell--available {
+        background: var(--color-white);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .k-timetable-cell--available:hover {
+        background: var(--color-surface);
+      }
+
+      .k-slot-content {
+        text-align: center;
+        font-size: var(--fs-xs);
+        line-height: 1.4;
+      }
+
+      .k-slot-label {
+        font-weight: 600;
+        color: var(--color-danger);
+        display: block;
+        margin-bottom: var(--space-1);
+      }
+
+      .k-slot-detail {
+        color: var(--color-text-muted);
+        font-size: 11px;
+      }
+
+      .k-add-slot-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-4);
+        padding: var(--space-5);
+        background: var(--color-surface);
+        border-radius: var(--radius-md);
+        margin-top: var(--space-5);
+      }
+
+      .k-blocked-slots-list {
+        display: grid;
+        gap: var(--space-3);
+      }
+
+      .k-slot-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        padding: var(--space-4);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        transition: all 0.2s ease;
+      }
+
+      .k-slot-item:hover {
+        border-color: var(--color-brand);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .k-slot-item__icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        background: rgba(239, 68, 68, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-danger);
+        flex-shrink: 0;
+      }
+
+      .k-slot-item__icon i {
+        width: 20px;
+        height: 20px;
+      }
+
+      .k-slot-item__content {
+        flex: 1;
+      }
+
+      .k-slot-item__title {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-slot-item__meta {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+      }
+
+      .k-slot-item__actions {
+        display: flex;
+        gap: var(--space-2);
+      }
+
+      .k-alert-info {
+        display: flex;
+        gap: var(--space-3);
+        padding: var(--space-4);
+        background: rgba(59, 130, 246, 0.05);
+        border: 2px solid #3b82f6;
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-5);
+      }
+
+      .k-alert-info__icon {
+        width: 20px;
+        height: 20px;
+        color: #3b82f6;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .k-alert-info__content {
+        flex: 1;
+      }
+
+      .k-alert-info__title {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        margin: 0 0 var(--space-1) 0;
+        color: var(--color-text);
+      }
+
+      .k-alert-info__text {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 768px) {
+        .k-timetable-grid {
+          display: none;
+        }
+
+        .k-add-slot-form {
+          grid-template-columns: 1fr;
+        }
+
+        .k-slot-item {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">
+        <i data-lucide="moon"></i>
+      </span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Admin</span>
+            <span class="c-user-mini__role">Administrator</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="home"></i></span>
+            Dashboard
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="book"></i></span>
+            Subjects
+          </a>
+          <a href="kuppi-sessions.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>
+            Kuppi Sessions
+          </a>
+          <a href="resources.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="file-text"></i></span>
+            Resources
+          </a>
+          <a href="users.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="users"></i></span>
+            Users
+          </a>
+          <a href="community.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="message-square"></i></span>
+            Community
+          </a>
+          <a href="#" class="c-nav__item is-active">
+            <span class="c-nav__icon"><i data-lucide="settings"></i></span>
+            Settings
+          </a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button">
+          <span class="c-nav__icon"><i data-lucide="log-out"></i></span>
+          Logout
+        </a>
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="#">Settings</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">University Timetable</span>
+          </nav>
+          <div>
+            <h1 class="c-page__title">University Lecture Timetable</h1>
+            <p class="c-page__subtitle u-text-muted">
+              Define official lecture times to prevent kuppi session scheduling conflicts.
+            </p>
+          </div>
+        </header>
+
+        <div class="k-timetable-container">
+          <!-- Info Alert -->
+          <div class="k-alert-info">
+            <i data-lucide="info" class="k-alert-info__icon"></i>
+            <div class="k-alert-info__content">
+              <h4 class="k-alert-info__title">How It Works</h4>
+              <p class="k-alert-info__text">
+                Add blocked time slots for official university lectures. These times will be automatically unavailable when scheduling kuppi sessions. Students and conductors will not be able to book sessions during these hours.
+              </p>
+            </div>
+          </div>
+
+          <!-- Add New Blocked Slot -->
+          <div class="k-timetable-card">
+            <div class="k-timetable-card__header">
+              <div>
+                <h2 class="k-timetable-card__title">Add Blocked Time Slot</h2>
+                <p class="k-timetable-card__subtitle">
+                  Define a new time period when kuppi sessions cannot be scheduled.
+                </p>
+              </div>
+            </div>
+
+            <form class="k-add-slot-form" onsubmit="addBlockedSlot(event)">
+              <div class="c-field">
+                <label for="day-of-week" class="c-label">
+                  Day of Week <span class="u-text-danger">*</span>
+                </label>
+                <select
+                  id="day-of-week"
+                  class="c-input c-input--soft c-input--rect"
+                  required
+                >
+                  <option value="">Select day</option>
+                  <option value="monday">Monday</option>
+                  <option value="tuesday">Tuesday</option>
+                  <option value="wednesday">Wednesday</option>
+                  <option value="thursday">Thursday</option>
+                  <option value="friday">Friday</option>
+                </select>
+              </div>
+
+              <div class="c-field">
+                <label for="start-time" class="c-label">
+                  Start Time <span class="u-text-danger">*</span>
+                </label>
+                <input
+                  type="time"
+                  id="start-time"
+                  class="c-input c-input--soft c-input--rect"
+                  required
+                />
+              </div>
+
+              <div class="c-field">
+                <label for="end-time" class="c-label">
+                  End Time <span class="u-text-danger">*</span>
+                </label>
+                <input
+                  type="time"
+                  id="end-time"
+                  class="c-input c-input--soft c-input--rect"
+                  required
+                />
+              </div>
+
+              <div class="c-field">
+                <label for="reason" class="c-label">Reason (Optional)</label>
+                <input
+                  type="text"
+                  id="reason"
+                  class="c-input c-input--soft c-input--rect"
+                  placeholder="e.g., CS101 Lecture"
+                />
+              </div>
+
+              <div class="c-field" style="display: flex; align-items: flex-end">
+                <button type="submit" class="c-btn" style="width: 100%">
+                  <i data-lucide="plus"></i> Add Blocked Slot
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Timetable Grid View -->
+          <div class="k-timetable-card">
+            <div class="k-timetable-card__header">
+              <div>
+                <h2 class="k-timetable-card__title">Weekly Timetable Overview</h2>
+                <p class="k-timetable-card__subtitle">
+                  Visual representation of blocked lecture times (red cells indicate blocked slots).
+                </p>
+              </div>
+            </div>
+
+            <div class="k-timetable-grid" id="timetable-grid">
+              <!-- Header Row -->
+              <div class="k-timetable-cell k-timetable-cell--header">Time</div>
+              <div class="k-timetable-cell k-timetable-cell--header">Monday</div>
+              <div class="k-timetable-cell k-timetable-cell--header">Tuesday</div>
+              <div class="k-timetable-cell k-timetable-cell--header">Wednesday</div>
+              <div class="k-timetable-cell k-timetable-cell--header">Thursday</div>
+              <div class="k-timetable-cell k-timetable-cell--header">Friday</div>
+
+              <!-- Time slots will be generated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- List of Blocked Slots -->
+          <div class="k-timetable-card">
+            <div class="k-timetable-card__header">
+              <div>
+                <h2 class="k-timetable-card__title">Active Blocked Time Slots</h2>
+                <p class="k-timetable-card__subtitle">
+                  <span id="blocked-count">0</span> time slots currently blocked
+                </p>
+              </div>
+            </div>
+
+            <div class="k-blocked-slots-list" id="blocked-slots-list">
+              <!-- Blocked slots will be rendered here -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      // Sample blocked slots data (in real app, this would come from backend)
+      let blockedSlots = [
+        {
+          id: 1,
+          day: "monday",
+          startTime: "08:00",
+          endTime: "10:00",
+          reason: "CS101 - Introduction to Programming",
+        },
+        {
+          id: 2,
+          day: "monday",
+          startTime: "14:00",
+          endTime: "16:00",
+          reason: "MATH201 - Calculus II",
+        },
+        {
+          id: 3,
+          day: "wednesday",
+          startTime: "10:00",
+          endTime: "12:00",
+          reason: "CS204 - Data Structures",
+        },
+        {
+          id: 4,
+          day: "friday",
+          startTime: "13:00",
+          endTime: "15:00",
+          reason: "ENG102 - Technical Writing",
+        },
+      ];
+
+      // Time slots (8 AM to 8 PM)
+      const timeSlots = [
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:00",
+        "17:00",
+        "18:00",
+        "19:00",
+        "20:00",
+      ];
+
+      const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+        generateTimetableGrid();
+        renderBlockedSlots();
+      });
+
+      function generateTimetableGrid() {
+        const grid = document.getElementById("timetable-grid");
+        const existingCells = grid.querySelectorAll(
+          ".k-timetable-cell:not(.k-timetable-cell--header)"
+        );
+        existingCells.forEach((cell) => cell.remove());
+
+        timeSlots.forEach((time) => {
+          // Time label
+          const timeCell = document.createElement("div");
+          timeCell.className = "k-timetable-cell k-timetable-cell--time";
+          const endHour = parseInt(time.split(":")[0]) + 1;
+          timeCell.textContent = `${time} - ${endHour
+            .toString()
+            .padStart(2, "0")}:00`;
+          grid.appendChild(timeCell);
+
+          // Day cells
+          daysOfWeek.forEach((day) => {
+            const cell = document.createElement("div");
+            const blocked = isTimeSlotBlocked(day, time);
+
+            if (blocked) {
+              cell.className = "k-timetable-cell k-timetable-cell--blocked";
+              const content = document.createElement("div");
+              content.className = "k-slot-content";
+              content.innerHTML = `
+                <span class="k-slot-label">Blocked</span>
+                <span class="k-slot-detail">${blocked.reason || "Lecture"}</span>
+              `;
+              cell.appendChild(content);
+            } else {
+              cell.className = "k-timetable-cell k-timetable-cell--available";
+              cell.innerHTML = '<span style="color: var(--color-text-muted); font-size: 11px;">Available</span>';
+            }
+
+            grid.appendChild(cell);
+          });
+        });
+      }
+
+      function isTimeSlotBlocked(day, time) {
+        return blockedSlots.find((slot) => {
+          if (slot.day !== day) return false;
+          const slotStart = slot.startTime;
+          const slotEnd = slot.endTime;
+          return time >= slotStart && time < slotEnd;
+        });
+      }
+
+      function renderBlockedSlots() {
+        const container = document.getElementById("blocked-slots-list");
+        const countElement = document.getElementById("blocked-count");
+
+        countElement.textContent = blockedSlots.length;
+
+        if (blockedSlots.length === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: var(--space-8); color: var(--color-text-muted);">
+              <i data-lucide="calendar-off" style="width: 48px; height: 48px; margin-bottom: var(--space-3); opacity: 0.5;"></i>
+              <p style="margin: 0;">No blocked time slots configured yet.</p>
+            </div>
+          `;
+          if (window.lucide) window.lucide.createIcons();
+          return;
+        }
+
+        container.innerHTML = blockedSlots
+          .map(
+            (slot) => `
+          <div class="k-slot-item">
+            <div class="k-slot-item__icon">
+              <i data-lucide="calendar-x"></i>
+            </div>
+            <div class="k-slot-item__content">
+              <h3 class="k-slot-item__title">${slot.reason || "Blocked Time"}</h3>
+              <div class="k-slot-item__meta">
+                <span style="text-transform: capitalize;">${slot.day}</span>
+                <span>•</span>
+                <span>${slot.startTime} - ${slot.endTime}</span>
+              </div>
+            </div>
+            <div class="k-slot-item__actions">
+              <button
+                type="button"
+                class="c-btn c-btn--ghost c-btn--sm"
+                onclick="editBlockedSlot(${slot.id})"
+                title="Edit"
+              >
+                <i data-lucide="edit-2"></i>
+              </button>
+              <button
+                type="button"
+                class="c-btn c-btn--ghost c-btn--sm"
+                onclick="deleteBlockedSlot(${slot.id})"
+                title="Delete"
+              >
+                <i data-lucide="trash-2"></i>
+              </button>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function addBlockedSlot(event) {
+        event.preventDefault();
+
+        const day = document.getElementById("day-of-week").value;
+        const startTime = document.getElementById("start-time").value;
+        const endTime = document.getElementById("end-time").value;
+        const reason = document.getElementById("reason").value;
+
+        // Validation
+        if (startTime >= endTime) {
+          showToast("End time must be after start time!", "error");
+          return;
+        }
+
+        // Check for overlapping slots
+        const hasOverlap = blockedSlots.some((slot) => {
+          if (slot.day !== day) return false;
+          return (
+            (startTime >= slot.startTime && startTime < slot.endTime) ||
+            (endTime > slot.startTime && endTime <= slot.endTime) ||
+            (startTime <= slot.startTime && endTime >= slot.endTime)
+          );
+        });
+
+        if (hasOverlap) {
+          showToast(
+            "This time slot overlaps with an existing blocked period!",
+            "error"
+          );
+          return;
+        }
+
+        // Add new slot
+        const newSlot = {
+          id: Date.now(),
+          day,
+          startTime,
+          endTime,
+          reason: reason || "Lecture Time",
+        };
+
+        blockedSlots.push(newSlot);
+
+        // Save to localStorage (in real app, this would be an API call)
+        localStorage.setItem("blockedSlots", JSON.stringify(blockedSlots));
+
+        // Reset form
+        event.target.reset();
+
+        // Re-render
+        generateTimetableGrid();
+        renderBlockedSlots();
+
+        showToast("Blocked time slot added successfully!");
+      }
+
+      function deleteBlockedSlot(id) {
+        if (
+          confirm(
+            "Are you sure you want to remove this blocked time slot? This will allow kuppi sessions to be scheduled during this time."
+          )
+        ) {
+          blockedSlots = blockedSlots.filter((slot) => slot.id !== id);
+
+          // Save to localStorage
+          localStorage.setItem("blockedSlots", JSON.stringify(blockedSlots));
+
+          // Re-render
+          generateTimetableGrid();
+          renderBlockedSlots();
+
+          showToast("Blocked time slot removed successfully!");
+        }
+      }
+
+      function editBlockedSlot(id) {
+        const slot = blockedSlots.find((s) => s.id === id);
+        if (!slot) return;
+
+        // Populate form
+        document.getElementById("day-of-week").value = slot.day;
+        document.getElementById("start-time").value = slot.startTime;
+        document.getElementById("end-time").value = slot.endTime;
+        document.getElementById("reason").value = slot.reason;
+
+        // Delete old slot
+        blockedSlots = blockedSlots.filter((s) => s.id !== id);
+
+        // Scroll to form
+        document
+          .querySelector(".k-add-slot-form")
+          .scrollIntoView({ behavior: "smooth" });
+
+        showToast("Edit the details and click 'Add Blocked Slot' to update");
+      }
+
+      function showToast(msg, type = "success") {
+        const toasts = document.querySelector(".c-toasts");
+        if (!toasts) return;
+        const item = document.createElement("div");
+        item.className = "c-toast";
+        item.textContent = msg;
+        toasts.appendChild(item);
+        setTimeout(() => {
+          item.remove();
+        }, 3000);
+      }
+
+      // Load blocked slots from localStorage on page load
+      window.addEventListener("load", function () {
+        const saved = localStorage.getItem("blockedSlots");
+        if (saved) {
+          blockedSlots = JSON.parse(saved);
+          generateTimetableGrid();
+          renderBlockedSlots();
+        }
+      });
+    </script>
+  </body>
+</html>

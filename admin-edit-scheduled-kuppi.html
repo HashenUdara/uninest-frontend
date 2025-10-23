@@ -661,42 +661,58 @@
                 <div class="k-form-section">
                   <h3 class="k-form-section__title">Date & Time</h3>
                   <div class="k-form-grid">
-                    <div class="c-field">
-                      <label for="session-date" class="c-label">
-                        Session Date <span class="u-text-danger">*</span>
-                      </label>
+                  <div class="c-field">
+                    <label for="session-date" class="c-label">
+                      Session Date <span class="u-text-danger">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      id="session-date"
+                      class="c-input c-input--soft c-input--rect"
+                      value="2024-03-25"
+                      required
+                      onchange="checkBlockedTime()"
+                    />
+                  </div>
+
+                  <div class="c-field">
+                    <label class="c-label">
+                      Time <span class="u-text-danger">*</span>
+                    </label>
+                    <div class="k-datetime-group">
                       <input
-                        type="date"
-                        id="session-date"
+                        type="time"
+                        id="session-start-time"
                         class="c-input c-input--soft c-input--rect"
-                        value="2024-03-25"
+                        value="14:00"
                         required
+                        onchange="checkBlockedTime()"
+                      />
+                      <input
+                        type="time"
+                        id="session-end-time"
+                        class="c-input c-input--soft c-input--rect"
+                        value="16:00"
+                        required
+                        onchange="checkBlockedTime()"
                       />
                     </div>
+                  </div>
 
-                    <div class="c-field">
-                      <label class="c-label">
-                        Time <span class="u-text-danger">*</span>
-                      </label>
-                      <div class="k-datetime-group">
-                        <input
-                          type="time"
-                          id="session-start-time"
-                          class="c-input c-input--soft c-input--rect"
-                          value="14:00"
-                          required
-                        />
-                        <input
-                          type="time"
-                          id="session-end-time"
-                          class="c-input c-input--soft c-input--rect"
-                          value="16:00"
-                          required
-                        />
+                  <!-- Time Conflict Warning -->
+                  <div class="c-field" id="time-conflict-warning" style="display: none; grid-column: 1 / -1;">
+                    <div style="display: flex; gap: var(--space-3); padding: var(--space-4); background: rgba(239, 68, 68, 0.05); border: 2px solid var(--color-danger); border-radius: var(--radius-md);">
+                      <i data-lucide="alert-triangle" style="width: 20px; height: 20px; color: var(--color-danger); flex-shrink: 0; margin-top: 2px;"></i>
+                      <div style="flex: 1;">
+                        <h4 style="font-size: var(--fs-sm); font-weight: 600; margin: 0 0 var(--space-1) 0; color: var(--color-text);">
+                          Time Conflict Detected
+                        </h4>
+                        <p style="font-size: var(--fs-sm); color: var(--color-text-muted); margin: 0; line-height: 1.5;" id="conflict-message">
+                          This time conflicts with official university lectures.
+                        </p>
                       </div>
                     </div>
-
-                    <div class="c-field">
+                  </div>                    <div class="c-field">
                       <label for="duration" class="c-label">Duration</label>
                       <input
                         type="text"
@@ -720,7 +736,10 @@
                         >
                           <i data-lucide="minus"></i>
                         </button>
-                        <div class="k-capacity-input__value" id="capacity-value">
+                        <div
+                          class="k-capacity-input__value"
+                          id="capacity-value"
+                        >
                           25
                         </div>
                         <button
@@ -769,7 +788,10 @@
                         id="location-online"
                         value="online"
                       />
-                      <label for="location-online" class="k-location-type__label">
+                      <label
+                        for="location-online"
+                        class="k-location-type__label"
+                      >
                         <i data-lucide="video"></i>
                         Online Session
                       </label>
@@ -790,11 +812,7 @@
                     />
                   </div>
 
-                  <div
-                    class="c-field"
-                    id="online-link"
-                    style="display: none"
-                  >
+                  <div class="c-field" id="online-link" style="display: none">
                     <label for="meeting-link" class="c-label">
                       Meeting Link <span class="u-text-danger">*</span>
                     </label>
@@ -819,7 +837,9 @@
                       class="c-input c-input--soft c-input--rect"
                       rows="4"
                       placeholder="Any special instructions or requirements..."
-                    >Please bring your laptops and the course textbook.</textarea>
+                    >
+Please bring your laptops and the course textbook.</textarea
+                    >
                   </div>
                 </div>
               </form>
@@ -830,11 +850,12 @@
               <div class="k-edit-card__header">
                 <h2 class="k-edit-card__title">Change Conductor</h2>
                 <p class="k-edit-card__subtitle">
-                  Select a new conductor if needed. All participants will be notified.
+                  Select a new conductor if needed. All participants will be
+                  notified.
                 </p>
               </div>
 
-                <!-- Current Conductor -->
+              <!-- Current Conductor -->
               <div style="margin-bottom: var(--space-6)">
                 <label class="c-label" style="margin-bottom: var(--space-3)"
                   >Current Conductor</label
@@ -853,7 +874,9 @@
                     class="k-conductor-option__avatar"
                   />
                   <div class="k-conductor-option__info">
-                    <h3 class="k-conductor-option__name">Isuru Wickramasinghe</h3>
+                    <h3 class="k-conductor-option__name">
+                      Isuru Wickramasinghe
+                    </h3>
                     <div class="k-conductor-option__stats">
                       <span class="k-conductor-option__stat">
                         <i data-lucide="graduation-cap"></i>
@@ -960,8 +983,8 @@
                 <div class="k-alert__content">
                   <h4 class="k-alert__title">Important Notice</h4>
                   <p class="k-alert__text">
-                    Changing the conductor will notify all registered participants
-                    and the new conductor via email.
+                    Changing the conductor will notify all registered
+                    participants and the new conductor via email.
                   </p>
                 </div>
               </div>
@@ -986,7 +1009,9 @@
                 <i data-lucide="file-text" class="k-info-item__icon"></i>
                 <div class="k-info-item__content">
                   <p class="k-info-item__label">Topic</p>
-                  <p class="k-info-item__value">Binary Search Trees Implementation</p>
+                  <p class="k-info-item__value">
+                    Binary Search Trees Implementation
+                  </p>
                 </div>
               </div>
 
@@ -1010,7 +1035,12 @@
                 <i data-lucide="calendar-check" class="k-info-item__icon"></i>
                 <div class="k-info-item__content">
                   <p class="k-info-item__label">Status</p>
-                  <p class="k-info-item__value" style="color: var(--color-success);">Active</p>
+                  <p
+                    class="k-info-item__value"
+                    style="color: var(--color-success)"
+                  >
+                    Active
+                  </p>
                 </div>
               </div>
             </div>
@@ -1021,17 +1051,38 @@
                 <h2 class="k-edit-card__title">Current Conductor</h2>
               </div>
 
-              <div style="display: flex; align-items: center; gap: var(--space-3);">
+              <div
+                style="display: flex; align-items: center; gap: var(--space-3)"
+              >
                 <img
                   src="https://i.pravatar.cc/150?img=12"
                   alt="Isuru Wickramasinghe"
-                  style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-border);"
+                  style="
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 2px solid var(--color-border);
+                  "
                 />
-                <div style="flex: 1;">
-                  <h3 style="font-size: var(--fs-base); font-weight: 600; margin: 0 0 var(--space-1) 0; color: var(--color-text);">
+                <div style="flex: 1">
+                  <h3
+                    style="
+                      font-size: var(--fs-base);
+                      font-weight: 600;
+                      margin: 0 0 var(--space-1) 0;
+                      color: var(--color-text);
+                    "
+                  >
                     Isuru Wickramasinghe
                   </h3>
-                  <p style="font-size: var(--fs-xs); color: var(--color-text-muted); margin: 0;">
+                  <p
+                    style="
+                      font-size: var(--fs-xs);
+                      color: var(--color-text-muted);
+                      margin: 0;
+                    "
+                  >
                     32 sessions • 4.9 rating
                   </p>
                 </div>
@@ -1040,14 +1091,35 @@
 
             <!-- Actions Card -->
             <div class="k-edit-card">
-              <div style="display: flex; flex-direction: column; gap: var(--space-3);">
-                <button type="button" class="c-btn" onclick="saveChanges()" style="width: 100%;">
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: var(--space-3);
+                "
+              >
+                <button
+                  type="button"
+                  class="c-btn"
+                  onclick="saveChanges()"
+                  style="width: 100%"
+                >
                   <i data-lucide="check"></i> Save Changes
                 </button>
-                <button type="button" class="c-btn c-btn--ghost" onclick="confirmCancel()" style="width: 100%;">
+                <button
+                  type="button"
+                  class="c-btn c-btn--ghost"
+                  onclick="confirmCancel()"
+                  style="width: 100%"
+                >
                   Cancel
                 </button>
-                <button type="button" class="c-btn c-btn--danger" onclick="openDeleteModal()" style="width: 100%;">
+                <button
+                  type="button"
+                  class="c-btn c-btn--danger"
+                  onclick="openDeleteModal()"
+                  style="width: 100%"
+                >
                   <i data-lucide="trash-2"></i> Delete Session
                 </button>
               </div>
@@ -1227,6 +1299,12 @@
       }
 
       function saveChanges() {
+        const conflict = checkBlockedTime();
+        if (conflict) {
+          showToast("Please select a different time. The selected time conflicts with university lectures.");
+          return;
+        }
+        
         showToast("Session updated successfully!");
         setTimeout(() => {
           window.location.href = "kuppi-scheduled.html";
@@ -1272,6 +1350,65 @@
           closeDeleteModal();
         }
       });
+
+      // Load blocked slots from localStorage and check for conflicts
+      function loadBlockedSlots() {
+        const saved = localStorage.getItem("blockedSlots");
+        return saved ? JSON.parse(saved) : [];
+      }
+
+      function checkBlockedTime() {
+        const dateInput = document.getElementById("session-date");
+        const startTimeInput = document.getElementById("session-start-time");
+        const endTimeInput = document.getElementById("session-end-time");
+        const warningDiv = document.getElementById("time-conflict-warning");
+        const conflictMessage = document.getElementById("conflict-message");
+
+        // Check if all fields are filled
+        if (!dateInput.value || !startTimeInput.value || !endTimeInput.value) {
+          warningDiv.style.display = "none";
+          return false;
+        }
+
+        // Get day of week from selected date
+        const selectedDate = new Date(dateInput.value + "T00:00:00");
+        const dayOfWeek = selectedDate.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
+
+        const startTime = startTimeInput.value;
+        const endTime = endTimeInput.value;
+
+        // Load blocked slots
+        const blockedSlots = loadBlockedSlots();
+
+        // Check for conflicts
+        const conflict = blockedSlots.find((slot) => {
+          if (slot.day !== dayOfWeek) return false;
+
+          // Check if selected time overlaps with blocked time
+          return (
+            (startTime >= slot.startTime && startTime < slot.endTime) ||
+            (endTime > slot.startTime && endTime <= slot.endTime) ||
+            (startTime <= slot.startTime && endTime >= slot.endTime)
+          );
+        });
+
+        if (conflict) {
+          warningDiv.style.display = "block";
+          conflictMessage.textContent = `This time conflicts with: ${conflict.reason || "University Lecture"} (${conflict.startTime} - ${conflict.endTime} on ${conflict.day.charAt(0).toUpperCase() + conflict.day.slice(1)})`;
+          
+          // Add red border to time inputs
+          startTimeInput.style.borderColor = "var(--color-danger)";
+          endTimeInput.style.borderColor = "var(--color-danger)";
+          
+          if (window.lucide) window.lucide.createIcons();
+          return true;
+        } else {
+          warningDiv.style.display = "none";
+          startTimeInput.style.borderColor = "";
+          endTimeInput.style.borderColor = "";
+          return false;
+        }
+      }
     </script>
   </body>
 </html>

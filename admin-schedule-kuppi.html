@@ -886,6 +886,7 @@
                     id="session-date"
                     class="c-input c-input--soft c-input--rect"
                     required
+                    onchange="checkBlockedTime()"
                   />
                 </div>
 
@@ -900,13 +901,30 @@
                       id="session-start-time"
                       class="c-input c-input--soft c-input--rect"
                       required
+                      onchange="checkBlockedTime()"
                     />
                     <input
                       type="time"
                       id="session-end-time"
                       class="c-input c-input--soft c-input--rect"
                       required
+                      onchange="checkBlockedTime()"
                     />
+                  </div>
+                </div>
+
+                <!-- Time Conflict Warning -->
+                <div class="c-field k-form-grid--full" id="time-conflict-warning" style="display: none;">
+                  <div style="display: flex; gap: var(--space-3); padding: var(--space-4); background: rgba(239, 68, 68, 0.05); border: 2px solid var(--color-danger); border-radius: var(--radius-md);">
+                    <i data-lucide="alert-triangle" style="width: 20px; height: 20px; color: var(--color-danger); flex-shrink: 0; margin-top: 2px;"></i>
+                    <div style="flex: 1;">
+                      <h4 style="font-size: var(--fs-sm); font-weight: 600; margin: 0 0 var(--space-1) 0; color: var(--color-text);">
+                        Time Conflict Detected
+                      </h4>
+                      <p style="font-size: var(--fs-sm); color: var(--color-text-muted); margin: 0; line-height: 1.5;" id="conflict-message">
+                        This time conflicts with official university lectures.
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -1534,6 +1552,15 @@
 
       // Step navigation
       function nextStep(stepNumber) {
+        // Validate blocked time before moving to next step from step 2
+        if (stepNumber === 3) {
+          const conflict = checkBlockedTime();
+          if (conflict) {
+            showToast("Please select a different time. The selected time conflicts with university lectures.", "error");
+            return;
+          }
+        }
+
         // Hide all steps
         document.querySelectorAll(".k-step-content").forEach((step) => {
           step.classList.remove("is-active");
@@ -1627,6 +1654,74 @@
           item.remove();
         }, 3000);
       }
+
+      // Load blocked slots from localStorage and check for conflicts
+      function loadBlockedSlots() {
+        const saved = localStorage.getItem("blockedSlots");
+        return saved ? JSON.parse(saved) : [];
+      }
+
+      function checkBlockedTime() {
+        const dateInput = document.getElementById("session-date");
+        const startTimeInput = document.getElementById("session-start-time");
+        const endTimeInput = document.getElementById("session-end-time");
+        const warningDiv = document.getElementById("time-conflict-warning");
+        const conflictMessage = document.getElementById("conflict-message");
+
+        // Check if all fields are filled
+        if (!dateInput.value || !startTimeInput.value || !endTimeInput.value) {
+          warningDiv.style.display = "none";
+          return false;
+        }
+
+        // Get day of week from selected date
+        const selectedDate = new Date(dateInput.value + "T00:00:00");
+        const dayOfWeek = selectedDate.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
+
+        const startTime = startTimeInput.value;
+        const endTime = endTimeInput.value;
+
+        // Load blocked slots
+        const blockedSlots = loadBlockedSlots();
+
+        // Check for conflicts
+        const conflict = blockedSlots.find((slot) => {
+          if (slot.day !== dayOfWeek) return false;
+
+          // Check if selected time overlaps with blocked time
+          return (
+            (startTime >= slot.startTime && startTime < slot.endTime) ||
+            (endTime > slot.startTime && endTime <= slot.endTime) ||
+            (startTime <= slot.startTime && endTime >= slot.endTime)
+          );
+        });
+
+        if (conflict) {
+          warningDiv.style.display = "block";
+          conflictMessage.textContent = `This time conflicts with: ${conflict.reason || "University Lecture"} (${conflict.startTime} - ${conflict.endTime} on ${conflict.day.charAt(0).toUpperCase() + conflict.day.slice(1)})`;
+          
+          // Add red border to time inputs
+          startTimeInput.style.borderColor = "var(--color-danger)";
+          endTimeInput.style.borderColor = "var(--color-danger)";
+          
+          if (window.lucide) window.lucide.createIcons();
+          return true;
+        } else {
+          warningDiv.style.display = "none";
+          startTimeInput.style.borderColor = "";
+          endTimeInput.style.borderColor = "";
+          return false;
+        }
+      }
+
+      // Set minimum date to today
+      document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById("session-date");
+        if (dateInput) {
+          const today = new Date().toISOString().split("T")[0];
+          dateInput.min = today;
+        }
+      });
     </script>
   </body>
 </html>
