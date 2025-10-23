@@ -15,35 +15,54 @@
     <script src="scripts/vendor/lucide.js"></script>
     <style>
       .k-edit-container {
-        max-width: 850px;
+        max-width: 1400px;
         margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--space-6);
+        align-items: start;
+      }
+
+      .k-edit-main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+      }
+
+      .k-edit-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+        position: sticky;
+        top: var(--space-6);
       }
 
       .k-edit-card {
         background: var(--color-white);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-lg);
-        padding: var(--space-8) var(--space-10);
-        margin-bottom: var(--space-5);
+        padding: var(--space-6);
       }
 
       .k-edit-card__header {
-        margin-bottom: var(--space-8);
+        margin-bottom: var(--space-5);
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--color-border);
       }
 
       .k-edit-card__title {
-        font-size: 1.625rem;
+        font-size: var(--fs-lg);
         font-weight: 600;
         color: var(--color-text);
-        margin: 0 0 var(--space-3) 0;
-        letter-spacing: -0.02em;
+        margin: 0;
+        letter-spacing: -0.01em;
       }
 
       .k-edit-card__subtitle {
-        font-size: var(--fs-base);
+        font-size: var(--fs-sm);
         color: var(--color-text-muted);
-        margin: 0;
-        line-height: 1.7;
+        margin: var(--space-2) 0 0 0;
+        line-height: 1.5;
         font-weight: 400;
       }
 
@@ -102,11 +121,28 @@
       .k-form-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: var(--space-5);
+        gap: var(--space-4);
       }
 
       .k-form-grid--full {
         grid-column: 1 / -1;
+      }
+
+      .k-form-section {
+        margin-bottom: var(--space-5);
+      }
+
+      .k-form-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .k-form-section__title {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-4) 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .k-datetime-group {
@@ -187,7 +223,9 @@
         color: var(--color-text-muted);
       }
 
-      .k-location-type__option input[type="radio"]:checked + .k-location-type__label {
+      .k-location-type__option
+        input[type="radio"]:checked
+        + .k-location-type__label {
         background: var(--color-white);
         border-color: var(--color-brand);
         color: var(--color-brand);
@@ -366,7 +404,8 @@
         position: relative;
         background: var(--color-white);
         border-radius: var(--radius-lg);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
         max-height: 90vh;
         overflow-y: auto;
         width: 100%;
@@ -432,7 +471,57 @@
         border-top: 1px solid var(--color-border);
       }
 
+      .k-info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-3);
+        padding: var(--space-4);
+        background: var(--color-surface);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-3);
+      }
+
+      .k-info-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .k-info-item__icon {
+        width: 20px;
+        height: 20px;
+        color: var(--color-brand);
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .k-info-item__content {
+        flex: 1;
+      }
+
+      .k-info-item__label {
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-info-item__value {
+        font-size: var(--fs-sm);
+        font-weight: 500;
+        color: var(--color-text);
+        margin: 0;
+      }
+
       @media (max-width: 768px) {
+        .k-edit-container {
+          grid-template-columns: 1fr;
+        }
+
+        .k-edit-sidebar {
+          position: static;
+        }
+
         .k-edit-card {
           padding: var(--space-6);
         }
@@ -494,7 +583,9 @@
             Subjects
           </a>
           <a href="kuppi-sessions.html" class="c-nav__item is-active">
-            <span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>
+            <span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i
+            ></span>
             Kuppi Sessions
           </a>
           <a href="resources.html" class="c-nav__item">
@@ -506,7 +597,9 @@
             Users
           </a>
           <a href="community.html" class="c-nav__item">
-            <span class="c-nav__icon"><i data-lucide="message-square"></i></span>
+            <span class="c-nav__icon"
+              ><i data-lucide="message-square"></i
+            ></span>
             Community
           </a>
           <a href="#" class="c-nav__item">
@@ -531,7 +624,14 @@
             <span class="c-breadcrumbs__sep">/</span>
             <span aria-current="page">Edit Session</span>
           </nav>
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: var(--space-4);
+            "
+          >
             <div>
               <h1 class="c-page__title">Edit Scheduled Kuppi</h1>
               <p class="c-page__subtitle u-text-muted">
@@ -545,313 +645,410 @@
         </header>
 
         <div class="k-edit-container">
-          <div class="k-edit-card">
-            <div class="k-edit-card__header">
-              <h2 class="k-edit-card__title">Session Information</h2>
-              <p class="k-edit-card__subtitle">
-                Update the details for this scheduled kuppi session.
-              </p>
-            </div>
-
-            <!-- Current Session Info -->
-            <div class="k-session-info">
-              <div class="k-session-info__badge">
-                <i data-lucide="book"></i>
-                CS204 - Data Structures
-              </div>
-              <h3 class="k-session-info__title">
-                Binary Search Trees Implementation
-              </h3>
-              <div class="k-session-info__meta">
-                <div class="k-session-info__meta-item">
-                  <i data-lucide="calendar"></i>
-                  <span>March 25, 2024 • 2:00 PM - 4:00 PM</span>
-                </div>
-                <div class="k-session-info__meta-item">
-                  <i data-lucide="users"></i>
-                  <span>12/25 registered</span>
-                </div>
-                <div class="k-session-info__meta-item">
-                  <i data-lucide="map-pin"></i>
-                  <span>Main Library, Room 204</span>
-                </div>
-              </div>
-            </div>
-
-            <form class="k-form-grid">
-              <!-- Date -->
-              <div class="c-field">
-                <label for="session-date" class="c-label">
-                  Session Date <span class="u-text-danger">*</span>
-                </label>
-                <input
-                  type="date"
-                  id="session-date"
-                  class="c-input c-input--soft c-input--rect"
-                  value="2024-03-25"
-                  required
-                />
+          <!-- Main Content (Left Column) -->
+          <div class="k-edit-main">
+            <!-- Session Details Form -->
+            <div class="k-edit-card">
+              <div class="k-edit-card__header">
+                <h2 class="k-edit-card__title">Session Details</h2>
+                <p class="k-edit-card__subtitle">
+                  Update date, time, location, and capacity.
+                </p>
               </div>
 
-              <!-- Time Range -->
-              <div class="c-field">
-                <label class="c-label">
-                  Time <span class="u-text-danger">*</span>
-                </label>
-                <div class="k-datetime-group">
-                  <input
-                    type="time"
-                    id="session-start-time"
-                    class="c-input c-input--soft c-input--rect"
-                    value="14:00"
-                    required
-                  />
-                  <input
-                    type="time"
-                    id="session-end-time"
-                    class="c-input c-input--soft c-input--rect"
-                    value="16:00"
-                    required
-                  />
-                </div>
-              </div>
+              <form>
+                <!-- Date & Time Section -->
+                <div class="k-form-section">
+                  <h3 class="k-form-section__title">Date & Time</h3>
+                  <div class="k-form-grid">
+                    <div class="c-field">
+                      <label for="session-date" class="c-label">
+                        Session Date <span class="u-text-danger">*</span>
+                      </label>
+                      <input
+                        type="date"
+                        id="session-date"
+                        class="c-input c-input--soft c-input--rect"
+                        value="2024-03-25"
+                        required
+                      />
+                    </div>
 
-              <!-- Duration -->
-              <div class="c-field">
-                <label for="duration" class="c-label">Duration</label>
-                <input
-                  type="text"
-                  id="duration"
-                  class="c-input c-input--soft c-input--rect"
-                  value="2 hours"
-                  readonly
-                  style="background: var(--color-surface)"
-                />
-                <small class="u-text-muted" style="display: block; margin-top: var(--space-2);">
-                  Automatically calculated from start and end time
-                </small>
-              </div>
+                    <div class="c-field">
+                      <label class="c-label">
+                        Time <span class="u-text-danger">*</span>
+                      </label>
+                      <div class="k-datetime-group">
+                        <input
+                          type="time"
+                          id="session-start-time"
+                          class="c-input c-input--soft c-input--rect"
+                          value="14:00"
+                          required
+                        />
+                        <input
+                          type="time"
+                          id="session-end-time"
+                          class="c-input c-input--soft c-input--rect"
+                          value="16:00"
+                          required
+                        />
+                      </div>
+                    </div>
 
-              <!-- Capacity -->
-              <div class="c-field">
-                <label class="c-label">
-                  Maximum Attendees <span class="u-text-danger">*</span>
-                </label>
-                <div class="k-capacity-input">
-                  <button type="button" class="k-capacity-input__btn" onclick="decrementCapacity()">
-                    <i data-lucide="minus"></i>
-                  </button>
-                  <div class="k-capacity-input__value" id="capacity-value">25</div>
-                  <button type="button" class="k-capacity-input__btn" onclick="incrementCapacity()">
-                    <i data-lucide="plus"></i>
-                  </button>
-                </div>
-                <input type="hidden" id="max-attendees" value="25" />
-                <small class="u-text-muted" style="display: block; margin-top: var(--space-2);">
-                  Currently 12 students registered
-                </small>
-              </div>
+                    <div class="c-field">
+                      <label for="duration" class="c-label">Duration</label>
+                      <input
+                        type="text"
+                        id="duration"
+                        class="c-input c-input--soft c-input--rect"
+                        value="2 hours"
+                        readonly
+                        style="background: var(--color-surface)"
+                      />
+                    </div>
 
-              <!-- Location Type -->
-              <div class="c-field k-form-grid--full">
-                <label class="c-label">
-                  Location Type <span class="u-text-danger">*</span>
-                </label>
-                <div class="k-location-type">
-                  <div class="k-location-type__option">
-                    <input type="radio" name="location-type" id="location-physical" value="physical" checked />
-                    <label for="location-physical" class="k-location-type__label">
-                      <i data-lucide="map-pin"></i>
-                      Physical Location
-                    </label>
-                  </div>
-                  <div class="k-location-type__option">
-                    <input type="radio" name="location-type" id="location-online" value="online" />
-                    <label for="location-online" class="k-location-type__label">
-                      <i data-lucide="video"></i>
-                      Online Session
-                    </label>
+                    <div class="c-field">
+                      <label class="c-label">
+                        Maximum Attendees <span class="u-text-danger">*</span>
+                      </label>
+                      <div class="k-capacity-input">
+                        <button
+                          type="button"
+                          class="k-capacity-input__btn"
+                          onclick="decrementCapacity()"
+                        >
+                          <i data-lucide="minus"></i>
+                        </button>
+                        <div class="k-capacity-input__value" id="capacity-value">
+                          25
+                        </div>
+                        <button
+                          type="button"
+                          class="k-capacity-input__btn"
+                          onclick="incrementCapacity()"
+                        >
+                          <i data-lucide="plus"></i>
+                        </button>
+                      </div>
+                      <input type="hidden" id="max-attendees" value="25" />
+                      <small
+                        class="u-text-muted"
+                        style="display: block; margin-top: var(--space-2)"
+                      >
+                        Currently 12 students registered
+                      </small>
+                    </div>
                   </div>
                 </div>
+
+                <!-- Location Section -->
+                <div class="k-form-section">
+                  <h3 class="k-form-section__title">Location</h3>
+                  <div class="k-location-type">
+                    <div class="k-location-type__option">
+                      <input
+                        type="radio"
+                        name="location-type"
+                        id="location-physical"
+                        value="physical"
+                        checked
+                      />
+                      <label
+                        for="location-physical"
+                        class="k-location-type__label"
+                      >
+                        <i data-lucide="map-pin"></i>
+                        Physical Location
+                      </label>
+                    </div>
+                    <div class="k-location-type__option">
+                      <input
+                        type="radio"
+                        name="location-type"
+                        id="location-online"
+                        value="online"
+                      />
+                      <label for="location-online" class="k-location-type__label">
+                        <i data-lucide="video"></i>
+                        Online Session
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="c-field" id="physical-location">
+                    <label for="location" class="c-label">
+                      Location <span class="u-text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="location"
+                      class="c-input c-input--soft c-input--rect"
+                      value="Main Library, Room 204"
+                      placeholder="e.g., Main Library, Room 204"
+                      required
+                    />
+                  </div>
+
+                  <div
+                    class="c-field"
+                    id="online-link"
+                    style="display: none"
+                  >
+                    <label for="meeting-link" class="c-label">
+                      Meeting Link <span class="u-text-danger">*</span>
+                    </label>
+                    <input
+                      type="url"
+                      id="meeting-link"
+                      class="c-input c-input--soft c-input--rect"
+                      placeholder="https://zoom.us/j/..."
+                    />
+                  </div>
+                </div>
+
+                <!-- Additional Notes -->
+                <div class="k-form-section">
+                  <h3 class="k-form-section__title">Additional Information</h3>
+                  <div class="c-field">
+                    <label for="schedule-notes" class="c-label"
+                      >Notes for Participants</label
+                    >
+                    <textarea
+                      id="schedule-notes"
+                      class="c-input c-input--soft c-input--rect"
+                      rows="4"
+                      placeholder="Any special instructions or requirements..."
+                    >Please bring your laptops and the course textbook.</textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Change Conductor Card -->
+            <div class="k-edit-card">
+              <div class="k-edit-card__header">
+                <h2 class="k-edit-card__title">Change Conductor</h2>
+                <p class="k-edit-card__subtitle">
+                  Select a new conductor if needed. All participants will be notified.
+                </p>
               </div>
 
-              <!-- Location Details -->
-              <div class="c-field k-form-grid--full" id="physical-location">
-                <label for="location" class="c-label">
-                  Location <span class="u-text-danger">*</span>
-                </label>
+                <!-- Current Conductor -->
+              <div style="margin-bottom: var(--space-6)">
+                <label class="c-label" style="margin-bottom: var(--space-3)"
+                  >Current Conductor</label
+                >
+                <div
+                  class="k-conductor-option"
+                  style="
+                    cursor: default;
+                    border-color: var(--color-success);
+                    background: rgba(47, 157, 91, 0.02);
+                  "
+                >
+                  <img
+                    src="https://i.pravatar.cc/150?img=12"
+                    alt="Isuru Wickramasinghe"
+                    class="k-conductor-option__avatar"
+                  />
+                  <div class="k-conductor-option__info">
+                    <h3 class="k-conductor-option__name">Isuru Wickramasinghe</h3>
+                    <div class="k-conductor-option__stats">
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="graduation-cap"></i>
+                        32 sessions
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="star"></i>
+                        4.9 rating
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="users"></i>
+                        450+ students
+                      </span>
+                    </div>
+                  </div>
+                  <div class="k-conductor-option__badge">
+                    <i data-lucide="check-circle"></i>
+                    Assigned
+                  </div>
+                </div>
+              </div>
+
+              <!-- Search & Alternative Conductors -->
+              <div class="c-field" style="margin-bottom: var(--space-5)">
+                <label for="search-conductor" class="c-label"
+                  >Change Conductor (Optional)</label
+                >
                 <input
                   type="text"
-                  id="location"
+                  id="search-conductor"
                   class="c-input c-input--soft c-input--rect"
-                  value="Main Library, Room 204"
-                  placeholder="e.g., Main Library, Room 204"
-                  required
+                  placeholder="Search for alternative conductors..."
                 />
               </div>
 
-              <div class="c-field k-form-grid--full" id="online-link" style="display: none;">
-                <label for="meeting-link" class="c-label">
-                  Meeting Link <span class="u-text-danger">*</span>
+              <div class="k-conductor-select">
+                <!-- Alternative Conductor 1 -->
+                <label class="k-conductor-option">
+                  <input type="radio" name="conductor" value="conductor2" />
+                  <img
+                    src="https://i.pravatar.cc/150?img=15"
+                    alt="Sanduni Rajapaksa"
+                    class="k-conductor-option__avatar"
+                  />
+                  <div class="k-conductor-option__info">
+                    <h3 class="k-conductor-option__name">Sanduni Rajapaksa</h3>
+                    <div class="k-conductor-option__stats">
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="graduation-cap"></i>
+                        28 sessions
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="star"></i>
+                        4.8 rating
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="users"></i>
+                        380+ students
+                      </span>
+                    </div>
+                  </div>
+                  <div class="k-conductor-option__badge">
+                    <i data-lucide="check-circle"></i>
+                    Verified
+                  </div>
                 </label>
-                <input
-                  type="url"
-                  id="meeting-link"
-                  class="c-input c-input--soft c-input--rect"
-                  placeholder="https://zoom.us/j/..."
-                />
+
+                <!-- Alternative Conductor 2 -->
+                <label class="k-conductor-option">
+                  <input type="radio" name="conductor" value="conductor3" />
+                  <img
+                    src="https://i.pravatar.cc/150?img=33"
+                    alt="Lakshitha Dissanayake"
+                    class="k-conductor-option__avatar"
+                  />
+                  <div class="k-conductor-option__info">
+                    <h3 class="k-conductor-option__name">
+                      Lakshitha Dissanayake
+                    </h3>
+                    <div class="k-conductor-option__stats">
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="graduation-cap"></i>
+                        25 sessions
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="star"></i>
+                        4.7 rating
+                      </span>
+                      <span class="k-conductor-option__stat">
+                        <i data-lucide="users"></i>
+                        320+ students
+                      </span>
+                    </div>
+                  </div>
+                  <div class="k-conductor-option__badge">
+                    <i data-lucide="check-circle"></i>
+                    Verified
+                  </div>
+                </label>
               </div>
 
-              <!-- Additional Notes -->
-              <div class="c-field k-form-grid--full">
-                <label for="schedule-notes" class="c-label">Additional Notes</label>
-                <textarea
-                  id="schedule-notes"
-                  class="c-input c-input--soft c-input--rect"
-                  rows="3"
-                  placeholder="Any special instructions or requirements for attendees..."
-                >Please bring your laptops and the course textbook.</textarea>
+              <div class="k-alert">
+                <i data-lucide="info" class="k-alert__icon"></i>
+                <div class="k-alert__content">
+                  <h4 class="k-alert__title">Important Notice</h4>
+                  <p class="k-alert__text">
+                    Changing the conductor will notify all registered participants
+                    and the new conductor via email.
+                  </p>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
+          <div class="k-edit-sidebar">
+            <!-- Session Overview Card -->
+            <div class="k-edit-card">
+              <div class="k-edit-card__header">
+                <h2 class="k-edit-card__title">Session Overview</h2>
+              </div>
 
-          <!-- Change Conductor Section -->
-          <div class="k-edit-card">
-            <div class="k-edit-card__header">
-              <h2 class="k-edit-card__title">Session Conductor</h2>
-              <p class="k-edit-card__subtitle">
-                Change the conductor if needed. Current participants will be notified.
-              </p>
+              <div class="k-info-item">
+                <i data-lucide="book" class="k-info-item__icon"></i>
+                <div class="k-info-item__content">
+                  <p class="k-info-item__label">Subject</p>
+                  <p class="k-info-item__value">CS204 - Data Structures</p>
+                </div>
+              </div>
+
+              <div class="k-info-item">
+                <i data-lucide="file-text" class="k-info-item__icon"></i>
+                <div class="k-info-item__content">
+                  <p class="k-info-item__label">Topic</p>
+                  <p class="k-info-item__value">Binary Search Trees Implementation</p>
+                </div>
+              </div>
+
+              <div class="k-info-item">
+                <i data-lucide="user" class="k-info-item__icon"></i>
+                <div class="k-info-item__content">
+                  <p class="k-info-item__label">Requested By</p>
+                  <p class="k-info-item__value">Kavindu Perera</p>
+                </div>
+              </div>
+
+              <div class="k-info-item">
+                <i data-lucide="users" class="k-info-item__icon"></i>
+                <div class="k-info-item__content">
+                  <p class="k-info-item__label">Registrations</p>
+                  <p class="k-info-item__value">12 of 25 students</p>
+                </div>
+              </div>
+
+              <div class="k-info-item">
+                <i data-lucide="calendar-check" class="k-info-item__icon"></i>
+                <div class="k-info-item__content">
+                  <p class="k-info-item__label">Status</p>
+                  <p class="k-info-item__value" style="color: var(--color-success);">Active</p>
+                </div>
+              </div>
             </div>
 
-            <!-- Current Conductor -->
-            <div style="margin-bottom: var(--space-6);">
-              <label class="c-label" style="margin-bottom: var(--space-3);">Current Conductor</label>
-              <div class="k-conductor-option" style="cursor: default; border-color: var(--color-success); background: rgba(47, 157, 91, 0.02);">
+            <!-- Current Conductor Card -->
+            <div class="k-edit-card">
+              <div class="k-edit-card__header">
+                <h2 class="k-edit-card__title">Current Conductor</h2>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: var(--space-3);">
                 <img
                   src="https://i.pravatar.cc/150?img=12"
                   alt="Isuru Wickramasinghe"
-                  class="k-conductor-option__avatar"
+                  style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-border);"
                 />
-                <div class="k-conductor-option__info">
-                  <h3 class="k-conductor-option__name">Isuru Wickramasinghe</h3>
-                  <div class="k-conductor-option__stats">
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="graduation-cap"></i>
-                      32 sessions
-                    </span>
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="star"></i>
-                      4.9 rating
-                    </span>
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="users"></i>
-                      450+ students
-                    </span>
-                  </div>
-                </div>
-                <div class="k-conductor-option__badge">
-                  <i data-lucide="check-circle"></i>
-                  Assigned
+                <div style="flex: 1;">
+                  <h3 style="font-size: var(--fs-base); font-weight: 600; margin: 0 0 var(--space-1) 0; color: var(--color-text);">
+                    Isuru Wickramasinghe
+                  </h3>
+                  <p style="font-size: var(--fs-xs); color: var(--color-text-muted); margin: 0;">
+                    32 sessions • 4.9 rating
+                  </p>
                 </div>
               </div>
             </div>
 
-            <!-- Search & Alternative Conductors -->
-            <div class="c-field" style="margin-bottom: var(--space-5);">
-              <label for="search-conductor" class="c-label">Change Conductor (Optional)</label>
-              <input
-                type="text"
-                id="search-conductor"
-                class="c-input c-input--soft c-input--rect"
-                placeholder="Search for alternative conductors..."
-              />
-            </div>
-
-            <div class="k-conductor-select">
-              <!-- Alternative Conductor 1 -->
-              <label class="k-conductor-option">
-                <input type="radio" name="conductor" value="conductor2" />
-                <img
-                  src="https://i.pravatar.cc/150?img=15"
-                  alt="Sanduni Rajapaksa"
-                  class="k-conductor-option__avatar"
-                />
-                <div class="k-conductor-option__info">
-                  <h3 class="k-conductor-option__name">Sanduni Rajapaksa</h3>
-                  <div class="k-conductor-option__stats">
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="graduation-cap"></i>
-                      28 sessions
-                    </span>
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="star"></i>
-                      4.8 rating
-                    </span>
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="users"></i>
-                      380+ students
-                    </span>
-                  </div>
-                </div>
-                <div class="k-conductor-option__badge">
-                  <i data-lucide="check-circle"></i>
-                  Verified
-                </div>
-              </label>
-
-              <!-- Alternative Conductor 2 -->
-              <label class="k-conductor-option">
-                <input type="radio" name="conductor" value="conductor3" />
-                <img
-                  src="https://i.pravatar.cc/150?img=33"
-                  alt="Lakshitha Dissanayake"
-                  class="k-conductor-option__avatar"
-                />
-                <div class="k-conductor-option__info">
-                  <h3 class="k-conductor-option__name">Lakshitha Dissanayake</h3>
-                  <div class="k-conductor-option__stats">
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="graduation-cap"></i>
-                      25 sessions
-                    </span>
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="star"></i>
-                      4.7 rating
-                    </span>
-                    <span class="k-conductor-option__stat">
-                      <i data-lucide="users"></i>
-                      320+ students
-                    </span>
-                  </div>
-                </div>
-                <div class="k-conductor-option__badge">
-                  <i data-lucide="check-circle"></i>
-                  Verified
-                </div>
-              </label>
-            </div>
-
-            <div class="k-alert">
-              <i data-lucide="info" class="k-alert__icon"></i>
-              <div class="k-alert__content">
-                <h4 class="k-alert__title">Important Notice</h4>
-                <p class="k-alert__text">
-                  Changing the conductor will notify all registered participants and the new conductor via email.
-                </p>
-              </div>
-            </div>
-
-            <div class="k-form-actions k-form-actions--between">
-              <button type="button" class="c-btn c-btn--ghost" onclick="confirmCancel()">
-                Cancel
-              </button>
-              <div style="display: flex; gap: var(--space-3);">
-                <button type="button" class="c-btn c-btn--danger" onclick="openDeleteModal()">
-                  <i data-lucide="trash-2"></i> Delete Session
-                </button>
-                <button type="button" class="c-btn" onclick="saveChanges()">
+            <!-- Actions Card -->
+            <div class="k-edit-card">
+              <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                <button type="button" class="c-btn" onclick="saveChanges()" style="width: 100%;">
                   <i data-lucide="check"></i> Save Changes
+                </button>
+                <button type="button" class="c-btn c-btn--ghost" onclick="confirmCancel()" style="width: 100%;">
+                  Cancel
+                </button>
+                <button type="button" class="c-btn c-btn--danger" onclick="openDeleteModal()" style="width: 100%;">
+                  <i data-lucide="trash-2"></i> Delete Session
                 </button>
               </div>
             </div>
@@ -861,34 +1058,83 @@
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div class="c-modal" id="delete-modal" style="display: none;">
+    <div class="c-modal" id="delete-modal" style="display: none">
       <div class="c-modal__backdrop" onclick="closeDeleteModal()"></div>
-      <div class="c-modal__content" style="max-width: 500px;">
+      <div class="c-modal__content" style="max-width: 500px">
         <div class="c-modal__header">
           <h3 class="c-modal__title">Delete Scheduled Session?</h3>
-          <button type="button" class="c-modal__close" onclick="closeDeleteModal()">
+          <button
+            type="button"
+            class="c-modal__close"
+            onclick="closeDeleteModal()"
+          >
             <i data-lucide="x"></i>
           </button>
         </div>
         <div class="c-modal__body">
-          <div style="text-align: center; padding: var(--space-4) 0;">
-            <div style="width: 64px; height: 64px; margin: 0 auto var(--space-5); color: var(--color-danger);">
-              <i data-lucide="alert-triangle" style="width: 64px; height: 64px;"></i>
+          <div style="text-align: center; padding: var(--space-4) 0">
+            <div
+              style="
+                width: 64px;
+                height: 64px;
+                margin: 0 auto var(--space-5);
+                color: var(--color-danger);
+              "
+            >
+              <i
+                data-lucide="alert-triangle"
+                style="width: 64px; height: 64px"
+              ></i>
             </div>
-            <h4 style="font-size: var(--fs-lg); font-weight: 600; margin: 0 0 var(--space-3) 0;">
+            <h4
+              style="
+                font-size: var(--fs-lg);
+                font-weight: 600;
+                margin: 0 0 var(--space-3) 0;
+              "
+            >
               Are you sure you want to delete this session?
             </h4>
-            <p style="color: var(--color-text-muted); margin: 0 0 var(--space-2) 0;">
+            <p
+              style="
+                color: var(--color-text-muted);
+                margin: 0 0 var(--space-2) 0;
+              "
+            >
               This will permanently delete the scheduled kuppi session:
             </p>
-            <p style="font-weight: 600; margin: 0 0 var(--space-6) 0;">
+            <p style="font-weight: 600; margin: 0 0 var(--space-6) 0">
               "Binary Search Trees Implementation"
             </p>
-            <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--color-danger); padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-6); text-align: left;">
-              <p style="font-size: var(--fs-sm); color: var(--color-text); margin: 0 0 var(--space-2) 0; font-weight: 600;">
+            <div
+              style="
+                background: rgba(239, 68, 68, 0.1);
+                border: 2px solid var(--color-danger);
+                padding: var(--space-4);
+                border-radius: var(--radius-md);
+                margin-bottom: var(--space-6);
+                text-align: left;
+              "
+            >
+              <p
+                style="
+                  font-size: var(--fs-sm);
+                  color: var(--color-text);
+                  margin: 0 0 var(--space-2) 0;
+                  font-weight: 600;
+                "
+              >
                 This action will:
               </p>
-              <ul style="font-size: var(--fs-sm); color: var(--color-text-muted); margin: 0; padding-left: var(--space-5); list-style: disc;">
+              <ul
+                style="
+                  font-size: var(--fs-sm);
+                  color: var(--color-text-muted);
+                  margin: 0;
+                  padding-left: var(--space-5);
+                  list-style: disc;
+                "
+              >
                 <li>Cancel the session for all 12 registered participants</li>
                 <li>Send cancellation emails to all attendees</li>
                 <li>Notify the conductor about the cancellation</li>
@@ -897,11 +1143,22 @@
             </div>
           </div>
         </div>
-        <div class="c-modal__footer" style="display: flex; gap: var(--space-3); justify-content: flex-end;">
-          <button type="button" class="c-btn c-btn--ghost" onclick="closeDeleteModal()">
+        <div
+          class="c-modal__footer"
+          style="display: flex; gap: var(--space-3); justify-content: flex-end"
+        >
+          <button
+            type="button"
+            class="c-btn c-btn--ghost"
+            onclick="closeDeleteModal()"
+          >
             Cancel
           </button>
-          <button type="button" class="c-btn c-btn--danger" onclick="deleteSession()">
+          <button
+            type="button"
+            class="c-btn c-btn--danger"
+            onclick="deleteSession()"
+          >
             <i data-lucide="trash-2"></i> Yes, Delete Session
           </button>
         </div>
@@ -917,7 +1174,9 @@
         if (window.lucide) window.lucide.createIcons();
 
         // Location type toggle
-        const locationRadios = document.querySelectorAll('input[name="location-type"]');
+        const locationRadios = document.querySelectorAll(
+          'input[name="location-type"]'
+        );
         const physicalLocation = document.getElementById("physical-location");
         const onlineLink = document.getElementById("online-link");
 
@@ -945,7 +1204,8 @@
       }
 
       function decrementCapacity() {
-        if (capacity > 12) { // Can't go below current registrations
+        if (capacity > 12) {
+          // Can't go below current registrations
           capacity--;
           updateCapacity();
         }
@@ -957,7 +1217,11 @@
       }
 
       function confirmCancel() {
-        if (confirm("Are you sure you want to cancel? Any unsaved changes will be lost.")) {
+        if (
+          confirm(
+            "Are you sure you want to cancel? Any unsaved changes will be lost."
+          )
+        ) {
           window.location.href = "kuppi-scheduled.html";
         }
       }
@@ -982,7 +1246,9 @@
 
       function deleteSession() {
         closeDeleteModal();
-        showToast("Session deleted successfully. All participants have been notified.");
+        showToast(
+          "Session deleted successfully. All participants have been notified."
+        );
         setTimeout(() => {
           window.location.href = "kuppi-scheduled.html";
         }, 2000);

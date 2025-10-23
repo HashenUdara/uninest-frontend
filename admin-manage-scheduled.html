@@ -269,7 +269,8 @@
         position: relative;
         background: var(--color-white);
         border-radius: var(--radius-lg);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
         max-height: 90vh;
         overflow-y: auto;
         width: 100%;
@@ -399,7 +400,9 @@
             Subjects
           </a>
           <a href="kuppi-sessions.html" class="c-nav__item is-active">
-            <span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>
+            <span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i
+            ></span>
             Kuppi Sessions
           </a>
           <a href="resources.html" class="c-nav__item">
@@ -411,7 +414,9 @@
             Users
           </a>
           <a href="community.html" class="c-nav__item">
-            <span class="c-nav__icon"><i data-lucide="message-square"></i></span>
+            <span class="c-nav__icon"
+              ><i data-lucide="message-square"></i
+            ></span>
             Community
           </a>
           <a href="#" class="c-nav__item">
@@ -434,7 +439,15 @@
             <span class="c-breadcrumbs__sep">/</span>
             <span aria-current="page">Manage Scheduled</span>
           </nav>
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); flex-wrap: wrap;">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: var(--space-4);
+              flex-wrap: wrap;
+            "
+          >
             <div>
               <h1 class="c-page__title">Manage Scheduled Sessions</h1>
               <p class="c-page__subtitle u-text-muted">
@@ -459,26 +472,36 @@
                 placeholder="Search by topic, subject, or conductor..."
               />
             </div>
-            <div class="k-filters__field" style="max-width: 200px;">
+            <div class="k-filters__field" style="max-width: 200px">
               <label for="filter-subject" class="c-label">Subject</label>
-              <select id="filter-subject" class="c-input c-input--soft c-input--rect">
+              <select
+                id="filter-subject"
+                class="c-input c-input--soft c-input--rect"
+              >
                 <option value="">All Subjects</option>
                 <option value="cs204">CS204 - Data Structures</option>
                 <option value="cs305">CS305 - Database Systems</option>
                 <option value="ma101">MA101 - Calculus I</option>
               </select>
             </div>
-            <div class="k-filters__field" style="max-width: 200px;">
+            <div class="k-filters__field" style="max-width: 200px">
               <label for="filter-status" class="c-label">Status</label>
-              <select id="filter-status" class="c-input c-input--soft c-input--rect">
+              <select
+                id="filter-status"
+                class="c-input c-input--soft c-input--rect"
+              >
                 <option value="">All Status</option>
                 <option value="upcoming">Upcoming</option>
                 <option value="full">Full</option>
                 <option value="available">Available</option>
               </select>
             </div>
-            <div style="flex-shrink: 0;">
-              <button type="button" class="c-btn c-btn--ghost" onclick="clearFilters()">
+            <div style="flex-shrink: 0">
+              <button
+                type="button"
+                class="c-btn c-btn--ghost"
+                onclick="clearFilters()"
+              >
                 Clear Filters
               </button>
             </div>
@@ -489,12 +512,14 @@
             <!-- Session Card 1 -->
             <div class="k-session-card">
               <div class="k-session-card__header">
-                <div style="flex: 1;">
+                <div style="flex: 1">
                   <div class="k-session-card__badge">
                     <i data-lucide="book"></i>
                     CS204 - Data Structures
                   </div>
-                  <h3 class="k-session-card__title">Binary Search Trees Implementation</h3>
+                  <h3 class="k-session-card__title">
+                    Binary Search Trees Implementation
+                  </h3>
                 </div>
                 <div class="k-session-card__actions">
                   <button
@@ -557,12 +582,14 @@
             <!-- Session Card 2 -->
             <div class="k-session-card">
               <div class="k-session-card__header">
-                <div style="flex: 1;">
+                <div style="flex: 1">
                   <div class="k-session-card__badge">
                     <i data-lucide="book"></i>
                     CS305 - Database Systems
                   </div>
-                  <h3 class="k-session-card__title">SQL Joins and Query Optimization</h3>
+                  <h3 class="k-session-card__title">
+                    SQL Joins and Query Optimization
+                  </h3>
                 </div>
                 <div class="k-session-card__actions">
                   <button
@@ -625,12 +652,14 @@
             <!-- Session Card 3 -->
             <div class="k-session-card">
               <div class="k-session-card__header">
-                <div style="flex: 1;">
+                <div style="flex: 1">
                   <div class="k-session-card__badge">
                     <i data-lucide="book"></i>
                     MA101 - Calculus I
                   </div>
-                  <h3 class="k-session-card__title">Integration Techniques and Applications</h3>
+                  <h3 class="k-session-card__title">
+                    Integration Techniques and Applications
+                  </h3>
                 </div>
                 <div class="k-session-card__actions">
                   <button
@@ -695,35 +724,89 @@
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div class="c-modal" id="delete-modal" style="display: none;">
+    <div class="c-modal" id="delete-modal" style="display: none">
       <div class="c-modal__backdrop" onclick="closeDeleteModal()"></div>
-      <div class="c-modal__content" style="max-width: 500px;">
+      <div class="c-modal__content" style="max-width: 500px">
         <div class="c-modal__header">
           <h3 class="c-modal__title">Delete Scheduled Session?</h3>
-          <button type="button" class="c-modal__close" onclick="closeDeleteModal()">
+          <button
+            type="button"
+            class="c-modal__close"
+            onclick="closeDeleteModal()"
+          >
             <i data-lucide="x"></i>
           </button>
         </div>
         <div class="c-modal__body">
-          <div style="text-align: center; padding: var(--space-4) 0;">
-            <div style="width: 64px; height: 64px; margin: 0 auto var(--space-5); color: var(--color-danger);">
-              <i data-lucide="alert-triangle" style="width: 64px; height: 64px;"></i>
+          <div style="text-align: center; padding: var(--space-4) 0">
+            <div
+              style="
+                width: 64px;
+                height: 64px;
+                margin: 0 auto var(--space-5);
+                color: var(--color-danger);
+              "
+            >
+              <i
+                data-lucide="alert-triangle"
+                style="width: 64px; height: 64px"
+              ></i>
             </div>
-            <h4 style="font-size: var(--fs-lg); font-weight: 600; margin: 0 0 var(--space-3) 0;">
+            <h4
+              style="
+                font-size: var(--fs-lg);
+                font-weight: 600;
+                margin: 0 0 var(--space-3) 0;
+              "
+            >
               Are you sure you want to delete this session?
             </h4>
-            <p style="color: var(--color-text-muted); margin: 0 0 var(--space-2) 0;">
+            <p
+              style="
+                color: var(--color-text-muted);
+                margin: 0 0 var(--space-2) 0;
+              "
+            >
               This will permanently delete the scheduled kuppi session:
             </p>
-            <p style="font-weight: 600; margin: 0 0 var(--space-6) 0;" id="session-title-modal">
-              
-            </p>
-            <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--color-danger); padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-6); text-align: left;">
-              <p style="font-size: var(--fs-sm); color: var(--color-text); margin: 0 0 var(--space-2) 0; font-weight: 600;">
+            <p
+              style="font-weight: 600; margin: 0 0 var(--space-6) 0"
+              id="session-title-modal"
+            ></p>
+            <div
+              style="
+                background: rgba(239, 68, 68, 0.1);
+                border: 2px solid var(--color-danger);
+                padding: var(--space-4);
+                border-radius: var(--radius-md);
+                margin-bottom: var(--space-6);
+                text-align: left;
+              "
+            >
+              <p
+                style="
+                  font-size: var(--fs-sm);
+                  color: var(--color-text);
+                  margin: 0 0 var(--space-2) 0;
+                  font-weight: 600;
+                "
+              >
                 This action will:
               </p>
-              <ul style="font-size: var(--fs-sm); color: var(--color-text-muted); margin: 0; padding-left: var(--space-5); list-style: disc;">
-                <li>Cancel the session for all <strong id="participant-count"></strong> registered participants</li>
+              <ul
+                style="
+                  font-size: var(--fs-sm);
+                  color: var(--color-text-muted);
+                  margin: 0;
+                  padding-left: var(--space-5);
+                  list-style: disc;
+                "
+              >
+                <li>
+                  Cancel the session for all
+                  <strong id="participant-count"></strong> registered
+                  participants
+                </li>
                 <li>Send cancellation emails to all attendees</li>
                 <li>Notify the conductor about the cancellation</li>
                 <li>This action cannot be undone</li>
@@ -731,11 +814,22 @@
             </div>
           </div>
         </div>
-        <div class="c-modal__footer" style="display: flex; gap: var(--space-3); justify-content: flex-end;">
-          <button type="button" class="c-btn c-btn--ghost" onclick="closeDeleteModal()">
+        <div
+          class="c-modal__footer"
+          style="display: flex; gap: var(--space-3); justify-content: flex-end"
+        >
+          <button
+            type="button"
+            class="c-btn c-btn--ghost"
+            onclick="closeDeleteModal()"
+          >
             Cancel
           </button>
-          <button type="button" class="c-btn c-btn--danger" onclick="deleteSession()">
+          <button
+            type="button"
+            class="c-btn c-btn--danger"
+            onclick="deleteSession()"
+          >
             <i data-lucide="trash-2"></i> Yes, Delete Session
           </button>
         </div>
@@ -755,9 +849,12 @@
 
       function openDeleteModal(sessionTitle, sessionId, participantCount) {
         currentSessionId = sessionId;
-        document.getElementById("session-title-modal").textContent = `"${sessionTitle}"`;
-        document.getElementById("participant-count").textContent = participantCount;
-        
+        document.getElementById(
+          "session-title-modal"
+        ).textContent = `"${sessionTitle}"`;
+        document.getElementById("participant-count").textContent =
+          participantCount;
+
         const modal = document.getElementById("delete-modal");
         modal.style.display = "flex";
         if (window.lucide) window.lucide.createIcons();
@@ -771,8 +868,10 @@
 
       function deleteSession() {
         closeDeleteModal();
-        showToast("Session deleted successfully. All participants have been notified.");
-        
+        showToast(
+          "Session deleted successfully. All participants have been notified."
+        );
+
         // Remove the session card from the list (in real app, this would be done via API)
         setTimeout(() => {
           window.location.reload();
