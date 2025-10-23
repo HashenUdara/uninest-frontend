@@ -23,37 +23,35 @@
         background: var(--color-white);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-lg);
-        padding: var(--space-6);
+        padding: var(--space-8);
         margin-bottom: var(--space-6);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
       }
 
       .k-timetable-card__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: var(--space-5);
-        padding-bottom: var(--space-4);
-        border-bottom: 1px solid var(--color-border);
+        margin-bottom: var(--space-6);
       }
 
       .k-timetable-card__title {
-        font-size: var(--fs-lg);
+        font-size: var(--fs-xl);
         font-weight: 600;
         color: var(--color-text);
-        margin: 0;
+        margin: 0 0 var(--space-2) 0;
+        letter-spacing: -0.02em;
       }
 
       .k-timetable-card__subtitle {
         font-size: var(--fs-sm);
         color: var(--color-text-muted);
-        margin: var(--space-2) 0 0 0;
+        margin: 0;
+        line-height: 1.6;
       }
 
       .k-timetable-grid {
         display: grid;
-        grid-template-columns: 100px repeat(5, 1fr);
-        gap: 1px;
-        background: var(--color-border);
+        grid-template-columns: 120px repeat(5, 1fr);
+        gap: 0;
+        background: transparent;
         border: 1px solid var(--color-border);
         border-radius: var(--radius-md);
         overflow: hidden;
@@ -62,11 +60,17 @@
       .k-timetable-cell {
         background: var(--color-white);
         padding: var(--space-4);
-        min-height: 60px;
+        min-height: 70px;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        border-right: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .k-timetable-cell:nth-child(6n) {
+        border-right: none;
       }
 
       .k-timetable-cell--header {
@@ -74,40 +78,45 @@
         font-weight: 600;
         font-size: var(--fs-sm);
         color: var(--color-text);
+        min-height: 60px;
+        border-bottom: 2px solid var(--color-border);
       }
 
       .k-timetable-cell--time {
         background: var(--color-surface);
         font-size: var(--fs-xs);
-        font-weight: 500;
+        font-weight: 600;
         color: var(--color-text-muted);
+        text-align: center;
+        letter-spacing: 0.3px;
       }
 
       .k-timetable-cell--blocked {
-        background: rgba(239, 68, 68, 0.1);
-        border: 2px solid var(--color-danger);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(239, 68, 68, 0.12) 100%);
+        border: 2px solid rgba(239, 68, 68, 0.3);
         cursor: pointer;
         transition: all 0.2s ease;
+        margin: 2px;
+        border-radius: var(--radius-sm);
       }
 
       .k-timetable-cell--blocked:hover {
-        background: rgba(239, 68, 68, 0.2);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.16) 100%);
+        border-color: rgba(239, 68, 68, 0.5);
+        transform: scale(1.02);
       }
 
       .k-timetable-cell--available {
         background: var(--color-white);
-        cursor: pointer;
+        cursor: default;
         transition: all 0.2s ease;
-      }
-
-      .k-timetable-cell--available:hover {
-        background: var(--color-surface);
       }
 
       .k-slot-content {
         text-align: center;
         font-size: var(--fs-xs);
-        line-height: 1.4;
+        line-height: 1.5;
+        padding: var(--space-2);
       }
 
       .k-slot-label {
@@ -115,21 +124,25 @@
         color: var(--color-danger);
         display: block;
         margin-bottom: var(--space-1);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .k-slot-detail {
-        color: var(--color-text-muted);
+        color: var(--color-text);
         font-size: 11px;
+        font-weight: 500;
       }
 
       .k-add-slot-form {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: var(--space-4);
-        padding: var(--space-5);
-        background: var(--color-surface);
-        border-radius: var(--radius-md);
-        margin-top: var(--space-5);
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: var(--space-5);
+        padding: 0;
+        background: transparent;
+        border-radius: 0;
+        margin-top: 0;
       }
 
       .k-blocked-slots-list {
@@ -141,23 +154,24 @@
         display: flex;
         align-items: center;
         gap: var(--space-4);
-        padding: var(--space-4);
+        padding: var(--space-5);
         background: var(--color-white);
         border: 1px solid var(--color-border);
-        border-radius: var(--radius-md);
+        border-radius: var(--radius-lg);
         transition: all 0.2s ease;
       }
 
       .k-slot-item:hover {
         border-color: var(--color-brand);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 8px rgba(84, 44, 245, 0.08);
+        transform: translateY(-1px);
       }
 
       .k-slot-item__icon {
-        width: 40px;
-        height: 40px;
-        border-radius: var(--radius-md);
-        background: rgba(239, 68, 68, 0.1);
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.15) 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -166,8 +180,8 @@
       }
 
       .k-slot-item__icon i {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
       }
 
       .k-slot-item__content {
@@ -175,41 +189,43 @@
       }
 
       .k-slot-item__title {
-        font-size: var(--fs-sm);
+        font-size: var(--fs-base);
         font-weight: 600;
         color: var(--color-text);
-        margin: 0 0 var(--space-1) 0;
+        margin: 0 0 var(--space-2) 0;
+        letter-spacing: -0.01em;
       }
 
       .k-slot-item__meta {
         display: flex;
         align-items: center;
         gap: var(--space-3);
-        font-size: var(--fs-xs);
+        font-size: var(--fs-sm);
         color: var(--color-text-muted);
+        font-weight: 500;
       }
 
       .k-slot-item__actions {
         display: flex;
         gap: var(--space-2);
+        margin-left: auto;
       }
 
       .k-alert-info {
         display: flex;
-        gap: var(--space-3);
-        padding: var(--space-4);
-        background: rgba(59, 130, 246, 0.05);
-        border: 2px solid #3b82f6;
-        border-radius: var(--radius-md);
-        margin-bottom: var(--space-5);
+        gap: var(--space-4);
+        padding: var(--space-6);
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.04) 0%, rgba(59, 130, 246, 0.08) 100%);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-6);
       }
 
       .k-alert-info__icon {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         color: #3b82f6;
         flex-shrink: 0;
-        margin-top: 2px;
       }
 
       .k-alert-info__content {
@@ -217,17 +233,79 @@
       }
 
       .k-alert-info__title {
-        font-size: var(--fs-sm);
+        font-size: var(--fs-base);
         font-weight: 600;
-        margin: 0 0 var(--space-1) 0;
+        margin: 0 0 var(--space-2) 0;
         color: var(--color-text);
+        letter-spacing: -0.01em;
       }
 
       .k-alert-info__text {
         font-size: var(--fs-sm);
         color: var(--color-text-muted);
         margin: 0;
-        line-height: 1.5;
+        line-height: 1.6;
+      }
+
+      .k-stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-5);
+        margin-bottom: var(--space-8);
+      }
+
+      .k-stat-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        transition: all 0.2s ease;
+      }
+
+      .k-stat-card:hover {
+        border-color: var(--color-brand);
+        box-shadow: 0 2px 8px rgba(84, 44, 245, 0.08);
+      }
+
+      .k-stat-card__icon {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius-lg);
+        background: linear-gradient(135deg, rgba(84, 44, 245, 0.1) 0%, rgba(84, 44, 245, 0.15) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-brand);
+        flex-shrink: 0;
+      }
+
+      .k-stat-card__icon i {
+        width: 28px;
+        height: 28px;
+      }
+
+      .k-stat-card__content {
+        flex: 1;
+      }
+
+      .k-stat-card__label {
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        color: var(--color-text-muted);
+        margin: 0 0 var(--space-1) 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .k-stat-card__value {
+        font-size: var(--fs-2xl);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0;
+        letter-spacing: -0.02em;
       }
 
       @media (max-width: 768px) {
@@ -242,6 +320,29 @@
         .k-slot-item {
           flex-wrap: wrap;
         }
+
+        .k-stats-row {
+          grid-template-columns: 1fr;
+        }
+
+        .k-stat-card__value {
+          font-size: var(--fs-xl);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .k-slot-item {
+        animation: fadeIn 0.3s ease;
       }
     </style>
   </head>
@@ -324,6 +425,39 @@
         </header>
 
         <div class="k-timetable-container">
+          <!-- Stats Row -->
+          <div class="k-stats-row">
+            <div class="k-stat-card">
+              <div class="k-stat-card__icon">
+                <i data-lucide="calendar-x"></i>
+              </div>
+              <div class="k-stat-card__content">
+                <p class="k-stat-card__label">Blocked Slots</p>
+                <p class="k-stat-card__value" id="stat-blocked-count">0</p>
+              </div>
+            </div>
+            
+            <div class="k-stat-card">
+              <div class="k-stat-card__icon">
+                <i data-lucide="clock"></i>
+              </div>
+              <div class="k-stat-card__content">
+                <p class="k-stat-card__label">Total Hours</p>
+                <p class="k-stat-card__value" id="stat-total-hours">0</p>
+              </div>
+            </div>
+            
+            <div class="k-stat-card">
+              <div class="k-stat-card__icon">
+                <i data-lucide="calendar-check"></i>
+              </div>
+              <div class="k-stat-card__content">
+                <p class="k-stat-card__label">Available Slots</p>
+                <p class="k-stat-card__value" id="stat-available">65</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Info Alert -->
           <div class="k-alert-info">
             <i data-lucide="info" class="k-alert-info__icon"></i>
@@ -400,7 +534,7 @@
               </div>
 
               <div class="c-field" style="display: flex; align-items: flex-end">
-                <button type="submit" class="c-btn" style="width: 100%">
+                <button type="submit" class="c-btn" style="width: 100%; height: 48px; font-weight: 600;">
                   <i data-lucide="plus"></i> Add Blocked Slot
                 </button>
               </div>
@@ -435,9 +569,9 @@
           <div class="k-timetable-card">
             <div class="k-timetable-card__header">
               <div>
-                <h2 class="k-timetable-card__title">Active Blocked Time Slots</h2>
+                <h2 class="k-timetable-card__title">Blocked Time Slots</h2>
                 <p class="k-timetable-card__subtitle">
-                  <span id="blocked-count">0</span> time slots currently blocked
+                  Manage all blocked lecture periods
                 </p>
               </div>
             </div>
@@ -540,12 +674,12 @@
               content.className = "k-slot-content";
               content.innerHTML = `
                 <span class="k-slot-label">Blocked</span>
-                <span class="k-slot-detail">${blocked.reason || "Lecture"}</span>
+                <span class="k-slot-detail">${blocked.reason ? blocked.reason.split('-')[0].trim() : "Lecture"}</span>
               `;
               cell.appendChild(content);
             } else {
               cell.className = "k-timetable-cell k-timetable-cell--available";
-              cell.innerHTML = '<span style="color: var(--color-text-muted); font-size: 11px;">Available</span>';
+              cell.innerHTML = '<span style="color: var(--color-text-muted); font-size: 10px; opacity: 0.4;">—</span>';
             }
 
             grid.appendChild(cell);
@@ -564,15 +698,35 @@
 
       function renderBlockedSlots() {
         const container = document.getElementById("blocked-slots-list");
-        const countElement = document.getElementById("blocked-count");
-
-        countElement.textContent = blockedSlots.length;
+        
+        // Update stats
+        const statBlockedCount = document.getElementById("stat-blocked-count");
+        const statTotalHours = document.getElementById("stat-total-hours");
+        const statAvailable = document.getElementById("stat-available");
+        
+        statBlockedCount.textContent = blockedSlots.length;
+        
+        // Calculate total hours
+        let totalHours = 0;
+        blockedSlots.forEach((slot) => {
+          const start = parseInt(slot.startTime.split(":")[0]);
+          const end = parseInt(slot.endTime.split(":")[0]);
+          totalHours += end - start;
+        });
+        statTotalHours.textContent = totalHours;
+        
+        // Calculate available slots (total 65 slots - blocked)
+        const totalSlots = timeSlots.length * daysOfWeek.length;
+        statAvailable.textContent = totalSlots - blockedSlots.length;
 
         if (blockedSlots.length === 0) {
           container.innerHTML = `
-            <div style="text-align: center; padding: var(--space-8); color: var(--color-text-muted);">
-              <i data-lucide="calendar-off" style="width: 48px; height: 48px; margin-bottom: var(--space-3); opacity: 0.5;"></i>
-              <p style="margin: 0;">No blocked time slots configured yet.</p>
+            <div style="text-align: center; padding: var(--space-12) var(--space-8);">
+              <div style="width: 80px; height: 80px; margin: 0 auto var(--space-5); background: linear-gradient(135deg, rgba(84, 44, 245, 0.1) 0%, rgba(84, 44, 245, 0.15) 100%); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="calendar-off" style="width: 40px; height: 40px; color: var(--color-brand);"></i>
+              </div>
+              <h3 style="font-size: var(--fs-lg); font-weight: 600; color: var(--color-text); margin: 0 0 var(--space-2) 0;">No blocked time slots yet</h3>
+              <p style="color: var(--color-text-muted); margin: 0; max-width: 400px; margin: 0 auto;">Add your first blocked time slot using the form above to prevent kuppi sessions from being scheduled during lecture times.</p>
             </div>
           `;
           if (window.lucide) window.lucide.createIcons();
