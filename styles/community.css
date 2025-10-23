@@ -407,3 +407,13 @@
   background: rgba(152, 233, 141, 0.25);
   color: #287b2c;
 }
+
+/* My Posts - post management actions */
+.c-post__manage {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+.c-post--mine .c-post__head {
+  grid-template-columns: 36px 1fr auto;
+}
