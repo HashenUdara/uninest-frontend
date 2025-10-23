@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edit Scheduled Kuppi • UniNest Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      .k-edit-container {
+        max-width: 850px;
+        margin: 0 auto;
+      }
+
+      .k-edit-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-8) var(--space-10);
+        margin-bottom: var(--space-5);
+      }
+
+      .k-edit-card__header {
+        margin-bottom: var(--space-8);
+      }
+
+      .k-edit-card__title {
+        font-size: 1.625rem;
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+        letter-spacing: -0.02em;
+      }
+
+      .k-edit-card__subtitle {
+        font-size: var(--fs-base);
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.7;
+        font-weight: 400;
+      }
+
+      .k-session-info {
+        background: var(--color-surface);
+        border: 2px solid var(--color-brand);
+        border-radius: var(--radius-md);
+        padding: var(--space-5);
+        margin-bottom: var(--space-8);
+      }
+
+      .k-session-info__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        color: var(--color-brand);
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--space-2);
+      }
+
+      .k-session-info__badge i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .k-session-info__title {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+      }
+
+      .k-session-info__meta {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        flex-wrap: wrap;
+      }
+
+      .k-session-info__meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .k-session-info__meta-item i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .k-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-5);
+      }
+
+      .k-form-grid--full {
+        grid-column: 1 / -1;
+      }
+
+      .k-datetime-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-3);
+      }
+
+      .k-capacity-input {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .k-capacity-input__btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-text);
+      }
+
+      .k-capacity-input__btn:hover {
+        background: var(--color-brand);
+        border-color: var(--color-brand);
+        color: white;
+      }
+
+      .k-capacity-input__btn i {
+        width: 16px;
+        height: 16px;
+      }
+
+      .k-capacity-input__value {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--color-text);
+        min-width: 50px;
+        text-align: center;
+      }
+
+      .k-location-type {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+      }
+
+      .k-location-type__option {
+        position: relative;
+      }
+
+      .k-location-type__option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+      }
+
+      .k-location-type__label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        padding: var(--space-4);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+        font-size: var(--fs-sm);
+        font-weight: 500;
+        color: var(--color-text-muted);
+      }
+
+      .k-location-type__option input[type="radio"]:checked + .k-location-type__label {
+        background: var(--color-white);
+        border-color: var(--color-brand);
+        color: var(--color-brand);
+      }
+
+      .k-location-type__label i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .k-conductor-select {
+        display: grid;
+        gap: var(--space-4);
+        margin-top: var(--space-2);
+      }
+
+      .k-conductor-option {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        padding: var(--space-5);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .k-conductor-option:hover {
+        border-color: var(--color-brand);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .k-conductor-option:has(input[type="radio"]:checked) {
+        border-color: var(--color-brand);
+        background: rgba(84, 44, 245, 0.02);
+      }
+
+      .k-conductor-option input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: var(--color-brand);
+        flex-shrink: 0;
+      }
+
+      .k-conductor-option__avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .k-conductor-option__info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .k-conductor-option__name {
+        font-size: var(--fs-base);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .k-conductor-option__stats {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+      }
+
+      .k-conductor-option__stat {
+        display: flex;
+        align-items: center;
+        gap: var(--space-1);
+      }
+
+      .k-conductor-option__stat i {
+        width: 12px;
+        height: 12px;
+      }
+
+      .k-conductor-option__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        background: transparent;
+        color: var(--color-success);
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .k-conductor-option__badge i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .k-alert {
+        display: flex;
+        gap: var(--space-3);
+        padding: var(--space-4);
+        background: rgba(245, 158, 11, 0.05);
+        border: 2px solid #f59e0b;
+        border-radius: var(--radius-md);
+        margin-top: var(--space-6);
+      }
+
+      .k-alert__icon {
+        width: 18px;
+        height: 18px;
+        color: #f59e0b;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .k-alert__content {
+        flex: 1;
+      }
+
+      .k-alert__title {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        margin: 0 0 var(--space-1) 0;
+        color: var(--color-text);
+      }
+
+      .k-alert__text {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .k-form-actions {
+        display: flex;
+        gap: var(--space-3);
+        justify-content: flex-end;
+        padding-top: var(--space-6);
+        margin-top: var(--space-8);
+        border-top: 1px solid var(--color-border);
+      }
+
+      .k-form-actions--between {
+        justify-content: space-between;
+      }
+
+      /* Modal Styles */
+      .c-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-4);
+      }
+
+      .c-modal__backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+      }
+
+      .c-modal__content {
+        position: relative;
+        background: var(--color-white);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        max-height: 90vh;
+        overflow-y: auto;
+        width: 100%;
+        animation: modalSlideIn 0.2s ease;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .c-modal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-6);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .c-modal__title {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0;
+      }
+
+      .c-modal__close {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-md);
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--color-text-muted);
+        transition: all 0.2s ease;
+      }
+
+      .c-modal__close:hover {
+        background: var(--color-surface);
+        color: var(--color-text);
+      }
+
+      .c-modal__close i {
+        width: 20px;
+        height: 20px;
+      }
+
+      .c-modal__body {
+        padding: var(--space-6);
+      }
+
+      .c-modal__footer {
+        padding: var(--space-6);
+        border-top: 1px solid var(--color-border);
+      }
+
+      @media (max-width: 768px) {
+        .k-edit-card {
+          padding: var(--space-6);
+        }
+
+        .k-form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .k-datetime-group {
+          grid-template-columns: 1fr;
+        }
+
+        .k-location-type {
+          grid-template-columns: 1fr;
+        }
+
+        .k-form-actions {
+          flex-direction: column-reverse;
+        }
+
+        .k-conductor-option {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">
+        <i data-lucide="moon"></i>
+      </span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Admin</span>
+            <span class="c-user-mini__role">Administrator</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="home"></i></span>
+            Dashboard
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="book"></i></span>
+            Subjects
+          </a>
+          <a href="kuppi-sessions.html" class="c-nav__item is-active">
+            <span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>
+            Kuppi Sessions
+          </a>
+          <a href="resources.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="file-text"></i></span>
+            Resources
+          </a>
+          <a href="users.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="users"></i></span>
+            Users
+          </a>
+          <a href="community.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="message-square"></i></span>
+            Community
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="settings"></i></span>
+            Settings
+          </a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button">
+          <span class="c-nav__icon"><i data-lucide="log-out"></i></span>
+          Logout
+        </a>
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="kuppi-sessions.html">Kuppi Sessions</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="kuppi-scheduled.html">Scheduled</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Edit Session</span>
+          </nav>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);">
+            <div>
+              <h1 class="c-page__title">Edit Scheduled Kuppi</h1>
+              <p class="c-page__subtitle u-text-muted">
+                Update session details and manage participants.
+              </p>
+            </div>
+            <a href="kuppi-scheduled.html" class="c-btn c-btn--ghost">
+              <i data-lucide="arrow-left"></i> Back to Scheduled
+            </a>
+          </div>
+        </header>
+
+        <div class="k-edit-container">
+          <div class="k-edit-card">
+            <div class="k-edit-card__header">
+              <h2 class="k-edit-card__title">Session Information</h2>
+              <p class="k-edit-card__subtitle">
+                Update the details for this scheduled kuppi session.
+              </p>
+            </div>
+
+            <!-- Current Session Info -->
+            <div class="k-session-info">
+              <div class="k-session-info__badge">
+                <i data-lucide="book"></i>
+                CS204 - Data Structures
+              </div>
+              <h3 class="k-session-info__title">
+                Binary Search Trees Implementation
+              </h3>
+              <div class="k-session-info__meta">
+                <div class="k-session-info__meta-item">
+                  <i data-lucide="calendar"></i>
+                  <span>March 25, 2024 • 2:00 PM - 4:00 PM</span>
+                </div>
+                <div class="k-session-info__meta-item">
+                  <i data-lucide="users"></i>
+                  <span>12/25 registered</span>
+                </div>
+                <div class="k-session-info__meta-item">
+                  <i data-lucide="map-pin"></i>
+                  <span>Main Library, Room 204</span>
+                </div>
+              </div>
+            </div>
+
+            <form class="k-form-grid">
+              <!-- Date -->
+              <div class="c-field">
+                <label for="session-date" class="c-label">
+                  Session Date <span class="u-text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  id="session-date"
+                  class="c-input c-input--soft c-input--rect"
+                  value="2024-03-25"
+                  required
+                />
+              </div>
+
+              <!-- Time Range -->
+              <div class="c-field">
+                <label class="c-label">
+                  Time <span class="u-text-danger">*</span>
+                </label>
+                <div class="k-datetime-group">
+                  <input
+                    type="time"
+                    id="session-start-time"
+                    class="c-input c-input--soft c-input--rect"
+                    value="14:00"
+                    required
+                  />
+                  <input
+                    type="time"
+                    id="session-end-time"
+                    class="c-input c-input--soft c-input--rect"
+                    value="16:00"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Duration -->
+              <div class="c-field">
+                <label for="duration" class="c-label">Duration</label>
+                <input
+                  type="text"
+                  id="duration"
+                  class="c-input c-input--soft c-input--rect"
+                  value="2 hours"
+                  readonly
+                  style="background: var(--color-surface)"
+                />
+                <small class="u-text-muted" style="display: block; margin-top: var(--space-2);">
+                  Automatically calculated from start and end time
+                </small>
+              </div>
+
+              <!-- Capacity -->
+              <div class="c-field">
+                <label class="c-label">
+                  Maximum Attendees <span class="u-text-danger">*</span>
+                </label>
+                <div class="k-capacity-input">
+                  <button type="button" class="k-capacity-input__btn" onclick="decrementCapacity()">
+                    <i data-lucide="minus"></i>
+                  </button>
+                  <div class="k-capacity-input__value" id="capacity-value">25</div>
+                  <button type="button" class="k-capacity-input__btn" onclick="incrementCapacity()">
+                    <i data-lucide="plus"></i>
+                  </button>
+                </div>
+                <input type="hidden" id="max-attendees" value="25" />
+                <small class="u-text-muted" style="display: block; margin-top: var(--space-2);">
+                  Currently 12 students registered
+                </small>
+              </div>
+
+              <!-- Location Type -->
+              <div class="c-field k-form-grid--full">
+                <label class="c-label">
+                  Location Type <span class="u-text-danger">*</span>
+                </label>
+                <div class="k-location-type">
+                  <div class="k-location-type__option">
+                    <input type="radio" name="location-type" id="location-physical" value="physical" checked />
+                    <label for="location-physical" class="k-location-type__label">
+                      <i data-lucide="map-pin"></i>
+                      Physical Location
+                    </label>
+                  </div>
+                  <div class="k-location-type__option">
+                    <input type="radio" name="location-type" id="location-online" value="online" />
+                    <label for="location-online" class="k-location-type__label">
+                      <i data-lucide="video"></i>
+                      Online Session
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Location Details -->
+              <div class="c-field k-form-grid--full" id="physical-location">
+                <label for="location" class="c-label">
+                  Location <span class="u-text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  class="c-input c-input--soft c-input--rect"
+                  value="Main Library, Room 204"
+                  placeholder="e.g., Main Library, Room 204"
+                  required
+                />
+              </div>
+
+              <div class="c-field k-form-grid--full" id="online-link" style="display: none;">
+                <label for="meeting-link" class="c-label">
+                  Meeting Link <span class="u-text-danger">*</span>
+                </label>
+                <input
+                  type="url"
+                  id="meeting-link"
+                  class="c-input c-input--soft c-input--rect"
+                  placeholder="https://zoom.us/j/..."
+                />
+              </div>
+
+              <!-- Additional Notes -->
+              <div class="c-field k-form-grid--full">
+                <label for="schedule-notes" class="c-label">Additional Notes</label>
+                <textarea
+                  id="schedule-notes"
+                  class="c-input c-input--soft c-input--rect"
+                  rows="3"
+                  placeholder="Any special instructions or requirements for attendees..."
+                >Please bring your laptops and the course textbook.</textarea>
+              </div>
+            </form>
+          </div>
+
+          <!-- Change Conductor Section -->
+          <div class="k-edit-card">
+            <div class="k-edit-card__header">
+              <h2 class="k-edit-card__title">Session Conductor</h2>
+              <p class="k-edit-card__subtitle">
+                Change the conductor if needed. Current participants will be notified.
+              </p>
+            </div>
+
+            <!-- Current Conductor -->
+            <div style="margin-bottom: var(--space-6);">
+              <label class="c-label" style="margin-bottom: var(--space-3);">Current Conductor</label>
+              <div class="k-conductor-option" style="cursor: default; border-color: var(--color-success); background: rgba(47, 157, 91, 0.02);">
+                <img
+                  src="https://i.pravatar.cc/150?img=12"
+                  alt="Isuru Wickramasinghe"
+                  class="k-conductor-option__avatar"
+                />
+                <div class="k-conductor-option__info">
+                  <h3 class="k-conductor-option__name">Isuru Wickramasinghe</h3>
+                  <div class="k-conductor-option__stats">
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="graduation-cap"></i>
+                      32 sessions
+                    </span>
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="star"></i>
+                      4.9 rating
+                    </span>
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="users"></i>
+                      450+ students
+                    </span>
+                  </div>
+                </div>
+                <div class="k-conductor-option__badge">
+                  <i data-lucide="check-circle"></i>
+                  Assigned
+                </div>
+              </div>
+            </div>
+
+            <!-- Search & Alternative Conductors -->
+            <div class="c-field" style="margin-bottom: var(--space-5);">
+              <label for="search-conductor" class="c-label">Change Conductor (Optional)</label>
+              <input
+                type="text"
+                id="search-conductor"
+                class="c-input c-input--soft c-input--rect"
+                placeholder="Search for alternative conductors..."
+              />
+            </div>
+
+            <div class="k-conductor-select">
+              <!-- Alternative Conductor 1 -->
+              <label class="k-conductor-option">
+                <input type="radio" name="conductor" value="conductor2" />
+                <img
+                  src="https://i.pravatar.cc/150?img=15"
+                  alt="Sanduni Rajapaksa"
+                  class="k-conductor-option__avatar"
+                />
+                <div class="k-conductor-option__info">
+                  <h3 class="k-conductor-option__name">Sanduni Rajapaksa</h3>
+                  <div class="k-conductor-option__stats">
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="graduation-cap"></i>
+                      28 sessions
+                    </span>
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="star"></i>
+                      4.8 rating
+                    </span>
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="users"></i>
+                      380+ students
+                    </span>
+                  </div>
+                </div>
+                <div class="k-conductor-option__badge">
+                  <i data-lucide="check-circle"></i>
+                  Verified
+                </div>
+              </label>
+
+              <!-- Alternative Conductor 2 -->
+              <label class="k-conductor-option">
+                <input type="radio" name="conductor" value="conductor3" />
+                <img
+                  src="https://i.pravatar.cc/150?img=33"
+                  alt="Lakshitha Dissanayake"
+                  class="k-conductor-option__avatar"
+                />
+                <div class="k-conductor-option__info">
+                  <h3 class="k-conductor-option__name">Lakshitha Dissanayake</h3>
+                  <div class="k-conductor-option__stats">
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="graduation-cap"></i>
+                      25 sessions
+                    </span>
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="star"></i>
+                      4.7 rating
+                    </span>
+                    <span class="k-conductor-option__stat">
+                      <i data-lucide="users"></i>
+                      320+ students
+                    </span>
+                  </div>
+                </div>
+                <div class="k-conductor-option__badge">
+                  <i data-lucide="check-circle"></i>
+                  Verified
+                </div>
+              </label>
+            </div>
+
+            <div class="k-alert">
+              <i data-lucide="info" class="k-alert__icon"></i>
+              <div class="k-alert__content">
+                <h4 class="k-alert__title">Important Notice</h4>
+                <p class="k-alert__text">
+                  Changing the conductor will notify all registered participants and the new conductor via email.
+                </p>
+              </div>
+            </div>
+
+            <div class="k-form-actions k-form-actions--between">
+              <button type="button" class="c-btn c-btn--ghost" onclick="confirmCancel()">
+                Cancel
+              </button>
+              <div style="display: flex; gap: var(--space-3);">
+                <button type="button" class="c-btn c-btn--danger" onclick="openDeleteModal()">
+                  <i data-lucide="trash-2"></i> Delete Session
+                </button>
+                <button type="button" class="c-btn" onclick="saveChanges()">
+                  <i data-lucide="check"></i> Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="c-modal" id="delete-modal" style="display: none;">
+      <div class="c-modal__backdrop" onclick="closeDeleteModal()"></div>
+      <div class="c-modal__content" style="max-width: 500px;">
+        <div class="c-modal__header">
+          <h3 class="c-modal__title">Delete Scheduled Session?</h3>
+          <button type="button" class="c-modal__close" onclick="closeDeleteModal()">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="c-modal__body">
+          <div style="text-align: center; padding: var(--space-4) 0;">
+            <div style="width: 64px; height: 64px; margin: 0 auto var(--space-5); color: var(--color-danger);">
+              <i data-lucide="alert-triangle" style="width: 64px; height: 64px;"></i>
+            </div>
+            <h4 style="font-size: var(--fs-lg); font-weight: 600; margin: 0 0 var(--space-3) 0;">
+              Are you sure you want to delete this session?
+            </h4>
+            <p style="color: var(--color-text-muted); margin: 0 0 var(--space-2) 0;">
+              This will permanently delete the scheduled kuppi session:
+            </p>
+            <p style="font-weight: 600; margin: 0 0 var(--space-6) 0;">
+              "Binary Search Trees Implementation"
+            </p>
+            <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--color-danger); padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-6); text-align: left;">
+              <p style="font-size: var(--fs-sm); color: var(--color-text); margin: 0 0 var(--space-2) 0; font-weight: 600;">
+                This action will:
+              </p>
+              <ul style="font-size: var(--fs-sm); color: var(--color-text-muted); margin: 0; padding-left: var(--space-5); list-style: disc;">
+                <li>Cancel the session for all 12 registered participants</li>
+                <li>Send cancellation emails to all attendees</li>
+                <li>Notify the conductor about the cancellation</li>
+                <li>This action cannot be undone</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="c-modal__footer" style="display: flex; gap: var(--space-3); justify-content: flex-end;">
+          <button type="button" class="c-btn c-btn--ghost" onclick="closeDeleteModal()">
+            Cancel
+          </button>
+          <button type="button" class="c-btn c-btn--danger" onclick="deleteSession()">
+            <i data-lucide="trash-2"></i> Yes, Delete Session
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        // Location type toggle
+        const locationRadios = document.querySelectorAll('input[name="location-type"]');
+        const physicalLocation = document.getElementById("physical-location");
+        const onlineLink = document.getElementById("online-link");
+
+        locationRadios.forEach((radio) => {
+          radio.addEventListener("change", function () {
+            if (this.value === "physical") {
+              physicalLocation.style.display = "block";
+              onlineLink.style.display = "none";
+            } else {
+              physicalLocation.style.display = "none";
+              onlineLink.style.display = "block";
+            }
+          });
+        });
+      });
+
+      // Capacity controls
+      let capacity = 25;
+
+      function incrementCapacity() {
+        if (capacity < 100) {
+          capacity++;
+          updateCapacity();
+        }
+      }
+
+      function decrementCapacity() {
+        if (capacity > 12) { // Can't go below current registrations
+          capacity--;
+          updateCapacity();
+        }
+      }
+
+      function updateCapacity() {
+        document.getElementById("capacity-value").textContent = capacity;
+        document.getElementById("max-attendees").value = capacity;
+      }
+
+      function confirmCancel() {
+        if (confirm("Are you sure you want to cancel? Any unsaved changes will be lost.")) {
+          window.location.href = "kuppi-scheduled.html";
+        }
+      }
+
+      function saveChanges() {
+        showToast("Session updated successfully!");
+        setTimeout(() => {
+          window.location.href = "kuppi-scheduled.html";
+        }, 1500);
+      }
+
+      function openDeleteModal() {
+        const modal = document.getElementById("delete-modal");
+        modal.style.display = "flex";
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function closeDeleteModal() {
+        const modal = document.getElementById("delete-modal");
+        modal.style.display = "none";
+      }
+
+      function deleteSession() {
+        closeDeleteModal();
+        showToast("Session deleted successfully. All participants have been notified.");
+        setTimeout(() => {
+          window.location.href = "kuppi-scheduled.html";
+        }, 2000);
+      }
+
+      function showToast(msg) {
+        const toasts = document.querySelector(".c-toasts");
+        if (!toasts) return;
+        const item = document.createElement("div");
+        item.className = "c-toast";
+        item.textContent = msg;
+        toasts.appendChild(item);
+        setTimeout(() => {
+          item.remove();
+        }, 3000);
+      }
+
+      // Close modal on escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeDeleteModal();
+        }
+      });
+    </script>
+  </body>
+</html>

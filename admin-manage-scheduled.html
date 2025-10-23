@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Scheduled Sessions • UniNest Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      .k-manage-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .k-filters {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        margin-bottom: var(--space-6);
+        display: flex;
+        gap: var(--space-4);
+        flex-wrap: wrap;
+        align-items: flex-end;
+      }
+
+      .k-filters__field {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .k-session-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        margin-bottom: var(--space-4);
+        transition: all 0.2s ease;
+      }
+
+      .k-session-card:hover {
+        border-color: var(--color-brand);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+
+      .k-session-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
+      }
+
+      .k-session-card__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-3);
+        background: rgba(84, 44, 245, 0.1);
+        color: var(--color-brand);
+        border-radius: var(--radius-sm);
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: var(--space-2);
+      }
+
+      .k-session-card__badge i {
+        width: 12px;
+        height: 12px;
+      }
+
+      .k-session-card__title {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0;
+      }
+
+      .k-session-card__actions {
+        display: flex;
+        gap: var(--space-2);
+        flex-shrink: 0;
+      }
+
+      .k-session-card__meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .k-session-card__meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .k-session-card__meta-item i {
+        width: 16px;
+        height: 16px;
+        color: var(--color-brand);
+      }
+
+      .k-session-card__meta-item strong {
+        color: var(--color-text);
+      }
+
+      .k-session-card__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--space-4);
+      }
+
+      .k-conductor-info {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .k-conductor-info__avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--color-border);
+      }
+
+      .k-conductor-info__name {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-conductor-info__role {
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+
+      .k-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--radius-sm);
+        font-size: var(--fs-xs);
+        font-weight: 600;
+      }
+
+      .k-status-badge--upcoming {
+        background: rgba(47, 157, 91, 0.1);
+        color: var(--color-success);
+      }
+
+      .k-status-badge--full {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+      }
+
+      .k-status-badge--available {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+      }
+
+      .k-status-badge i {
+        width: 12px;
+        height: 12px;
+      }
+
+      .k-empty-state {
+        text-align: center;
+        padding: var(--space-10) var(--space-4);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+      }
+
+      .k-empty-state__icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto var(--space-5);
+        color: var(--color-text-muted);
+      }
+
+      .k-empty-state__title {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        margin: 0 0 var(--space-2) 0;
+        color: var(--color-text);
+      }
+
+      .k-empty-state__text {
+        font-size: var(--fs-base);
+        color: var(--color-text-muted);
+        margin: 0 0 var(--space-6) 0;
+      }
+
+      .k-btn-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--color-border);
+        background: var(--color-white);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-text);
+      }
+
+      .k-btn-icon:hover {
+        background: var(--color-surface);
+        border-color: var(--color-brand);
+        color: var(--color-brand);
+      }
+
+      .k-btn-icon--danger:hover {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: var(--color-danger);
+        color: var(--color-danger);
+      }
+
+      .k-btn-icon i {
+        width: 18px;
+        height: 18px;
+      }
+
+      /* Modal Styles */
+      .c-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-4);
+      }
+
+      .c-modal__backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+      }
+
+      .c-modal__content {
+        position: relative;
+        background: var(--color-white);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        max-height: 90vh;
+        overflow-y: auto;
+        width: 100%;
+        animation: modalSlideIn 0.2s ease;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .c-modal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-6);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .c-modal__title {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0;
+      }
+
+      .c-modal__close {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-md);
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--color-text-muted);
+        transition: all 0.2s ease;
+      }
+
+      .c-modal__close:hover {
+        background: var(--color-surface);
+        color: var(--color-text);
+      }
+
+      .c-modal__close i {
+        width: 20px;
+        height: 20px;
+      }
+
+      .c-modal__body {
+        padding: var(--space-6);
+      }
+
+      .c-modal__footer {
+        padding: var(--space-6);
+        border-top: 1px solid var(--color-border);
+      }
+
+      @media (max-width: 768px) {
+        .k-filters {
+          flex-direction: column;
+        }
+
+        .k-filters__field {
+          width: 100%;
+        }
+
+        .k-session-card__header {
+          flex-direction: column;
+        }
+
+        .k-session-card__actions {
+          width: 100%;
+          justify-content: flex-end;
+        }
+
+        .k-session-card__meta {
+          grid-template-columns: 1fr;
+        }
+
+        .k-session-card__footer {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">
+        <i data-lucide="moon"></i>
+      </span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Admin</span>
+            <span class="c-user-mini__role">Administrator</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="home"></i></span>
+            Dashboard
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="book"></i></span>
+            Subjects
+          </a>
+          <a href="kuppi-sessions.html" class="c-nav__item is-active">
+            <span class="c-nav__icon"><i data-lucide="graduation-cap"></i></span>
+            Kuppi Sessions
+          </a>
+          <a href="resources.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="file-text"></i></span>
+            Resources
+          </a>
+          <a href="users.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="users"></i></span>
+            Users
+          </a>
+          <a href="community.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="message-square"></i></span>
+            Community
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="settings"></i></span>
+            Settings
+          </a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button">
+          <span class="c-nav__icon"><i data-lucide="log-out"></i></span>
+          Logout
+        </a>
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <a href="kuppi-sessions.html">Kuppi Sessions</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Manage Scheduled</span>
+          </nav>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); flex-wrap: wrap;">
+            <div>
+              <h1 class="c-page__title">Manage Scheduled Sessions</h1>
+              <p class="c-page__subtitle u-text-muted">
+                Edit or cancel scheduled kuppi sessions.
+              </p>
+            </div>
+            <a href="admin-schedule-kuppi.html" class="c-btn">
+              <i data-lucide="plus"></i> Schedule New Session
+            </a>
+          </div>
+        </header>
+
+        <div class="k-manage-container">
+          <!-- Filters -->
+          <div class="k-filters">
+            <div class="k-filters__field">
+              <label for="search" class="c-label">Search Sessions</label>
+              <input
+                type="text"
+                id="search"
+                class="c-input c-input--soft c-input--rect"
+                placeholder="Search by topic, subject, or conductor..."
+              />
+            </div>
+            <div class="k-filters__field" style="max-width: 200px;">
+              <label for="filter-subject" class="c-label">Subject</label>
+              <select id="filter-subject" class="c-input c-input--soft c-input--rect">
+                <option value="">All Subjects</option>
+                <option value="cs204">CS204 - Data Structures</option>
+                <option value="cs305">CS305 - Database Systems</option>
+                <option value="ma101">MA101 - Calculus I</option>
+              </select>
+            </div>
+            <div class="k-filters__field" style="max-width: 200px;">
+              <label for="filter-status" class="c-label">Status</label>
+              <select id="filter-status" class="c-input c-input--soft c-input--rect">
+                <option value="">All Status</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="full">Full</option>
+                <option value="available">Available</option>
+              </select>
+            </div>
+            <div style="flex-shrink: 0;">
+              <button type="button" class="c-btn c-btn--ghost" onclick="clearFilters()">
+                Clear Filters
+              </button>
+            </div>
+          </div>
+
+          <!-- Session List -->
+          <div id="session-list">
+            <!-- Session Card 1 -->
+            <div class="k-session-card">
+              <div class="k-session-card__header">
+                <div style="flex: 1;">
+                  <div class="k-session-card__badge">
+                    <i data-lucide="book"></i>
+                    CS204 - Data Structures
+                  </div>
+                  <h3 class="k-session-card__title">Binary Search Trees Implementation</h3>
+                </div>
+                <div class="k-session-card__actions">
+                  <button
+                    type="button"
+                    class="k-btn-icon"
+                    onclick="window.location.href='admin-edit-scheduled-kuppi.html'"
+                    title="Edit Session"
+                  >
+                    <i data-lucide="edit-2"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="k-btn-icon k-btn-icon--danger"
+                    onclick="openDeleteModal('Binary Search Trees Implementation', 'session-1', 12)"
+                    title="Delete Session"
+                  >
+                    <i data-lucide="trash-2"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="k-session-card__meta">
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="calendar"></i>
+                  <span><strong>March 25, 2024</strong></span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="clock"></i>
+                  <span>2:00 PM - 4:00 PM</span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="map-pin"></i>
+                  <span>Main Library, Room 204</span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="users"></i>
+                  <span><strong>12/25</strong> registered</span>
+                </div>
+              </div>
+
+              <div class="k-session-card__footer">
+                <div class="k-conductor-info">
+                  <img
+                    src="https://i.pravatar.cc/150?img=12"
+                    alt="Isuru Wickramasinghe"
+                    class="k-conductor-info__avatar"
+                  />
+                  <div>
+                    <p class="k-conductor-info__name">Isuru Wickramasinghe</p>
+                    <p class="k-conductor-info__role">Conductor</p>
+                  </div>
+                </div>
+                <div class="k-status-badge k-status-badge--available">
+                  <i data-lucide="check-circle"></i>
+                  Available Seats
+                </div>
+              </div>
+            </div>
+
+            <!-- Session Card 2 -->
+            <div class="k-session-card">
+              <div class="k-session-card__header">
+                <div style="flex: 1;">
+                  <div class="k-session-card__badge">
+                    <i data-lucide="book"></i>
+                    CS305 - Database Systems
+                  </div>
+                  <h3 class="k-session-card__title">SQL Joins and Query Optimization</h3>
+                </div>
+                <div class="k-session-card__actions">
+                  <button
+                    type="button"
+                    class="k-btn-icon"
+                    onclick="window.location.href='admin-edit-scheduled-kuppi.html'"
+                    title="Edit Session"
+                  >
+                    <i data-lucide="edit-2"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="k-btn-icon k-btn-icon--danger"
+                    onclick="openDeleteModal('SQL Joins and Query Optimization', 'session-2', 30)"
+                    title="Delete Session"
+                  >
+                    <i data-lucide="trash-2"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="k-session-card__meta">
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="calendar"></i>
+                  <span><strong>March 27, 2024</strong></span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="clock"></i>
+                  <span>10:00 AM - 12:00 PM</span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="video"></i>
+                  <span>Online Session</span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="users"></i>
+                  <span><strong>30/30</strong> registered</span>
+                </div>
+              </div>
+
+              <div class="k-session-card__footer">
+                <div class="k-conductor-info">
+                  <img
+                    src="https://i.pravatar.cc/150?img=15"
+                    alt="Sanduni Rajapaksa"
+                    class="k-conductor-info__avatar"
+                  />
+                  <div>
+                    <p class="k-conductor-info__name">Sanduni Rajapaksa</p>
+                    <p class="k-conductor-info__role">Conductor</p>
+                  </div>
+                </div>
+                <div class="k-status-badge k-status-badge--full">
+                  <i data-lucide="users"></i>
+                  Session Full
+                </div>
+              </div>
+            </div>
+
+            <!-- Session Card 3 -->
+            <div class="k-session-card">
+              <div class="k-session-card__header">
+                <div style="flex: 1;">
+                  <div class="k-session-card__badge">
+                    <i data-lucide="book"></i>
+                    MA101 - Calculus I
+                  </div>
+                  <h3 class="k-session-card__title">Integration Techniques and Applications</h3>
+                </div>
+                <div class="k-session-card__actions">
+                  <button
+                    type="button"
+                    class="k-btn-icon"
+                    onclick="window.location.href='admin-edit-scheduled-kuppi.html'"
+                    title="Edit Session"
+                  >
+                    <i data-lucide="edit-2"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="k-btn-icon k-btn-icon--danger"
+                    onclick="openDeleteModal('Integration Techniques and Applications', 'session-3', 8)"
+                    title="Delete Session"
+                  >
+                    <i data-lucide="trash-2"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="k-session-card__meta">
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="calendar"></i>
+                  <span><strong>March 28, 2024</strong></span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="clock"></i>
+                  <span>3:00 PM - 5:00 PM</span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="map-pin"></i>
+                  <span>Science Building, Lab 301</span>
+                </div>
+                <div class="k-session-card__meta-item">
+                  <i data-lucide="users"></i>
+                  <span><strong>8/20</strong> registered</span>
+                </div>
+              </div>
+
+              <div class="k-session-card__footer">
+                <div class="k-conductor-info">
+                  <img
+                    src="https://i.pravatar.cc/150?img=33"
+                    alt="Lakshitha Dissanayake"
+                    class="k-conductor-info__avatar"
+                  />
+                  <div>
+                    <p class="k-conductor-info__name">Lakshitha Dissanayake</p>
+                    <p class="k-conductor-info__role">Conductor</p>
+                  </div>
+                </div>
+                <div class="k-status-badge k-status-badge--upcoming">
+                  <i data-lucide="calendar-check"></i>
+                  Upcoming
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="c-modal" id="delete-modal" style="display: none;">
+      <div class="c-modal__backdrop" onclick="closeDeleteModal()"></div>
+      <div class="c-modal__content" style="max-width: 500px;">
+        <div class="c-modal__header">
+          <h3 class="c-modal__title">Delete Scheduled Session?</h3>
+          <button type="button" class="c-modal__close" onclick="closeDeleteModal()">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div class="c-modal__body">
+          <div style="text-align: center; padding: var(--space-4) 0;">
+            <div style="width: 64px; height: 64px; margin: 0 auto var(--space-5); color: var(--color-danger);">
+              <i data-lucide="alert-triangle" style="width: 64px; height: 64px;"></i>
+            </div>
+            <h4 style="font-size: var(--fs-lg); font-weight: 600; margin: 0 0 var(--space-3) 0;">
+              Are you sure you want to delete this session?
+            </h4>
+            <p style="color: var(--color-text-muted); margin: 0 0 var(--space-2) 0;">
+              This will permanently delete the scheduled kuppi session:
+            </p>
+            <p style="font-weight: 600; margin: 0 0 var(--space-6) 0;" id="session-title-modal">
+              
+            </p>
+            <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--color-danger); padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-6); text-align: left;">
+              <p style="font-size: var(--fs-sm); color: var(--color-text); margin: 0 0 var(--space-2) 0; font-weight: 600;">
+                This action will:
+              </p>
+              <ul style="font-size: var(--fs-sm); color: var(--color-text-muted); margin: 0; padding-left: var(--space-5); list-style: disc;">
+                <li>Cancel the session for all <strong id="participant-count"></strong> registered participants</li>
+                <li>Send cancellation emails to all attendees</li>
+                <li>Notify the conductor about the cancellation</li>
+                <li>This action cannot be undone</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="c-modal__footer" style="display: flex; gap: var(--space-3); justify-content: flex-end;">
+          <button type="button" class="c-btn c-btn--ghost" onclick="closeDeleteModal()">
+            Cancel
+          </button>
+          <button type="button" class="c-btn c-btn--danger" onclick="deleteSession()">
+            <i data-lucide="trash-2"></i> Yes, Delete Session
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+      });
+
+      let currentSessionId = null;
+
+      function openDeleteModal(sessionTitle, sessionId, participantCount) {
+        currentSessionId = sessionId;
+        document.getElementById("session-title-modal").textContent = `"${sessionTitle}"`;
+        document.getElementById("participant-count").textContent = participantCount;
+        
+        const modal = document.getElementById("delete-modal");
+        modal.style.display = "flex";
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function closeDeleteModal() {
+        const modal = document.getElementById("delete-modal");
+        modal.style.display = "none";
+        currentSessionId = null;
+      }
+
+      function deleteSession() {
+        closeDeleteModal();
+        showToast("Session deleted successfully. All participants have been notified.");
+        
+        // Remove the session card from the list (in real app, this would be done via API)
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+
+      function clearFilters() {
+        document.getElementById("search").value = "";
+        document.getElementById("filter-subject").value = "";
+        document.getElementById("filter-status").value = "";
+      }
+
+      function showToast(msg) {
+        const toasts = document.querySelector(".c-toasts");
+        if (!toasts) return;
+        const item = document.createElement("div");
+        item.className = "c-toast";
+        item.textContent = msg;
+        toasts.appendChild(item);
+        setTimeout(() => {
+          item.remove();
+        }, 3000);
+      }
+
+      // Close modal on escape key
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeDeleteModal();
+        }
+      });
+    </script>
+  </body>
+</html>
