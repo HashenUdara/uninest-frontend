@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile Settings • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/community.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      .k-settings-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: var(--space-6);
+        align-items: start;
+      }
+
+      .k-settings-nav {
+        position: sticky;
+        top: var(--space-6);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-5);
+      }
+
+      .k-settings-nav__title {
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 var(--space-3) 0;
+        padding: 0 var(--space-3);
+      }
+
+      .k-settings-nav__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+      }
+
+      .k-settings-nav__item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3) var(--space-3);
+        border-radius: var(--radius-md);
+        color: var(--color-text-muted);
+        font-size: var(--fs-sm);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+      }
+
+      .k-settings-nav__item:hover {
+        background: var(--color-surface);
+        color: var(--color-text);
+      }
+
+      .k-settings-nav__item.is-active {
+        background: rgba(84, 44, 245, 0.08);
+        color: var(--color-brand);
+        font-weight: 600;
+      }
+
+      .k-settings-nav__item i {
+        width: 18px;
+        height: 18px;
+      }
+
+      .k-settings-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-6);
+      }
+
+      .k-settings-section {
+        display: none;
+      }
+
+      .k-settings-section.is-active {
+        display: block;
+      }
+
+      .k-settings-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+      }
+
+      .k-settings-card__header {
+        margin-bottom: var(--space-5);
+      }
+
+      .k-settings-card__title {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-settings-card__subtitle {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+
+      .k-profile-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-5);
+        padding: var(--space-6);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-6);
+      }
+
+      .k-profile-avatar {
+        position: relative;
+      }
+
+      .k-profile-avatar__image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--color-border);
+      }
+
+      .k-profile-avatar__edit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--color-brand);
+        color: white;
+        border: 2px solid var(--color-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .k-profile-avatar__edit:hover {
+        background: var(--color-brand-dark);
+      }
+
+      .k-profile-avatar__edit i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .k-profile-info h2 {
+        font-size: var(--fs-xl);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-profile-meta {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .k-profile-meta__item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .k-profile-meta__item i {
+        width: 14px;
+        height: 14px;
+      }
+
+      .k-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-5);
+      }
+
+      .k-form-grid--full {
+        grid-column: 1 / -1;
+      }
+
+      .k-toggle-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-4);
+        background: var(--color-surface);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-3);
+        transition: background 0.2s ease;
+      }
+
+      .k-toggle-item:hover {
+        background: var(--color-border);
+      }
+
+      .k-toggle-item__content {
+        flex: 1;
+      }
+
+      .k-toggle-item__title {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .k-toggle-item__desc {
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .k-toggle-switch {
+        position: relative;
+        width: 48px;
+        height: 28px;
+        flex-shrink: 0;
+      }
+
+      .k-toggle-switch input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .k-toggle-switch__slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--color-border);
+        transition: 0.3s;
+        border-radius: 34px;
+      }
+
+      .k-toggle-switch__slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+        background: white;
+        transition: 0.3s;
+        border-radius: 50%;
+      }
+
+      .k-toggle-switch input:checked + .k-toggle-switch__slider {
+        background: var(--color-brand);
+      }
+
+      .k-toggle-switch input:checked + .k-toggle-switch__slider:before {
+        transform: translateX(20px);
+      }
+
+      .k-form-actions {
+        display: flex;
+        gap: var(--space-3);
+        justify-content: flex-end;
+        margin-top: var(--space-5);
+      }
+
+      @media (max-width: 768px) {
+        .k-settings-container {
+          grid-template-columns: 1fr;
+        }
+
+        .k-settings-nav {
+          position: static;
+        }
+
+        .k-settings-nav__list {
+          flex-direction: row;
+          overflow-x: auto;
+          gap: var(--space-2);
+        }
+
+        .k-settings-nav__item {
+          white-space: nowrap;
+        }
+
+        .k-form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .k-profile-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .k-profile-meta {
+          flex-direction: column;
+          gap: var(--space-2);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">
+        <i data-lucide="moon"></i>
+      </span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Kavindu Perera</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="home"></i></span>
+            Dashboard
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="book"></i></span>
+            Subjects
+          </a>
+          <a href="kuppi-sessions.html" class="c-nav__item">
+            <span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i
+            ></span>
+            Kuppi Sessions
+          </a>
+          <a href="resources.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="file-text"></i></span>
+            Resources
+          </a>
+          <a href="community.html" class="c-nav__item">
+            <span class="c-nav__icon"
+              ><i data-lucide="message-square"></i
+            ></span>
+            Community
+          </a>
+          <a href="profile-settings.html" class="c-nav__item is-active">
+            <span class="c-nav__icon"><i data-lucide="settings"></i></span>
+            Settings
+          </a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button">
+          <span class="c-nav__icon"><i data-lucide="log-out"></i></span>
+          Logout
+        </a>
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Profile Settings</span>
+          </nav>
+          <div>
+            <h1 class="c-page__title">Settings</h1>
+            <p class="c-page__subtitle u-text-muted">
+              Manage your account settings and preferences.
+            </p>
+          </div>
+        </header>
+
+        <div class="k-settings-container">
+          <!-- Settings Navigation -->
+          <nav class="k-settings-nav">
+            <h3 class="k-settings-nav__title">Settings</h3>
+            <ul class="k-settings-nav__list">
+              <li>
+                <a
+                  href="#"
+                  class="k-settings-nav__item is-active"
+                  data-section="profile"
+                >
+                  <i data-lucide="user"></i>
+                  Profile
+                </a>
+              </li>
+              <li>
+                <a href="#" class="k-settings-nav__item" data-section="account">
+                  <i data-lucide="shield"></i>
+                  Account
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="k-settings-nav__item"
+                  data-section="notifications"
+                >
+                  <i data-lucide="bell"></i>
+                  Notifications
+                </a>
+              </li>
+              <li>
+                <a href="#" class="k-settings-nav__item" data-section="privacy">
+                  <i data-lucide="lock"></i>
+                  Privacy
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="k-settings-nav__item"
+                  data-section="preferences"
+                >
+                  <i data-lucide="sliders"></i>
+                  Preferences
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Settings Content -->
+          <div class="k-settings-content">
+            <!-- Profile Section -->
+            <section class="k-settings-section is-active" id="section-profile">
+              <!-- Profile Header -->
+              <div class="k-profile-header">
+                <div class="k-profile-avatar">
+                  <img
+                    src="https://i.pravatar.cc/300?img=12"
+                    alt="Kavindu Perera"
+                    class="k-profile-avatar__image"
+                  />
+                  <button class="k-profile-avatar__edit" title="Change avatar">
+                    <i data-lucide="camera"></i>
+                  </button>
+                </div>
+                <div class="k-profile-info">
+                  <h2>Kavindu Perera</h2>
+                  <div class="k-profile-meta">
+                    <div class="k-profile-meta__item">
+                      <i data-lucide="mail"></i>
+                      kavindu.perera@university.edu
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Profile Information -->
+              <div class="k-settings-card">
+                <div class="k-settings-card__header">
+                  <h3 class="k-settings-card__title">Profile</h3>
+                  <p class="k-settings-card__subtitle">
+                    Update your personal information
+                  </p>
+                </div>
+
+                <form>
+                  <div class="k-form-grid">
+                    <div class="c-field">
+                      <label for="first-name" class="c-label">
+                        First Name <span class="u-text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="first-name"
+                        class="c-input c-input--soft c-input--rect"
+                        value="Kavindu"
+                        required
+                      />
+                    </div>
+
+                    <div class="c-field">
+                      <label for="last-name" class="c-label">
+                        Last Name <span class="u-text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="last-name"
+                        class="c-input c-input--soft c-input--rect"
+                        value="Perera"
+                        required
+                      />
+                    </div>
+
+                    <div class="c-field">
+                      <label for="email" class="c-label">
+                        Email <span class="u-text-danger">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        class="c-input c-input--soft c-input--rect"
+                        value="kavindu.perera@university.edu"
+                        required
+                      />
+                    </div>
+
+                    <div class="c-field">
+                      <label for="phone" class="c-label">Phone</label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        class="c-input c-input--soft c-input--rect"
+                        value="+94 77 123 4567"
+                      />
+                    </div>
+
+                    <div class="c-field">
+                      <label for="student-id" class="c-label">Student ID</label>
+                      <input
+                        type="text"
+                        id="student-id"
+                        class="c-input c-input--soft c-input--rect"
+                        value="CS/2023/001"
+                        readonly
+                        style="background: var(--color-surface)"
+                      />
+                    </div>
+
+                    <div class="c-field">
+                      <label for="year" class="c-label">Year</label>
+                      <select
+                        id="year"
+                        class="c-input c-input--soft c-input--rect"
+                      >
+                        <option value="1">1st Year</option>
+                        <option value="2" selected>2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="k-form-actions">
+                    <button type="submit" class="c-btn">
+                      <i data-lucide="save"></i> Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+
+            <!-- Account Section -->
+            <section class="k-settings-section" id="section-account">
+              <div class="k-settings-card">
+                <div class="k-settings-card__header">
+                  <h3 class="k-settings-card__title">Security</h3>
+                  <p class="k-settings-card__subtitle">Manage your password</p>
+                </div>
+
+                <form>
+                  <div class="k-form-grid">
+                    <div class="c-field k-form-grid--full">
+                      <label for="current-password" class="c-label">
+                        Current Password <span class="u-text-danger">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        id="current-password"
+                        class="c-input c-input--soft c-input--rect"
+                        required
+                      />
+                    </div>
+
+                    <div class="c-field">
+                      <label for="new-password" class="c-label">
+                        New Password <span class="u-text-danger">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        id="new-password"
+                        class="c-input c-input--soft c-input--rect"
+                        required
+                      />
+                    </div>
+
+                    <div class="c-field">
+                      <label for="confirm-password" class="c-label">
+                        Confirm Password <span class="u-text-danger">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        id="confirm-password"
+                        class="c-input c-input--soft c-input--rect"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="k-form-actions">
+                    <button type="submit" class="c-btn">
+                      <i data-lucide="lock"></i> Update Password
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+
+            <!-- Notifications Section -->
+            <section class="k-settings-section" id="section-notifications">
+              <div class="k-settings-card">
+                <div class="k-settings-card__header">
+                  <h3 class="k-settings-card__title">Notifications</h3>
+                  <p class="k-settings-card__subtitle">
+                    Choose what notifications you want to receive
+                  </p>
+                </div>
+
+                <div class="k-toggle-item">
+                  <div class="k-toggle-item__content">
+                    <h5 class="k-toggle-item__title">Kuppi Sessions</h5>
+                    <p class="k-toggle-item__desc">
+                      Session updates and reminders
+                    </p>
+                  </div>
+                  <label class="k-toggle-switch">
+                    <input type="checkbox" checked />
+                    <span class="k-toggle-switch__slider"></span>
+                  </label>
+                </div>
+
+                <div class="k-toggle-item">
+                  <div class="k-toggle-item__content">
+                    <h5 class="k-toggle-item__title">New Resources</h5>
+                    <p class="k-toggle-item__desc">
+                      When new study materials are uploaded
+                    </p>
+                  </div>
+                  <label class="k-toggle-switch">
+                    <input type="checkbox" checked />
+                    <span class="k-toggle-switch__slider"></span>
+                  </label>
+                </div>
+
+                <div class="k-toggle-item">
+                  <div class="k-toggle-item__content">
+                    <h5 class="k-toggle-item__title">Community</h5>
+                    <p class="k-toggle-item__desc">
+                      Replies to your posts and comments
+                    </p>
+                  </div>
+                  <label class="k-toggle-switch">
+                    <input type="checkbox" checked />
+                    <span class="k-toggle-switch__slider"></span>
+                  </label>
+                </div>
+
+                <div class="k-form-actions">
+                  <button type="button" class="c-btn">
+                    <i data-lucide="save"></i> Save
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Privacy Section -->
+            <section class="k-settings-section" id="section-privacy">
+              <div class="k-settings-card">
+                <div class="k-settings-card__header">
+                  <h3 class="k-settings-card__title">Privacy</h3>
+                  <p class="k-settings-card__subtitle">
+                    Control your profile visibility
+                  </p>
+                </div>
+
+                <div class="k-toggle-item">
+                  <div class="k-toggle-item__content">
+                    <h5 class="k-toggle-item__title">Public Profile</h5>
+                    <p class="k-toggle-item__desc">
+                      Allow others to view your profile
+                    </p>
+                  </div>
+                  <label class="k-toggle-switch">
+                    <input type="checkbox" checked />
+                    <span class="k-toggle-switch__slider"></span>
+                  </label>
+                </div>
+
+                <div class="k-toggle-item">
+                  <div class="k-toggle-item__content">
+                    <h5 class="k-toggle-item__title">Show Activity</h5>
+                    <p class="k-toggle-item__desc">
+                      Display your recent sessions and resources
+                    </p>
+                  </div>
+                  <label class="k-toggle-switch">
+                    <input type="checkbox" checked />
+                    <span class="k-toggle-switch__slider"></span>
+                  </label>
+                </div>
+
+                <div class="k-form-actions">
+                  <button type="button" class="c-btn">
+                    <i data-lucide="save"></i> Save
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Preferences Section -->
+            <section class="k-settings-section" id="section-preferences">
+              <div class="k-settings-card">
+                <div class="k-settings-card__header">
+                  <h3 class="k-settings-card__title">Preferences</h3>
+                  <p class="k-settings-card__subtitle">
+                    Customize your experience
+                  </p>
+                </div>
+
+                <form>
+                  <div class="k-form-grid">
+                    <div class="c-field">
+                      <label for="theme" class="c-label">Theme</label>
+                      <select
+                        id="theme"
+                        class="c-input c-input--soft c-input--rect"
+                      >
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="auto">Auto</option>
+                      </select>
+                    </div>
+
+                    <div class="c-field">
+                      <label for="language" class="c-label">Language</label>
+                      <select
+                        id="language"
+                        class="c-input c-input--soft c-input--rect"
+                      >
+                        <option value="en">English</option>
+                        <option value="si">Sinhala</option>
+                        <option value="ta">Tamil</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="k-form-actions">
+                    <button type="submit" class="c-btn">
+                      <i data-lucide="save"></i> Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="c-toasts" aria-live="polite"></div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        // Settings navigation
+        const navItems = document.querySelectorAll(".k-settings-nav__item");
+        const sections = document.querySelectorAll(".k-settings-section");
+
+        navItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            const sectionId = this.dataset.section;
+
+            // Update active nav item
+            navItems.forEach((nav) => nav.classList.remove("is-active"));
+            this.classList.add("is-active");
+
+            // Show corresponding section
+            sections.forEach((section) =>
+              section.classList.remove("is-active")
+            );
+            document
+              .getElementById(`section-${sectionId}`)
+              .classList.add("is-active");
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+        });
+
+        // Handle form submissions
+        const forms = document.querySelectorAll("form");
+        forms.forEach((form) => {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            showToast("Settings saved successfully!");
+          });
+        });
+      });
+
+      function confirmDeleteAccount() {
+        if (
+          confirm(
+            "Are you sure you want to delete your account? This action cannot be undone."
+          )
+        ) {
+          if (
+            confirm(
+              "This will permanently delete all your data, including kuppi sessions, resources, and community posts. Are you absolutely sure?"
+            )
+          ) {
+            showToast("Account deletion request submitted.");
+            // In real app, this would trigger account deletion process
+          }
+        }
+      }
+
+      function showToast(msg) {
+        const toasts = document.querySelector(".c-toasts");
+        if (!toasts) return;
+        const item = document.createElement("div");
+        item.className = "c-toast";
+        item.textContent = msg;
+        toasts.appendChild(item);
+        setTimeout(() => {
+          item.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

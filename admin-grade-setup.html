@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grade Setup • UniNest Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      .grade-setup-container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .grade-table-container {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      }
+
+      .grade-table-header {
+        padding: var(--space-6);
+        border-bottom: 1px solid var(--color-border);
+        background: var(--color-surface);
+      }
+
+      .grade-table-header h2 {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-4) 0;
+      }
+
+      .grade-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .grade-table thead {
+        background: var(--color-surface);
+      }
+
+      .grade-table th {
+        padding: var(--space-4) var(--space-5);
+        text-align: left;
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        border-bottom: 1px solid var(--color-border);
+        background: var(--color-surface);
+      }
+
+      .grade-table th:first-child {
+        padding-left: var(--space-6);
+      }
+
+      .grade-table th:last-child {
+        width: 80px;
+        text-align: center;
+        padding-right: var(--space-6);
+      }
+
+      .grade-table tbody tr {
+        transition: all 0.15s ease;
+      }
+
+      .grade-table tbody tr:hover {
+        background: rgba(84, 44, 245, 0.02);
+      }
+
+      .grade-table tbody tr:not(:last-child) {
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .grade-table td {
+        padding: var(--space-5);
+        font-size: var(--fs-sm);
+        color: var(--color-text);
+        vertical-align: middle;
+      }
+
+      .grade-table td:first-child {
+        padding-left: var(--space-6);
+      }
+
+      .grade-table td:last-child {
+        text-align: center;
+        padding-right: var(--space-6);
+      }
+
+      .grade-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 56px;
+        height: 36px;
+        padding: 0 var(--space-4);
+        background: var(--color-text);
+        color: white;
+        border-radius: var(--radius-md);
+        font-weight: 700;
+        font-size: var(--fs-base);
+        letter-spacing: 0.02em;
+      }
+
+      .grade-input {
+        width: 100%;
+        max-width: 140px;
+        padding: var(--space-3) var(--space-4);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-md);
+        font-size: var(--fs-sm);
+        font-weight: 500;
+        color: var(--color-text);
+        transition: all 0.2s ease;
+        background: var(--color-white);
+      }
+
+      .grade-input:focus {
+        outline: none;
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 4px rgba(84, 44, 245, 0.08);
+      }
+
+      .grade-input:hover:not(:focus) {
+        border-color: rgba(84, 44, 245, 0.4);
+      }
+
+      .btn-icon-only {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1.5px solid var(--color-border);
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        color: var(--color-text-muted);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-icon-only:hover {
+        background: #ef4444;
+        border-color: #ef4444;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .btn-icon-only i {
+        width: 16px;
+        height: 16px;
+      }
+
+      .grade-actions {
+        padding: var(--space-6);
+        border-top: 1px solid var(--color-border);
+        background: var(--color-surface);
+        display: flex;
+        gap: var(--space-4);
+        justify-content: space-between;
+        align-items: end;
+      }
+
+      .grade-empty {
+        padding: var(--space-10) var(--space-8);
+        text-align: center;
+        color: var(--color-text-muted);
+      }
+
+      .grade-empty i {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto var(--space-4);
+        opacity: 0.2;
+      }
+
+      .grade-empty p {
+        margin: 0;
+        font-size: var(--fs-sm);
+        line-height: 1.6;
+      }
+
+      .grade-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-5);
+        margin-bottom: var(--space-6);
+      }
+
+      .grade-stat-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-6);
+        text-align: center;
+        transition: all 0.2s ease;
+      }
+
+      .grade-stat-card:hover {
+        border-color: var(--color-brand);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(84, 44, 245, 0.08);
+      }
+
+      .grade-stat-card__label {
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin: 0 0 var(--space-3) 0;
+      }
+
+      .grade-stat-card__value {
+        font-size: var(--fs-3xl);
+        font-weight: 700;
+        color: var(--color-brand);
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+
+      .add-grade-form {
+        display: grid;
+        grid-template-columns: 140px 140px auto;
+        gap: var(--space-4);
+        align-items: end;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: var(--space-6);
+        right: var(--space-6);
+        background: #1f2937;
+        color: white;
+        padding: var(--space-4) var(--space-6);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: var(--fs-sm);
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+        min-width: 280px;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .toast i {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      .toast--success {
+        background: #10b981;
+      }
+
+      .toast--error {
+        background: #ef4444;
+      }
+
+      @media (max-width: 768px) {
+        .add-grade-form {
+          grid-template-columns: 1fr;
+        }
+
+        .grade-stats {
+          grid-template-columns: 1fr;
+        }
+
+        .grade-input {
+          max-width: 100%;
+        }
+
+        .toast {
+          left: var(--space-4);
+          right: var(--space-4);
+          bottom: var(--space-4);
+          min-width: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">
+        <i data-lucide="moon"></i>
+      </span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Nuwan Silva</span>
+            <span class="c-user-mini__role">Admin</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="home"></i></span>
+            Dashboard
+          </a>
+          <a href="admin-grade-setup.html" class="c-nav__item is-active">
+            <span class="c-nav__icon"><i data-lucide="award"></i></span>
+            Grade Setup
+          </a>
+          <a href="kuppi-scheduled.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="calendar"></i></span>
+            Kuppi Sessions
+          </a>
+          <a href="resources.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="file-text"></i></span>
+            Resources
+          </a>
+          <a href="users.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="users"></i></span>
+            Users
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="settings"></i></span>
+            Settings
+          </a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button">
+          <span class="c-nav__icon"><i data-lucide="log-out"></i></span>
+          Logout
+        </a>
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Grade Setup</span>
+          </nav>
+          <div>
+            <h1 class="c-page__title">Grade Point Configuration</h1>
+            <p class="c-page__subtitle u-text-muted">
+              Configure letter grades and their corresponding grade points for
+              GPA calculation.
+            </p>
+          </div>
+        </header>
+
+        <div class="grade-setup-container">
+          <!-- Stats -->
+          <div class="grade-stats">
+            <div class="grade-stat-card">
+              <p class="grade-stat-card__label">Total Grades</p>
+              <p class="grade-stat-card__value" id="stat-total">0</p>
+            </div>
+            <div class="grade-stat-card">
+              <p class="grade-stat-card__label">Highest Grade Point</p>
+              <p class="grade-stat-card__value" id="stat-highest">0.00</p>
+            </div>
+            <div class="grade-stat-card">
+              <p class="grade-stat-card__label">Lowest Grade Point</p>
+              <p class="grade-stat-card__value" id="stat-lowest">0.00</p>
+            </div>
+          </div>
+
+          <!-- Grade Table -->
+          <div class="grade-table-container">
+            <div class="grade-table-header">
+              <h2>Grade Scale Configuration</h2>
+            </div>
+
+            <table class="grade-table">
+              <thead>
+                <tr>
+                  <th>Letter Grade</th>
+                  <th>Description</th>
+                  <th>Grade Point</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="grade-table-body">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+
+            <div class="grade-actions">
+              <div class="add-grade-form">
+                <div class="c-field" style="margin: 0">
+                  <label for="new-grade-letter" class="c-label">Letter</label>
+                  <input
+                    type="text"
+                    id="new-grade-letter"
+                    class="c-input c-input--soft c-input--rect"
+                    placeholder="A+"
+                    maxlength="3"
+                    style="text-transform: uppercase"
+                  />
+                </div>
+                <div class="c-field" style="margin: 0">
+                  <label for="new-grade-point" class="c-label"
+                    >Grade Point</label
+                  >
+                  <input
+                    type="number"
+                    id="new-grade-point"
+                    class="c-input c-input--soft c-input--rect"
+                    placeholder="4.0"
+                    step="0.01"
+                    min="0"
+                    max="10"
+                  />
+                </div>
+                <button type="button" class="c-btn" onclick="addGrade()">
+                  <i data-lucide="plus"></i> Add Grade
+                </button>
+              </div>
+              <button type="button" class="c-btn" onclick="saveGrades()">
+                <i data-lucide="save"></i> Save Configuration
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+        loadGrades();
+        updateStats();
+      });
+
+      let grades = [];
+
+      function loadGrades() {
+        const saved = localStorage.getItem("gradeScale");
+        if (saved) {
+          grades = JSON.parse(saved);
+        } else {
+          // Demo data
+          grades = [
+            { letter: "A+", description: "Excellent", point: 4.0 },
+            { letter: "A", description: "Excellent", point: 4.0 },
+            { letter: "A-", description: "Very Good", point: 3.7 },
+            { letter: "B+", description: "Good", point: 3.3 },
+            { letter: "B", description: "Good", point: 3.0 },
+            { letter: "B-", description: "Satisfactory", point: 2.7 },
+            { letter: "C+", description: "Acceptable", point: 2.3 },
+            { letter: "C", description: "Acceptable", point: 2.0 },
+            { letter: "C-", description: "Pass", point: 1.7 },
+            { letter: "D", description: "Pass", point: 1.0 },
+            { letter: "F", description: "Fail", point: 0.0 },
+          ];
+        }
+        renderGrades();
+      }
+
+      function renderGrades() {
+        const tbody = document.getElementById("grade-table-body");
+
+        if (grades.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="4" class="grade-empty">
+                <i data-lucide="award"></i>
+                <p>No grades configured yet. Add grades or load a preset.</p>
+              </td>
+            </tr>
+          `;
+          if (window.lucide) window.lucide.createIcons();
+          return;
+        }
+
+        tbody.innerHTML = grades
+          .map(
+            (grade, index) => `
+          <tr>
+            <td>
+              <span class="grade-badge">${grade.letter}</span>
+            </td>
+            <td>
+              <input
+                type="text"
+                class="grade-input"
+                value="${grade.description || ""}"
+                placeholder="Description"
+                onchange="updateGradeDescription(${index}, this.value)"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                class="grade-input"
+                value="${grade.point}"
+                step="0.01"
+                min="0"
+                max="10"
+                onchange="updateGradePoint(${index}, this.value)"
+              />
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn-icon-only"
+                onclick="deleteGrade(${index})"
+                title="Delete grade"
+              >
+                <i data-lucide="trash-2"></i>
+              </button>
+            </td>
+          </tr>
+        `
+          )
+          .join("");
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function addGrade() {
+        const letterInput = document.getElementById("new-grade-letter");
+        const pointInput = document.getElementById("new-grade-point");
+
+        const letter = letterInput.value.trim().toUpperCase();
+        const point = parseFloat(pointInput.value);
+
+        if (!letter) {
+          showToast("Please enter a letter grade", "error");
+          return;
+        }
+
+        if (isNaN(point) || point < 0 || point > 10) {
+          showToast("Please enter a valid grade point (0-10)", "error");
+          return;
+        }
+
+        // Check for duplicates
+        if (grades.some((g) => g.letter === letter)) {
+          showToast("This letter grade already exists", "error");
+          return;
+        }
+
+        grades.push({ letter, description: "", point });
+
+        // Sort by grade point descending
+        grades.sort((a, b) => b.point - a.point);
+
+        renderGrades();
+        updateStats();
+
+        // Clear inputs
+        letterInput.value = "";
+        pointInput.value = "";
+
+        showToast("Grade added successfully");
+      }
+
+      function updateGradeDescription(index, value) {
+        grades[index].description = value;
+        updateStats();
+      }
+
+      function updateGradePoint(index, value) {
+        const point = parseFloat(value);
+        if (!isNaN(point) && point >= 0 && point <= 10) {
+          grades[index].point = point;
+          // Re-sort
+          grades.sort((a, b) => b.point - a.point);
+          renderGrades();
+          updateStats();
+        }
+      }
+
+      function deleteGrade(index) {
+        if (confirm(`Delete grade ${grades[index].letter}?`)) {
+          grades.splice(index, 1);
+          renderGrades();
+          updateStats();
+          showToast("Grade deleted");
+        }
+      }
+
+      function saveGrades() {
+        if (grades.length === 0) {
+          showToast("Please add at least one grade", "error");
+          return;
+        }
+
+        localStorage.setItem("gradeScale", JSON.stringify(grades));
+        showToast("Grade configuration saved successfully!", "success");
+      }
+
+      function updateStats() {
+        const total = grades.length;
+        const highest = total > 0 ? Math.max(...grades.map((g) => g.point)) : 0;
+        const lowest = total > 0 ? Math.min(...grades.map((g) => g.point)) : 0;
+
+        document.getElementById("stat-total").textContent = total;
+        document.getElementById("stat-highest").textContent =
+          highest.toFixed(2);
+        document.getElementById("stat-lowest").textContent = lowest.toFixed(2);
+      }
+
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `toast toast--${type}`;
+        toast.innerHTML = `
+          <i data-lucide="check-circle"></i>
+          <span>${message}</span>
+        `;
+        document.body.appendChild(toast);
+
+        if (window.lucide) window.lucide.createIcons();
+
+        setTimeout(() => {
+          toast.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
