@@ -301,7 +301,7 @@
 
       .hero-stats {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr); /* 2x2 grid for 4 stats */
         gap: var(--space-6);
       }
 
@@ -312,6 +312,7 @@
       .hero-stat-value {
         font-size: 2rem;
         font-weight: 800;
+        color: #542cf5; /* Fallback for browsers without background-clip support */
         background: linear-gradient(135deg, #542cf5 0%, #6d4ef7 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -328,7 +329,7 @@
 
       /* Features Section */
       .features-section {
-        padding: calc(var(--space-10) + 60px) var(--space-6) var(--space-10);
+        padding: calc(var(--space-10) + 60px) var(--space-6) var(--space-10); /* Extra top padding to accommodate overlapping hero card */
         background: white;
       }
 
