@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz Approval • UniNest Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      .approval-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--space-5);
+        margin-bottom: var(--space-8);
+      }
+
+      .stat-card {
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        padding: var(--space-6);
+        display: flex;
+        align-items: center;
+        gap: var(--space-5);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border-color: var(--color-brand);
+      }
+
+      .stat-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-lg);
+        flex-shrink: 0;
+      }
+
+      .stat-icon i {
+        width: 32px;
+        height: 32px;
+      }
+
+      .stat-icon--pending {
+        background: linear-gradient(
+          135deg,
+          rgba(245, 158, 11, 0.1) 0%,
+          rgba(245, 158, 11, 0.05) 100%
+        );
+        color: #f59e0b;
+      }
+
+      .stat-icon--approved {
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.1) 0%,
+          rgba(16, 185, 129, 0.05) 100%
+        );
+        color: #10b981;
+      }
+
+      .stat-icon--rejected {
+        background: linear-gradient(
+          135deg,
+          rgba(239, 68, 68, 0.1) 0%,
+          rgba(239, 68, 68, 0.05) 100%
+        );
+        color: #ef4444;
+      }
+
+      .stat-content {
+        flex: 1;
+      }
+
+      .stat-value {
+        font-size: var(--fs-3xl);
+        font-weight: 700;
+        color: var(--color-text);
+        line-height: 1;
+        margin-bottom: var(--space-2);
+      }
+
+      .stat-label {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .filters-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-bottom: var(--space-6);
+        padding: var(--space-5);
+        background: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+      }
+
+      .filter-tabs {
+        display: flex;
+        gap: var(--space-2);
+      }
+
+      .filter-tab {
+        padding: var(--space-3) var(--space-5);
+        border: 1.5px solid var(--color-border);
+        background: transparent;
+        border-radius: var(--radius-lg);
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-tab:hover {
+        background: var(--color-surface);
+        color: var(--color-text);
+      }
+
+      .filter-tab.is-active {
+        background: var(--color-brand);
+        border-color: var(--color-brand);
+        color: white;
+      }
+
+      .quiz-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-5);
+      }
+
+      .quiz-approval-card {
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .quiz-approval-card:hover {
+        border-color: var(--color-brand);
+        box-shadow: 0 8px 24px rgba(84, 44, 245, 0.12);
+      }
+
+      .quiz-approval-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: var(--space-6) var(--space-8);
+        background: linear-gradient(
+          135deg,
+          var(--color-surface) 0%,
+          rgba(84, 44, 245, 0.02) 100%
+        );
+        border-bottom: 2px solid var(--color-border);
+      }
+
+      .quiz-approval-title-section {
+        flex: 1;
+      }
+
+      .quiz-approval-title {
+        font-size: var(--fs-xl);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+        line-height: 1.3;
+      }
+
+      .quiz-approval-meta {
+        display: flex;
+        align-items: center;
+        gap: var(--space-5);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .quiz-meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .quiz-meta-item i {
+        width: 16px;
+        height: 16px;
+      }
+
+      .quiz-approval-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-3) var(--space-5);
+        border-radius: var(--radius-lg);
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+        border: 1.5px solid rgba(245, 158, 11, 0.3);
+      }
+
+      .quiz-approval-badge i {
+        width: 16px;
+        height: 16px;
+      }
+
+      .quiz-approval-body {
+        padding: var(--space-8);
+      }
+
+      .quiz-description {
+        font-size: var(--fs-base);
+        color: var(--color-text-muted);
+        line-height: 1.6;
+        margin-bottom: var(--space-6);
+      }
+
+      .quiz-details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-5);
+        margin-bottom: var(--space-6);
+        padding: var(--space-6);
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+      }
+
+      .quiz-detail-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .quiz-detail-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        color: var(--color-brand);
+      }
+
+      .quiz-detail-icon i {
+        width: 20px;
+        height: 20px;
+      }
+
+      .quiz-detail-content {
+        flex: 1;
+      }
+
+      .quiz-detail-label {
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-1);
+      }
+
+      .quiz-detail-value {
+        font-size: var(--fs-base);
+        font-weight: 600;
+        color: var(--color-text);
+      }
+
+      .quiz-questions-preview {
+        margin-bottom: var(--space-6);
+      }
+
+      .quiz-questions-preview h4 {
+        font-size: var(--fs-base);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-4) 0;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .quiz-questions-preview h4 i {
+        width: 18px;
+        height: 18px;
+        color: var(--color-brand);
+      }
+
+      .question-preview-item {
+        padding: var(--space-4);
+        background: var(--color-surface);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-3);
+        font-size: var(--fs-sm);
+        color: var(--color-text);
+      }
+
+      .question-preview-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .quiz-approval-actions {
+        display: flex;
+        gap: var(--space-4);
+        padding-top: var(--space-6);
+        border-top: 2px solid var(--color-border);
+      }
+
+      .approval-input {
+        flex: 1;
+        padding: var(--space-4);
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-md);
+        font-size: var(--fs-sm);
+        transition: all 0.2s ease;
+      }
+
+      .approval-input:focus {
+        outline: none;
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 4px rgba(84, 44, 245, 0.08);
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: var(--space-16) var(--space-8);
+        background: var(--color-white);
+        border: 2px dashed var(--color-border);
+        border-radius: var(--radius-xl);
+      }
+
+      .empty-state-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto var(--space-5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-surface);
+        border-radius: var(--radius-full);
+        color: var(--color-text-muted);
+      }
+
+      .empty-state-icon i {
+        width: 40px;
+        height: 40px;
+      }
+
+      .empty-state h3 {
+        font-size: var(--fs-xl);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0 0 var(--space-3) 0;
+      }
+
+      .empty-state p {
+        font-size: var(--fs-base);
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        .quiz-approval-header {
+          flex-direction: column;
+          gap: var(--space-4);
+        }
+
+        .quiz-approval-actions {
+          flex-direction: column;
+        }
+
+        .filters-bar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .filter-tabs {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">
+        <i data-lucide="moon"></i>
+      </span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Kavindu Perera</span>
+            <span class="c-user-mini__role">Admin</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="dashboard.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="home"></i></span>
+            Dashboard
+          </a>
+          <a href="users.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="users"></i></span>
+            Users
+          </a>
+          <a href="admin-quiz-approval.html" class="c-nav__item is-active">
+            <span class="c-nav__icon"
+              ><i data-lucide="clipboard-check"></i
+            ></span>
+            Quiz Approval
+          </a>
+          <a href="resources.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="file-text"></i></span>
+            Resources
+          </a>
+          <a href="community.html" class="c-nav__item">
+            <span class="c-nav__icon"
+              ><i data-lucide="message-square"></i
+            ></span>
+            Community
+          </a>
+          <a href="profile-settings.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="settings"></i></span>
+            Settings
+          </a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button">
+          <span class="c-nav__icon"><i data-lucide="log-out"></i></span>
+          Logout
+        </a>
+      </aside>
+
+      <main class="c-page">
+        <header class="c-page__header">
+          <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+            <a href="dashboard.html">Home</a>
+            <span class="c-breadcrumbs__sep">/</span>
+            <span aria-current="page">Quiz Approval</span>
+          </nav>
+          <div>
+            <h1 class="c-page__title">Quiz Approval</h1>
+            <p class="c-page__subtitle u-text-muted">
+              Review and approve student-created quizzes for publication
+            </p>
+          </div>
+        </header>
+
+        <!-- Stats -->
+        <div class="approval-stats">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--pending">
+              <i data-lucide="clock"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value" id="stat-pending">0</div>
+              <div class="stat-label">Pending Review</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--approved">
+              <i data-lucide="check-circle"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value" id="stat-approved">0</div>
+              <div class="stat-label">Approved Today</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--rejected">
+              <i data-lucide="x-circle"></i>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value" id="stat-rejected">0</div>
+              <div class="stat-label">Rejected Today</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+          <div class="filter-tabs">
+            <button
+              class="filter-tab is-active"
+              onclick="filterQuizzes('pending')"
+            >
+              Pending
+            </button>
+            <button class="filter-tab" onclick="filterQuizzes('approved')">
+              Approved
+            </button>
+            <button class="filter-tab" onclick="filterQuizzes('rejected')">
+              Rejected
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz List -->
+        <div class="quiz-list" id="quiz-list">
+          <!-- Quizzes will be rendered here -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state" style="display: none">
+          <div class="empty-state-icon">
+            <i data-lucide="check-circle-2"></i>
+          </div>
+          <h3>All caught up!</h3>
+          <p>No quizzes pending approval at the moment.</p>
+        </div>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      let currentFilter = "pending";
+      let quizzes = [];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+        loadQuizzes();
+      });
+
+      function loadQuizzes() {
+        // Demo data for quiz approval
+        quizzes = [
+          {
+            id: 1,
+            title: "Introduction to React Hooks",
+            description:
+              "Comprehensive quiz covering useState, useEffect, useContext, and custom hooks with practical examples.",
+            subject: "Computer Science",
+            author: "Tharindu Fernando",
+            createdAt: new Date(2025, 9, 23, 10, 30).toISOString(),
+            duration: 35,
+            questionCount: 12,
+            status: "pending",
+            questions: [
+              "What is the primary purpose of the useState hook?",
+              "How does useEffect differ from componentDidMount?",
+              "When should you create a custom hook?",
+            ],
+          },
+          {
+            id: 2,
+            title: "Database Normalization & Design",
+            description:
+              "Test your understanding of 1NF, 2NF, 3NF, BCNF, and practical database design principles.",
+            subject: "Computer Science",
+            author: "Nuwan Silva",
+            createdAt: new Date(2025, 9, 23, 14, 15).toISOString(),
+            duration: 40,
+            questionCount: 15,
+            status: "pending",
+            questions: [
+              "What is the main goal of database normalization?",
+              "Explain the difference between 2NF and 3NF",
+              "What is a functional dependency?",
+            ],
+          },
+          {
+            id: 3,
+            title: "Python Data Structures",
+            description:
+              "Practice quiz on lists, tuples, dictionaries, sets, and their operations in Python.",
+            subject: "Computer Science",
+            author: "Hashen Udara",
+            createdAt: new Date(2025, 9, 22, 16, 45).toISOString(),
+            duration: 30,
+            questionCount: 10,
+            status: "pending",
+            questions: [
+              "What is the difference between a list and a tuple?",
+              "How do you remove duplicates from a list?",
+              "What is a dictionary comprehension?",
+            ],
+          },
+        ];
+
+        updateStats();
+        renderQuizzes();
+      }
+
+      function updateStats() {
+        const today = new Date().toDateString();
+        const stats = {
+          pending: quizzes.filter((q) => q.status === "pending").length,
+          approved: quizzes.filter(
+            (q) =>
+              q.status === "approved" &&
+              new Date(q.approvedAt).toDateString() === today
+          ).length,
+          rejected: quizzes.filter(
+            (q) =>
+              q.status === "rejected" &&
+              new Date(q.rejectedAt).toDateString() === today
+          ).length,
+        };
+
+        document.getElementById("stat-pending").textContent = stats.pending;
+        document.getElementById("stat-approved").textContent = stats.approved;
+        document.getElementById("stat-rejected").textContent = stats.rejected;
+      }
+
+      function filterQuizzes(filter) {
+        currentFilter = filter;
+
+        document.querySelectorAll(".filter-tab").forEach((tab) => {
+          tab.classList.remove("is-active");
+        });
+        event.target.classList.add("is-active");
+
+        renderQuizzes();
+      }
+
+      function renderQuizzes() {
+        const container = document.getElementById("quiz-list");
+        const emptyState = document.getElementById("empty-state");
+
+        const filteredQuizzes = quizzes.filter(
+          (q) => q.status === currentFilter
+        );
+
+        if (filteredQuizzes.length === 0) {
+          container.style.display = "none";
+          emptyState.style.display = "block";
+          if (window.lucide) window.lucide.createIcons();
+          return;
+        }
+
+        container.style.display = "flex";
+        emptyState.style.display = "none";
+
+        container.innerHTML = filteredQuizzes
+          .map(
+            (quiz) => `
+          <div class="quiz-approval-card">
+            <div class="quiz-approval-header">
+              <div class="quiz-approval-title-section">
+                <h2 class="quiz-approval-title">${quiz.title}</h2>
+                <div class="quiz-approval-meta">
+                  <span class="quiz-meta-item">
+                    <i data-lucide="user"></i>
+                    ${quiz.author}
+                  </span>
+                  <span class="quiz-meta-item">
+                    <i data-lucide="book-open"></i>
+                    ${quiz.subject}
+                  </span>
+                  <span class="quiz-meta-item">
+                    <i data-lucide="calendar"></i>
+                    ${formatDate(quiz.createdAt)}
+                  </span>
+                </div>
+              </div>
+              ${
+                quiz.status === "pending"
+                  ? `
+                <div class="quiz-approval-badge">
+                  <i data-lucide="clock"></i>
+                  Pending Review
+                </div>
+              `
+                  : ""
+              }
+            </div>
+
+            <div class="quiz-approval-body">
+              <p class="quiz-description">${quiz.description}</p>
+
+              <div class="quiz-details-grid">
+                <div class="quiz-detail-item">
+                  <div class="quiz-detail-icon">
+                    <i data-lucide="help-circle"></i>
+                  </div>
+                  <div class="quiz-detail-content">
+                    <div class="quiz-detail-label">Questions</div>
+                    <div class="quiz-detail-value">${quiz.questionCount}</div>
+                  </div>
+                </div>
+
+                <div class="quiz-detail-item">
+                  <div class="quiz-detail-icon">
+                    <i data-lucide="clock"></i>
+                  </div>
+                  <div class="quiz-detail-content">
+                    <div class="quiz-detail-label">Duration</div>
+                    <div class="quiz-detail-value">${quiz.duration} min</div>
+                  </div>
+                </div>
+
+                <div class="quiz-detail-item">
+                  <div class="quiz-detail-icon">
+                    <i data-lucide="layers"></i>
+                  </div>
+                  <div class="quiz-detail-content">
+                    <div class="quiz-detail-label">Subject</div>
+                    <div class="quiz-detail-value">${quiz.subject}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="quiz-questions-preview">
+                <h4>
+                  <i data-lucide="list"></i>
+                  Sample Questions
+                </h4>
+                ${quiz.questions
+                  .slice(0, 3)
+                  .map(
+                    (q) => `
+                  <div class="question-preview-item">${q}</div>
+                `
+                  )
+                  .join("")}
+              </div>
+
+              ${
+                quiz.status === "pending"
+                  ? `
+                <div class="quiz-approval-actions">
+                  <input 
+                    type="text" 
+                    class="approval-input" 
+                    id="feedback-${quiz.id}" 
+                    placeholder="Add feedback or comments (optional)"
+                  />
+                  <button class="c-btn c-btn--ghost" onclick="rejectQuiz(${quiz.id})" style="color: #ef4444;">
+                    <i data-lucide="x-circle"></i>
+                    Reject
+                  </button>
+                  <button class="c-btn" onclick="approveQuiz(${quiz.id})">
+                    <i data-lucide="check-circle"></i>
+                    Approve
+                  </button>
+                </div>
+              `
+                  : ""
+              }
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleString("en-US", {
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      function approveQuiz(id) {
+        const feedback = document.getElementById(`feedback-${id}`).value;
+        const quiz = quizzes.find((q) => q.id === id);
+
+        if (confirm(`Approve quiz "${quiz.title}"?`)) {
+          quiz.status = "approved";
+          quiz.approvedAt = new Date().toISOString();
+          quiz.feedback = feedback;
+
+          updateStats();
+          renderQuizzes();
+          showToast("Quiz approved successfully!", "success");
+        }
+      }
+
+      function rejectQuiz(id) {
+        const feedback = document.getElementById(`feedback-${id}`).value;
+        const quiz = quizzes.find((q) => q.id === id);
+
+        if (!feedback) {
+          showToast("Please provide feedback when rejecting a quiz", "error");
+          return;
+        }
+
+        if (confirm(`Reject quiz "${quiz.title}"?`)) {
+          quiz.status = "rejected";
+          quiz.rejectedAt = new Date().toISOString();
+          quiz.feedback = feedback;
+
+          updateStats();
+          renderQuizzes();
+          showToast("Quiz rejected with feedback", "success");
+        }
+      }
+
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          background: ${type === "success" ? "#10b981" : "#ef4444"};
+          color: white;
+          padding: 16px 24px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+        `;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

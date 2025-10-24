@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard • UniNest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      .dashboard-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* Welcome Section */
+      .welcome-section {
+        background: linear-gradient(
+          135deg,
+          var(--color-brand) 0%,
+          #6d4ef7 100%
+        );
+        border-radius: var(--radius-xl);
+        padding: var(--space-8);
+        margin-bottom: var(--space-8);
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .welcome-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .welcome-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .welcome-greeting {
+        font-size: var(--fs-3xl);
+        font-weight: 700;
+        margin: 0 0 var(--space-3) 0;
+        letter-spacing: -0.02em;
+      }
+
+      .welcome-message {
+        font-size: var(--fs-lg);
+        opacity: 0.95;
+        margin: 0 0 var(--space-6) 0;
+        line-height: 1.5;
+      }
+
+      .welcome-stats {
+        display: flex;
+        gap: var(--space-8);
+      }
+
+      .welcome-stat {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .welcome-stat-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius-lg);
+      }
+
+      .welcome-stat-icon i {
+        width: 24px;
+        height: 24px;
+      }
+
+      .welcome-stat-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .welcome-stat-value {
+        font-size: var(--fs-2xl);
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: var(--space-1);
+      }
+
+      .welcome-stat-label {
+        font-size: var(--fs-sm);
+        opacity: 0.9;
+      }
+
+      /* Quick Actions */
+      .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--space-5);
+        margin-bottom: var(--space-8);
+      }
+
+      .quick-action-card {
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        padding: var(--space-6);
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .quick-action-card:hover {
+        border-color: var(--color-brand);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(84, 44, 245, 0.12);
+      }
+
+      .quick-action-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-lg);
+        flex-shrink: 0;
+      }
+
+      .quick-action-icon i {
+        width: 32px;
+        height: 32px;
+      }
+
+      .quick-action-icon--brand {
+        background: linear-gradient(
+          135deg,
+          rgba(84, 44, 245, 0.1) 0%,
+          rgba(84, 44, 245, 0.05) 100%
+        );
+        color: var(--color-brand);
+      }
+
+      .quick-action-icon--success {
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.1) 0%,
+          rgba(16, 185, 129, 0.05) 100%
+        );
+        color: #10b981;
+      }
+
+      .quick-action-icon--warning {
+        background: linear-gradient(
+          135deg,
+          rgba(245, 158, 11, 0.1) 0%,
+          rgba(245, 158, 11, 0.05) 100%
+        );
+        color: #f59e0b;
+      }
+
+      .quick-action-icon--info {
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.1) 0%,
+          rgba(59, 130, 246, 0.05) 100%
+        );
+        color: #3b82f6;
+      }
+
+      .quick-action-content h3 {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .quick-action-content p {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+        line-height: 1.4;
+      }
+
+      /* Main Grid Layout */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--space-6);
+        margin-bottom: var(--space-8);
+      }
+
+      /* Section Card */
+      .section-card {
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-6) var(--space-8);
+        background: linear-gradient(
+          135deg,
+          var(--color-surface) 0%,
+          rgba(84, 44, 245, 0.02) 100%
+        );
+        border-bottom: 2px solid var(--color-border);
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: var(--fs-xl);
+        font-weight: 700;
+        color: var(--color-text);
+        margin: 0;
+      }
+
+      .section-title i {
+        width: 24px;
+        height: 24px;
+        color: var(--color-brand);
+      }
+
+      .section-link {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-brand);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        transition: all 0.2s ease;
+      }
+
+      .section-link:hover {
+        gap: var(--space-3);
+      }
+
+      .section-link i {
+        width: 16px;
+        height: 16px;
+      }
+
+      .section-body {
+        padding: var(--space-6) var(--space-8);
+      }
+
+      /* Upcoming Sessions */
+      .session-item {
+        display: flex;
+        gap: var(--space-5);
+        padding: var(--space-5);
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-4);
+        transition: all 0.2s ease;
+      }
+
+      .session-item:hover {
+        background: rgba(84, 44, 245, 0.05);
+        transform: translateX(4px);
+      }
+
+      .session-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .session-date {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        flex-shrink: 0;
+      }
+
+      .session-date-day {
+        font-size: var(--fs-2xl);
+        font-weight: 700;
+        color: var(--color-brand);
+        line-height: 1;
+      }
+
+      .session-date-month {
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        margin-top: var(--space-1);
+      }
+
+      .session-content {
+        flex: 1;
+      }
+
+      .session-title {
+        font-size: var(--fs-base);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .session-meta {
+        display: flex;
+        gap: var(--space-4);
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+      }
+
+      .session-meta-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .session-meta-item i {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* Community Highlights */
+      .community-post {
+        padding: var(--space-5);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .community-post:last-child {
+        border-bottom: none;
+      }
+
+      .post-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        margin-bottom: var(--space-3);
+      }
+
+      .post-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--color-brand) 0%,
+          #6d4ef7 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: var(--fs-sm);
+      }
+
+      .post-author-info {
+        flex: 1;
+      }
+
+      .post-author {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0;
+      }
+
+      .post-time {
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+      }
+
+      .post-content {
+        font-size: var(--fs-sm);
+        color: var(--color-text);
+        line-height: 1.6;
+        margin-bottom: var(--space-3);
+      }
+
+      .post-stats {
+        display: flex;
+        gap: var(--space-4);
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+      }
+
+      .post-stat {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .post-stat i {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* Recent Quizzes */
+      .quiz-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-4);
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-3);
+        transition: all 0.2s ease;
+      }
+
+      .quiz-item:hover {
+        background: rgba(84, 44, 245, 0.05);
+      }
+
+      .quiz-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .quiz-info {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        flex: 1;
+      }
+
+      .quiz-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-white);
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-md);
+        color: var(--color-brand);
+      }
+
+      .quiz-icon i {
+        width: 20px;
+        height: 20px;
+      }
+
+      .quiz-details h4 {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-1) 0;
+      }
+
+      .quiz-details p {
+        font-size: var(--fs-xs);
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+
+      .quiz-score {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: var(--color-brand);
+      }
+
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: var(--space-12) var(--space-6);
+      }
+
+      .empty-state-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto var(--space-4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-surface);
+        border-radius: var(--radius-full);
+        color: var(--color-text-muted);
+      }
+
+      .empty-state-icon i {
+        width: 32px;
+        height: 32px;
+      }
+
+      .empty-state h3 {
+        font-size: var(--fs-lg);
+        font-weight: 600;
+        color: var(--color-text);
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .empty-state p {
+        font-size: var(--fs-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+      }
+
+      @media (max-width: 1024px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .welcome-stats {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .welcome-section {
+          padding: var(--space-6);
+        }
+
+        .welcome-greeting {
+          font-size: var(--fs-2xl);
+        }
+
+        .welcome-message {
+          font-size: var(--fs-base);
+        }
+
+        .quick-actions {
+          grid-template-columns: 1fr;
+        }
+
+        .session-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      type="button"
+      class="c-theme-toggle js-theme-toggle"
+      aria-pressed="false"
+      aria-label="Toggle dark mode"
+    >
+      <span class="c-theme-toggle__icon" aria-hidden="true">
+        <i data-lucide="moon"></i>
+      </span>
+      <span class="c-theme-toggle__label">Dark</span>
+    </button>
+
+    <div class="l-app">
+      <aside class="c-sidebar">
+        <div class="c-logo">
+          <img src="img/logo.png" alt="Uninest" class="c-logo__mark" />
+        </div>
+        <div class="c-user-mini">
+          <div class="c-user-mini__avatar" aria-hidden="true"></div>
+          <div class="c-user-mini__meta">
+            <span class="c-user-mini__name">Tharindu Fernando</span>
+            <span class="c-user-mini__role">Student</span>
+          </div>
+        </div>
+        <nav class="c-nav" aria-label="Main">
+          <a href="student-dashboard.html" class="c-nav__item is-active">
+            <span class="c-nav__icon"><i data-lucide="home"></i></span>
+            Dashboard
+          </a>
+          <a href="#" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="book"></i></span>
+            Subjects
+          </a>
+          <a href="kuppi-sessions.html" class="c-nav__item">
+            <span class="c-nav__icon"
+              ><i data-lucide="graduation-cap"></i
+            ></span>
+            Kuppi Sessions
+          </a>
+          <a href="resources.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="file-text"></i></span>
+            Resources
+          </a>
+          <a href="my-quizzes.html" class="c-nav__item">
+            <span class="c-nav__icon"
+              ><i data-lucide="clipboard-list"></i
+            ></span>
+            My Quizzes
+          </a>
+          <a href="community.html" class="c-nav__item">
+            <span class="c-nav__icon"
+              ><i data-lucide="message-square"></i
+            ></span>
+            Community
+          </a>
+          <a href="profile-settings.html" class="c-nav__item">
+            <span class="c-nav__icon"><i data-lucide="settings"></i></span>
+            Settings
+          </a>
+        </nav>
+        <a href="#" class="c-nav__item c-logout-button">
+          <span class="c-nav__icon"><i data-lucide="log-out"></i></span>
+          Logout
+        </a>
+      </aside>
+
+      <main class="c-page">
+        <div class="dashboard-container">
+          <!-- Welcome Section -->
+          <div class="welcome-section">
+            <div class="welcome-content">
+              <h1 class="welcome-greeting">Welcome back, Tharindu! 👋</h1>
+              <p class="welcome-message">
+                Ready to continue your learning journey? Here's what's happening
+                today.
+              </p>
+              <div class="welcome-stats">
+                <div class="welcome-stat">
+                  <div class="welcome-stat-icon">
+                    <i data-lucide="book-open"></i>
+                  </div>
+                  <div class="welcome-stat-content">
+                    <div class="welcome-stat-value">8</div>
+                    <div class="welcome-stat-label">Active Subjects</div>
+                  </div>
+                </div>
+                <div class="welcome-stat">
+                  <div class="welcome-stat-icon">
+                    <i data-lucide="graduation-cap"></i>
+                  </div>
+                  <div class="welcome-stat-content">
+                    <div class="welcome-stat-value">12</div>
+                    <div class="welcome-stat-label">Sessions Attended</div>
+                  </div>
+                </div>
+                <div class="welcome-stat">
+                  <div class="welcome-stat-icon">
+                    <i data-lucide="award"></i>
+                  </div>
+                  <div class="welcome-stat-content">
+                    <div class="welcome-stat-value">85%</div>
+                    <div class="welcome-stat-label">Avg Quiz Score</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="quick-actions">
+            <a href="kuppi-sessions.html" class="quick-action-card">
+              <div class="quick-action-icon quick-action-icon--brand">
+                <i data-lucide="calendar-plus"></i>
+              </div>
+              <div class="quick-action-content">
+                <h3>Book Kuppi Session</h3>
+                <p>Join upcoming study sessions</p>
+              </div>
+            </a>
+
+            <a href="resources.html" class="quick-action-card">
+              <div class="quick-action-icon quick-action-icon--success">
+                <i data-lucide="file-text"></i>
+              </div>
+              <div class="quick-action-content">
+                <h3>Browse Resources</h3>
+                <p>Access study materials</p>
+              </div>
+            </a>
+
+            <a href="create-quiz.html" class="quick-action-card">
+              <div class="quick-action-icon quick-action-icon--warning">
+                <i data-lucide="clipboard-list"></i>
+              </div>
+              <div class="quick-action-content">
+                <h3>Create Quiz</h3>
+                <p>Share knowledge with peers</p>
+              </div>
+            </a>
+
+            <a href="community.html" class="quick-action-card">
+              <div class="quick-action-icon quick-action-icon--info">
+                <i data-lucide="message-circle"></i>
+              </div>
+              <div class="quick-action-content">
+                <h3>Join Discussion</h3>
+                <p>Connect with community</p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Main Content Grid -->
+          <div class="dashboard-grid">
+            <!-- Left Column -->
+            <div>
+              <!-- Upcoming Kuppi Sessions -->
+              <div class="section-card" style="margin-bottom: var(--space-6)">
+                <div class="section-header">
+                  <h2 class="section-title">
+                    <i data-lucide="calendar"></i>
+                    Upcoming Kuppi Sessions
+                  </h2>
+                  <a href="kuppi-sessions.html" class="section-link">
+                    View All
+                    <i data-lucide="arrow-right"></i>
+                  </a>
+                </div>
+                <div class="section-body">
+                  <div class="session-item">
+                    <div class="session-date">
+                      <div class="session-date-day">25</div>
+                      <div class="session-date-month">OCT</div>
+                    </div>
+                    <div class="session-content">
+                      <h3 class="session-title">
+                        Data Structures - Trees & Graphs
+                      </h3>
+                      <div class="session-meta">
+                        <span class="session-meta-item">
+                          <i data-lucide="clock"></i>
+                          2:00 PM - 4:00 PM
+                        </span>
+                        <span class="session-meta-item">
+                          <i data-lucide="map-pin"></i>
+                          Lab 301
+                        </span>
+                        <span class="session-meta-item">
+                          <i data-lucide="user"></i>
+                          Dr. Kavindu Perera
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="session-item">
+                    <div class="session-date">
+                      <div class="session-date-day">27</div>
+                      <div class="session-date-month">OCT</div>
+                    </div>
+                    <div class="session-content">
+                      <h3 class="session-title">
+                        Web Development - React Advanced
+                      </h3>
+                      <div class="session-meta">
+                        <span class="session-meta-item">
+                          <i data-lucide="clock"></i>
+                          10:00 AM - 12:00 PM
+                        </span>
+                        <span class="session-meta-item">
+                          <i data-lucide="map-pin"></i>
+                          Online
+                        </span>
+                        <span class="session-meta-item">
+                          <i data-lucide="user"></i>
+                          Prof. Nuwan Silva
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="session-item">
+                    <div class="session-date">
+                      <div class="session-date-day">28</div>
+                      <div class="session-date-month">OCT</div>
+                    </div>
+                    <div class="session-content">
+                      <h3 class="session-title">
+                        Database Design - Normalization
+                      </h3>
+                      <div class="session-meta">
+                        <span class="session-meta-item">
+                          <i data-lucide="clock"></i>
+                          3:00 PM - 5:00 PM
+                        </span>
+                        <span class="session-meta-item">
+                          <i data-lucide="map-pin"></i>
+                          Hall A
+                        </span>
+                        <span class="session-meta-item">
+                          <i data-lucide="user"></i>
+                          Dr. Hashen Udara
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Community Highlights -->
+              <div class="section-card">
+                <div class="section-header">
+                  <h2 class="section-title">
+                    <i data-lucide="message-square"></i>
+                    Community Highlights
+                  </h2>
+                  <a href="community.html" class="section-link">
+                    View All
+                    <i data-lucide="arrow-right"></i>
+                  </a>
+                </div>
+                <div class="section-body" style="padding: 0">
+                  <div class="community-post">
+                    <div class="post-header">
+                      <div class="post-avatar">TF</div>
+                      <div class="post-author-info">
+                        <div class="post-author">Tharindu Fernando</div>
+                        <div class="post-time">2 hours ago</div>
+                      </div>
+                    </div>
+                    <div class="post-content">
+                      Just finished the Data Structures quiz! The questions on
+                      binary trees were really helpful for understanding the
+                      concepts. Thanks to everyone who contributed! 🎉
+                    </div>
+                    <div class="post-stats">
+                      <span class="post-stat">
+                        <i data-lucide="heart"></i>
+                        24 likes
+                      </span>
+                      <span class="post-stat">
+                        <i data-lucide="message-circle"></i>
+                        8 comments
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="community-post">
+                    <div class="post-header">
+                      <div class="post-avatar">NS</div>
+                      <div class="post-author-info">
+                        <div class="post-author">Nuwan Silva</div>
+                        <div class="post-time">5 hours ago</div>
+                      </div>
+                    </div>
+                    <div class="post-content">
+                      Looking for study partners for the upcoming Database exam.
+                      Anyone interested in forming a study group? Let's ace this
+                      together! 📚
+                    </div>
+                    <div class="post-stats">
+                      <span class="post-stat">
+                        <i data-lucide="heart"></i>
+                        18 likes
+                      </span>
+                      <span class="post-stat">
+                        <i data-lucide="message-circle"></i>
+                        12 comments
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="community-post">
+                    <div class="post-header">
+                      <div class="post-avatar">HU</div>
+                      <div class="post-author-info">
+                        <div class="post-author">Hashen Udara</div>
+                        <div class="post-time">1 day ago</div>
+                      </div>
+                    </div>
+                    <div class="post-content">
+                      Uploaded new notes on React Hooks! Check out the Resources
+                      section. Hope it helps with your assignments. Feel free to
+                      share your feedback! 💻
+                    </div>
+                    <div class="post-stats">
+                      <span class="post-stat">
+                        <i data-lucide="heart"></i>
+                        35 likes
+                      </span>
+                      <span class="post-stat">
+                        <i data-lucide="message-circle"></i>
+                        15 comments
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+              <!-- Recent Quiz Scores -->
+              <div class="section-card">
+                <div class="section-header">
+                  <h2 class="section-title">
+                    <i data-lucide="award"></i>
+                    Recent Quiz Scores
+                  </h2>
+                  <a href="my-quizzes.html" class="section-link">
+                    View All
+                    <i data-lucide="arrow-right"></i>
+                  </a>
+                </div>
+                <div class="section-body">
+                  <div class="quiz-item">
+                    <div class="quiz-info">
+                      <div class="quiz-icon">
+                        <i data-lucide="clipboard-check"></i>
+                      </div>
+                      <div class="quiz-details">
+                        <h4>Data Structures Quiz</h4>
+                        <p>Oct 23, 2025</p>
+                      </div>
+                    </div>
+                    <div class="quiz-score">92%</div>
+                  </div>
+
+                  <div class="quiz-item">
+                    <div class="quiz-info">
+                      <div class="quiz-icon">
+                        <i data-lucide="clipboard-check"></i>
+                      </div>
+                      <div class="quiz-details">
+                        <h4>Web Development</h4>
+                        <p>Oct 20, 2025</p>
+                      </div>
+                    </div>
+                    <div class="quiz-score">88%</div>
+                  </div>
+
+                  <div class="quiz-item">
+                    <div class="quiz-info">
+                      <div class="quiz-icon">
+                        <i data-lucide="clipboard-check"></i>
+                      </div>
+                      <div class="quiz-details">
+                        <h4>Database Design</h4>
+                        <p>Oct 18, 2025</p>
+                      </div>
+                    </div>
+                    <div class="quiz-score">85%</div>
+                  </div>
+
+                  <div class="quiz-item">
+                    <div class="quiz-info">
+                      <div class="quiz-icon">
+                        <i data-lucide="clipboard-check"></i>
+                      </div>
+                      <div class="quiz-details">
+                        <h4>Python Basics</h4>
+                        <p>Oct 15, 2025</p>
+                      </div>
+                    </div>
+                    <div class="quiz-score">78%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="scripts/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) window.lucide.createIcons();
+
+        // Get current hour for personalized greeting
+        const hour = new Date().getHours();
+        let greeting = "Welcome back";
+
+        if (hour < 12) {
+          greeting = "Good morning";
+        } else if (hour < 18) {
+          greeting = "Good afternoon";
+        } else {
+          greeting = "Good evening";
+        }
+
+        // Update greeting (optional enhancement)
+        const greetingElement = document.querySelector(".welcome-greeting");
+        if (greetingElement) {
+          const userName = "Tharindu";
+          greetingElement.textContent = `${greeting}, ${userName}! 👋`;
+        }
+      });
+    </script>
+  </body>
+</html>

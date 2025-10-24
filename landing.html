@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UniNest • Your University Learning Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="scripts/vendor/lucide.js"></script>
+    <style>
+      /* Landing Page Specific Styles */
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Navigation */
+      .landing-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--color-border);
+        transition: all 0.3s ease;
+      }
+
+      .landing-nav.scrolled {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .nav-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--space-4) var(--space-6);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        text-decoration: none;
+        color: #101623;
+        font-weight: 700;
+        font-size: var(--fs-lg);
+      }
+
+      .nav-logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--color-brand) 0%, #6d4ef7 100%);
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .nav-logo-icon i {
+        width: 24px;
+        height: 24px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: var(--space-8);
+      }
+
+      .nav-link {
+        text-decoration: none;
+        color: #667085;
+        font-weight: 500;
+        font-size: var(--fs-sm);
+        transition: color 0.2s ease;
+      }
+
+      .nav-link:hover {
+        color: #542cf5;
+      }
+
+      .nav-buttons {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .btn-nav {
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-nav-secondary {
+        background: transparent;
+        color: var(--color-text);
+      }
+
+      .btn-nav-secondary:hover {
+        background: var(--color-surface);
+      }
+
+      .btn-nav-primary {
+        background: var(--color-brand);
+        color: white;
+        box-shadow: 0 1px 2px rgba(84, 44, 245, 0.2);
+      }
+
+      .btn-nav-primary:hover {
+        background: var(--color-brand-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(84, 44, 245, 0.3);
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--color-text);
+        cursor: pointer;
+        padding: var(--space-2);
+      }
+
+      .mobile-menu-btn i {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Hero Section */
+      .hero-section {
+        padding: 120px var(--space-6) var(--space-10);
+        background: linear-gradient(135deg, #f6f8fa 0%, #ffffff 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: linear-gradient(135deg, rgba(84, 44, 245, 0.05) 0%, rgba(109, 78, 247, 0.05) 100%);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .hero-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-10);
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-content h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #101623;
+        line-height: 1.1;
+        margin: 0 0 var(--space-6) 0;
+        letter-spacing: -0.02em;
+      }
+
+      .hero-content .highlight {
+        background: linear-gradient(135deg, #542cf5 0%, #6d4ef7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-description {
+        font-size: var(--fs-lg);
+        color: #667085;
+        line-height: 1.6;
+        margin: 0 0 var(--space-8) 0;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: var(--space-4);
+        align-items: center;
+      }
+
+      .btn-hero {
+        padding: var(--space-4) var(--space-8);
+        font-size: var(--fs-base);
+        font-weight: 600;
+        border-radius: var(--radius-lg);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .btn-hero-primary {
+        background: linear-gradient(135deg, var(--color-brand) 0%, #6d4ef7 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(84, 44, 245, 0.3);
+      }
+
+      .btn-hero-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(84, 44, 245, 0.4);
+      }
+
+      .btn-hero-secondary {
+        background: white;
+        color: #101623;
+        border: 2px solid #d9dce2;
+      }
+
+      .btn-hero-secondary:hover {
+        border-color: #542cf5;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-hero i {
+        width: 20px;
+        height: 20px;
+      }
+
+      .hero-visual {
+        position: relative;
+      }
+
+      .hero-image {
+        width: 100%;
+        height: auto;
+        border-radius: var(--radius-xl);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        border: 2px solid #d9dce2;
+      }
+
+      /* Features Section */
+      .features-section {
+        padding: var(--space-10) var(--space-6);
+        background: white;
+      }
+
+      .features-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: var(--space-10);
+      }
+
+      .section-badge {
+        display: inline-flex;
+        padding: var(--space-2) var(--space-4);
+        background: rgba(84, 44, 245, 0.1);
+        color: var(--color-brand);
+        border-radius: var(--radius-pill);
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        margin-bottom: var(--space-4);
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #101623;
+        margin: 0 0 var(--space-4) 0;
+        letter-spacing: -0.02em;
+      }
+
+      .section-description {
+        font-size: var(--fs-lg);
+        color: #667085;
+        margin: 0 auto;
+        max-width: 600px;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: var(--space-6);
+      }
+
+      .feature-card {
+        background: white;
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        padding: var(--space-8);
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        border-color: var(--color-brand);
+      }
+
+      .feature-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-5);
+      }
+
+      .feature-icon i {
+        width: 32px;
+        height: 32px;
+      }
+
+      .feature-icon--1 {
+        background: linear-gradient(135deg, rgba(84, 44, 245, 0.1) 0%, rgba(84, 44, 245, 0.05) 100%);
+        color: var(--color-brand);
+      }
+
+      .feature-icon--2 {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+        color: #10b981;
+      }
+
+      .feature-icon--3 {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+        color: #f59e0b;
+      }
+
+      .feature-icon--4 {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+        color: #3b82f6;
+      }
+
+      .feature-icon--5 {
+        background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%);
+        color: #a855f7;
+      }
+
+      .feature-icon--6 {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+        color: #ef4444;
+      }
+
+      .feature-title {
+        font-size: var(--fs-xl);
+        font-weight: 700;
+        color: #101623;
+        margin: 0 0 var(--space-3) 0;
+      }
+
+      .feature-description {
+        font-size: var(--fs-base);
+        color: #667085;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        padding: var(--space-10) var(--space-6);
+        background: linear-gradient(135deg, var(--color-brand) 0%, #6d4ef7 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -10%;
+        width: 500px;
+        height: 500px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .cta-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-title {
+        font-size: 3rem;
+        font-weight: 800;
+        color: white;
+        margin: 0 0 var(--space-5) 0;
+        letter-spacing: -0.02em;
+      }
+
+      .cta-description {
+        font-size: var(--fs-lg);
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0 0 var(--space-8) 0;
+        line-height: 1.6;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: var(--space-4);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .btn-cta {
+        padding: var(--space-4) var(--space-8);
+        font-size: var(--fs-base);
+        font-weight: 600;
+        border-radius: var(--radius-lg);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .btn-cta-white {
+        background: white;
+        color: #542cf5;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-cta-white:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-cta-outline {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+      }
+
+      .btn-cta-outline:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .btn-cta i {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* Stats Section */
+      .stats-section {
+        padding: var(--space-10) var(--space-6);
+        background: var(--color-surface);
+      }
+
+      .stats-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--space-6);
+      }
+
+      .stat-card {
+        text-align: center;
+        padding: var(--space-8);
+        background: white;
+        border: 2px solid #d9dce2;
+        border-radius: var(--radius-xl);
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #542cf5 0%, #6d4ef7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .stat-label {
+        font-size: var(--fs-base);
+        color: #667085;
+        margin: 0;
+      }
+
+      /* Footer */
+      .footer {
+        padding: var(--space-10) var(--space-6) var(--space-6);
+        background: var(--color-text);
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .footer-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: var(--space-8);
+        margin-bottom: var(--space-8);
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+      }
+
+      .footer-logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #542cf5 0%, #6d4ef7 100%);
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .footer-logo-icon i {
+        width: 24px;
+        height: 24px;
+      }
+
+      .footer-brand-name {
+        font-size: var(--fs-lg);
+        font-weight: 700;
+        color: white;
+      }
+
+      .footer-description {
+        font-size: var(--fs-sm);
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .footer-title {
+        font-size: var(--fs-base);
+        font-weight: 600;
+        color: white;
+        margin: 0 0 var(--space-4) 0;
+      }
+
+      .footer-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .footer-links li {
+        margin-bottom: var(--space-3);
+      }
+
+      .footer-link {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: var(--fs-sm);
+        transition: color 0.2s ease;
+      }
+
+      .footer-link:hover {
+        color: white;
+      }
+
+      .footer-bottom {
+        padding-top: var(--space-6);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-copyright {
+        font-size: var(--fs-sm);
+        margin: 0;
+      }
+
+      .footer-social {
+        display: flex;
+        gap: var(--space-3);
+      }
+
+      .social-link {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: var(--radius-md);
+        color: white;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .social-link:hover {
+        background: #542cf5;
+        transform: translateY(-2px);
+      }
+
+      .social-link i {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .hero-container {
+          grid-template-columns: 1fr;
+          gap: var(--space-8);
+        }
+
+        .hero-visual {
+          order: -1;
+        }
+
+        .footer-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .hero-content h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .btn-hero {
+          justify-content: center;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .cta-title {
+          font-size: 2rem;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .btn-cta {
+          justify-content: center;
+        }
+
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-bottom {
+          flex-direction: column;
+          gap: var(--space-4);
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="landing-nav" id="navbar">
+      <div class="nav-container">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-icon">
+            <i data-lucide="graduation-cap"></i>
+          </div>
+          <span>UniNest</span>
+        </a>
+
+        <div class="nav-links">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+
+        <div class="nav-buttons">
+          <a href="index.html" class="btn-nav btn-nav-secondary">Login</a>
+          <a href="signup.html" class="btn-nav btn-nav-primary">Get Started</a>
+        </div>
+
+        <button class="mobile-menu-btn" aria-label="Toggle menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1>
+            Your Complete
+            <span class="highlight">University Learning</span>
+            Platform
+          </h1>
+          <p class="hero-description">
+            Connect, collaborate, and excel in your academic journey. Access study materials,
+            join kuppi sessions, participate in quizzes, and engage with your university community.
+          </p>
+          <div class="hero-buttons">
+            <a href="signup.html" class="btn-hero btn-hero-primary">
+              Get Started Free
+              <i data-lucide="arrow-right"></i>
+            </a>
+            <a href="#features" class="btn-hero btn-hero-secondary">
+              Learn More
+              <i data-lucide="play-circle"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <div class="hero-card-icon">
+                <i data-lucide="trending-up"></i>
+              </div>
+              <h3 class="hero-card-title">Platform Stats</h3>
+            </div>
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <h4 class="hero-stat-value">1,284</h4>
+                <p class="hero-stat-label">Active Students</p>
+              </div>
+              <div class="hero-stat">
+                <h4 class="hero-stat-value">28</h4>
+                <p class="hero-stat-label">Communities</p>
+              </div>
+              <div class="hero-stat">
+                <h4 class="hero-stat-value">342</h4>
+                <p class="hero-stat-label">Study Sessions</p>
+              </div>
+              <div class="hero-stat">
+                <h4 class="hero-stat-value">856</h4>
+                <p class="hero-stat-label">Resources</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+      <div class="features-container">
+        <div class="section-header">
+          <span class="section-badge">Features</span>
+          <h2 class="section-title">Everything You Need to Succeed</h2>
+          <p class="section-description">
+            Powerful tools designed to enhance your learning experience and academic performance.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--1">
+              <i data-lucide="graduation-cap"></i>
+            </div>
+            <h3 class="feature-title">Kuppi Sessions</h3>
+            <p class="feature-description">
+              Join interactive study sessions led by experienced conductors. Learn together,
+              ask questions, and master complex topics.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--2">
+              <i data-lucide="file-text"></i>
+            </div>
+            <h3 class="feature-title">Study Resources</h3>
+            <p class="feature-description">
+              Access a vast library of lecture notes, past papers, tutorials, and study
+              materials shared by your peers.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--3">
+              <i data-lucide="clipboard-list"></i>
+            </div>
+            <h3 class="feature-title">Interactive Quizzes</h3>
+            <p class="feature-description">
+              Test your knowledge with subject-specific quizzes. Create, share, and take
+              quizzes to reinforce your learning.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--4">
+              <i data-lucide="message-square"></i>
+            </div>
+            <h3 class="feature-title">Community Forum</h3>
+            <p class="feature-description">
+              Connect with classmates, discuss topics, share insights, and collaborate on
+              projects in dedicated community spaces.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--5">
+              <i data-lucide="trending-up"></i>
+            </div>
+            <h3 class="feature-title">Progress Tracking</h3>
+            <p class="feature-description">
+              Monitor your academic progress with detailed analytics, quiz scores, and
+              attendance tracking.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--6">
+              <i data-lucide="users"></i>
+            </div>
+            <h3 class="feature-title">Community Groups</h3>
+            <p class="feature-description">
+              Join subject-specific communities, collaborate with peers, and build your
+              academic network.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="stats-container">
+        <div class="section-header">
+          <span class="section-badge">Our Impact</span>
+          <h2 class="section-title">Trusted by Students Everywhere</h2>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3 class="stat-number">1,284+</h3>
+            <p class="stat-label">Active Students</p>
+          </div>
+
+          <div class="stat-card">
+            <h3 class="stat-number">28</h3>
+            <p class="stat-label">Communities</p>
+          </div>
+
+          <div class="stat-card">
+            <h3 class="stat-number">856</h3>
+            <p class="stat-label">Study Resources</p>
+          </div>
+
+          <div class="stat-card">
+            <h3 class="stat-number">98%</h3>
+            <p class="stat-label">Satisfaction Rate</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-container">
+        <h2 class="cta-title">Ready to Excel in Your Studies?</h2>
+        <p class="cta-description">
+          Join thousands of students who are already using UniNest to enhance their
+          learning experience. Start your journey today!
+        </p>
+        <div class="cta-buttons">
+          <a href="signup.html" class="btn-cta btn-cta-white">
+            Create Free Account
+            <i data-lucide="arrow-right"></i>
+          </a>
+          <a href="#features" class="btn-cta btn-cta-outline">
+            Learn More
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-brand">
+              <div class="footer-logo-icon">
+                <i data-lucide="graduation-cap"></i>
+              </div>
+              <span class="footer-brand-name">UniNest</span>
+            </div>
+            <p class="footer-description">
+              Empowering students with collaborative learning tools and resources
+              to achieve academic excellence.
+            </p>
+          </div>
+
+          <div>
+            <h4 class="footer-title">Platform</h4>
+            <ul class="footer-links">
+              <li><a href="#features" class="footer-link">Features</a></li>
+              <li><a href="#" class="footer-link">Kuppi Sessions</a></li>
+              <li><a href="#" class="footer-link">Resources</a></li>
+              <li><a href="#" class="footer-link">Quizzes</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-title">Company</h4>
+            <ul class="footer-links">
+              <li><a href="#" class="footer-link">About Us</a></li>
+              <li><a href="#" class="footer-link">Contact</a></li>
+              <li><a href="#" class="footer-link">Careers</a></li>
+              <li><a href="#" class="footer-link">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-title">Legal</h4>
+            <ul class="footer-links">
+              <li><a href="#" class="footer-link">Privacy Policy</a></li>
+              <li><a href="#" class="footer-link">Terms of Service</a></li>
+              <li><a href="#" class="footer-link">Cookie Policy</a></li>
+              <li><a href="#" class="footer-link">Guidelines</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-copyright">
+            © 2025 UniNest. All rights reserved.
+          </p>
+          <div class="footer-social">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <i data-lucide="facebook"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+              <i data-lucide="twitter"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <i data-lucide="instagram"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize Lucide icons
+        if (window.lucide) window.lucide.createIcons();
+
+        // Navbar scroll effect
+        const navbar = document.getElementById("navbar");
+        window.addEventListener("scroll", function () {
+          if (window.scrollY > 50) {
+            navbar.classList.add("scrolled");
+          } else {
+            navbar.classList.remove("scrolled");
+          }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+              const offsetTop = target.offsetTop - 80;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: "smooth"
+              });
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
