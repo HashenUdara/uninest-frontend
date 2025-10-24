@@ -255,9 +255,80 @@
         border: 2px solid #d9dce2;
       }
 
+      .hero-card {
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 500px;
+        background: white;
+        border: 2px solid var(--color-border);
+        border-radius: var(--radius-xl);
+        padding: var(--space-8);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      }
+
+      .hero-card-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        margin-bottom: var(--space-6);
+      }
+
+      .hero-card-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, rgba(84, 44, 245, 0.1) 0%, rgba(84, 44, 245, 0.05) 100%);
+        color: var(--color-brand);
+        border-radius: var(--radius-lg);
+      }
+
+      .hero-card-icon i {
+        width: 24px;
+        height: 24px;
+      }
+
+      .hero-card-title {
+        font-size: var(--fs-xl);
+        font-weight: 700;
+        color: #101623;
+        margin: 0;
+      }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-6);
+      }
+
+      .hero-stat {
+        text-align: left;
+      }
+
+      .hero-stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #542cf5 0%, #6d4ef7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 var(--space-2) 0;
+      }
+
+      .hero-stat-label {
+        font-size: var(--fs-sm);
+        color: #667085;
+        margin: 0;
+        font-weight: 500;
+      }
+
       /* Features Section */
       .features-section {
-        padding: var(--space-10) var(--space-6);
+        padding: calc(var(--space-10) + 60px) var(--space-6) var(--space-10);
         background: white;
       }
 
@@ -648,6 +719,18 @@
           order: -1;
         }
 
+        .hero-card {
+          position: static;
+          transform: none;
+          width: 100%;
+          max-width: 100%;
+          margin-top: var(--space-6);
+        }
+
+        .features-section {
+          padding: var(--space-10) var(--space-6);
+        }
+
         .footer-grid {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -758,6 +841,7 @@
         </div>
 
         <div class="hero-visual">
+          <img src="img/1.avif" alt="University students collaborating and learning together" class="hero-image" />
           <div class="hero-card">
             <div class="hero-card-header">
               <div class="hero-card-icon">
